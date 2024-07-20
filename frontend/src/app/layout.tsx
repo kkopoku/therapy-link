@@ -5,7 +5,10 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Therapy Link",
+  title: {
+    template: '%s | Therapy Link',
+    default: 'Acme Dashboard'
+  },
   description: "Safe Space",
 };
 
