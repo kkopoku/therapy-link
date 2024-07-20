@@ -33,12 +33,12 @@ export default function Home() {
         <div className="hidden lg:flex flex-row justify-between basis-2/3">
           <div className="flex flex-row gap-3">
             {firstButtonList.map(item=>(
-              <button className={item.style ? item.style : firstButtonListStyle}>{item.name}</button>
+              <button key={item.name} className={item.style ? item.style : firstButtonListStyle}>{item.name}</button>
             ))}
           </div>
           <div className="flex flex-row gap-3">
             {secondButtonList.map(item=>(
-              <button className={item.style}>{item.name}</button>
+              <button key={item.name} className={item.style}>{item.name}</button>
             ))}
           </div>
         </div>
@@ -51,17 +51,21 @@ export default function Home() {
       </div>
 
       <div className="px-5 py-20 grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <Image
+          <Image 
+            className="w-auto h-auto"
             alt="First Image"
             src="/landing-page/image1.jpg"
             width={550}
             height={350}
+            priority
           />
           <Image 
+            className="w-auto h-auto"
             alt="First Image"
             src="/landing-page/image2.jpg"
             width={550}
             height={350}
+            priority
           />
       </div>
 
