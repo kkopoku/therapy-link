@@ -50,7 +50,7 @@ export default function Home() {
         <p className="text-md text-center font-medium">What Mental Health Support Do You Need?</p>
       </div>
 
-      <div className="px-5 py-20 grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="px-5 py-20 grid grid-cols-1 w-full max-w-5xl justify-items-center lg:grid-cols-2 gap-5">
           <Image 
             className="w-auto h-auto"
             alt="First Image"

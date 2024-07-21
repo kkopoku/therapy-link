@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: {
     template: '%s | Therapy Link',
-    default: 'Acme Dashboard'
+    default: 'Therapy Link'
   },
   description: "Safe Space",
 };
