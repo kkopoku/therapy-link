@@ -1,13 +1,26 @@
-import express from 'express';
+import express, { Request, Response } from 'express'
+import { connectDB } from "./database/connection"
+
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-app.get('/', (req, res) => {
+
+app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
 
+const startServer = async () => {
+  try {
+    await connectDB()
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`)
+    })
+  } catch (error) {
+    console.error('Failed to connect to the database', error);
+  }
+}
+
+
+startServer()
