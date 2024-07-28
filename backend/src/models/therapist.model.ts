@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema(
+const therapistSchema = new Schema(
   {
     firstName: {
       type: String,
@@ -38,6 +38,6 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("Therapist", therapistSchema);
 
 export default User;
