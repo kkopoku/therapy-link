@@ -1,32 +1,13 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
+import User from "./user.model"
 
 const therapistSchema = new Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    otherNames:{
-      type: String,
-      required: true
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
     momoNumber:{
       type: String,
       required: true,
     },
     momoNetwork:{
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
       type: String,
       required: true,
     },
@@ -38,6 +19,6 @@ const therapistSchema = new Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("Therapist", therapistSchema);
+const Therapist = User.discriminator("Therapist", therapistSchema);
 
-export default User;
+export default Therapist;
