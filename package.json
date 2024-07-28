@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.4"
   }
 }
