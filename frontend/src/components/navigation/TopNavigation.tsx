@@ -38,7 +38,7 @@ const TopNavigation: React.FC = () => {
     "rounded-md py-1 px-2 bg-slate-100 hover:bg-slate-300 transition-all duration-500";
 
   return (
-    <div className="absolute top-0 flex flex-row z-10 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32">
+    <div className="relative top-0 flex flex-row z-10 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32">
       <div className="basis-1/3">
         <p>Logo</p>
       </div>
