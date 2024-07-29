@@ -1,4 +1,5 @@
 import Image from "next/image";
+import TopNavigation from "@/components/navigation/TopNavigation";
 
 export default function Home() {
   interface ButtonItem {
@@ -24,26 +25,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center bg-white font-mono text-black">
 
-      <div className="flex flex-row z-10 w-full max-w-5xl items-center justify-between text-sm py-5">
-
-        <div className="basis-1/3">
-          <p>Logo</p>
-        </div>
-        
-        <div className="hidden lg:flex flex-row justify-between basis-2/3">
-          <div className="flex flex-row gap-3">
-            {firstButtonList.map(item=>(
-              <button key={item.name} className={item.style ? item.style : firstButtonListStyle}>{item.name}</button>
-            ))}
-          </div>
-          <div className="flex flex-row gap-3">
-            {secondButtonList.map(item=>(
-              <button key={item.name} className={item.style}>{item.name}</button>
-            ))}
-          </div>
-        </div>
-        
-      </div>
+      <TopNavigation />
 
       <div className="flex flex-col bg-[#1A3634] w-full items-center justify-center min-h-96 text-white gap-y-3">
         <p className="text-4xl text-center font-bold">Safe Space To Figure Things Out</p>
