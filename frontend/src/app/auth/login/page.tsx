@@ -1,14 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import PrimaryButton from "@/components/buttons/PrimaryButton" 
+import PrimaryButton from "@/components/buttons/PrimaryButton"
 
 export default function Page() {
 
     const [email, setEmail] = useState("")
 
     return(
-        <div className="grid grid-cols-2 min-h-screen text-black">
+        <main className="grid grid-cols-2 min-h-screen text-black">
 
             <div className="hidden lg:block col-span-1 bg-[#1A3634]">
                 <div className="p-5">Logo</div>
@@ -45,6 +45,6 @@ export default function Page() {
 
             </div>
 
-        </div>
+        </main>
     )
 }
