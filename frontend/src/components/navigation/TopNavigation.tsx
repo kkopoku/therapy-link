@@ -40,7 +40,7 @@ const TopNavigation: React.FC = () => {
   return (
     <div className="relative top-0 flex flex-row z-10 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32">
       <div className="basis-1/3">
-        <p>Logo</p>
+        <button onClick={()=>router.push("/")}>Logo</button>
       </div>
       <div className="hidden lg:flex flex-row justify-between basis-2/3">
         <div className="flex flex-row gap-3">
