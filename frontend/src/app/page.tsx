@@ -1,29 +1,21 @@
 import Image from "next/image";
 import TopNavigation from "@/components/navigation/TopNavigation";
+import InfoCard from "@/components/cards/InfoCard";
+import { BsInfoCircle } from "react-icons/bs";
+import BottomNavigation from "@/components/navigation/BottomNavigation";
+
+const cardItems = [
+  {
+    title:"Mental Healthcare, on your time", 
+    description: "Book a session from your app whenever you need help. Many of our clinicians work nights or weekends.", 
+    icon:""
+  },
+]
 
 export default function Home() {
-  interface ButtonItem {
-    name: string;
-    style: string;
-    link: string;
-  }
-
-  const firstButtonList:ButtonItem[] = [
-    {name: "Pricing", style:"", link:""},
-    {name: "Solutions", style:"", link:""},
-    {name: "Community", style:"", link:""},
-    {name: "Resources", style:"", link:""},
-    {name: "Contact", style:"", link:""}
-  ]
-  const secondButtonList:ButtonItem[] = [
-    {name: "Sign In", style:"rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500", link:""},
-    {name: "Register", style:"rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500", link:""},
-  ]
-
-  const firstButtonListStyle:string = "rounded-md py-1 px-2 bg-slate-100 hover:bg-slate-300 transition-all duration-500"
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-white font-mono text-black">
+    <main className="flex min-h-screen flex-col items-center bg-white font-sans text-black">
 
       <TopNavigation />
 
@@ -42,7 +34,7 @@ export default function Home() {
             priority
           />
           <Image 
-            className="w-auto h-auto"
+            className="w-auto h-auto lg:pt-9"
             alt="First Image"
             src="/landing-page/image2.jpg"
             width={550}
@@ -51,9 +43,72 @@ export default function Home() {
           />
       </div>
 
-      <div className="min-h-96 bg-[#E7D3AD] w-full" >
+      <div className="grid grid-cols-4 min-h-96 bg-[#E7D3AD] w-full p-28 gap-7 " >
+
+        <div className="col-span-4 w-full">
+          <p className="font-bold">Mental Healthcare, on your time</p>
+          <p className="text-gray-700 font-light">Get access to an expert as soon as you need support</p>
+        </div>
+
+        <div className="col-span-1">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+        <div className="col-span-1">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+        <div className="col-span-1">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+        <div className="col-span-1">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+        <div className="col-span-2">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+        <div className="col-span-2">
+          <InfoCard 
+            title="Direct access all the time"
+            description="Book a session from your app whenever you need help. Many of our clinicians work nights or weekends."
+            icon={<BsInfoCircle />}
+          />
+        </div>
+
+      </div>
+
+      <div className="flex w-full bg-[#1A3634] min-h-48 px-10 items-center justify-center text-center text-2xl text-white font-semibold">
+        Pay as low as GHS 150.00 for a Session
+      </div>
+
+      <div className="flex min-h-96 z-10 w-full py-10 justify-center items-center">
         
       </div>
+
+      <BottomNavigation />
 
     </main>
   );
