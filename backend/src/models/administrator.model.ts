@@ -7,8 +7,7 @@ const administratorSchema = new Schema(
       type: Array,
       required: true,
     }
-  },
-  { timestamps: true }
+  }
 );
 
 const Administrator = User.discriminator("Administrator", administratorSchema);
