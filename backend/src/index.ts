@@ -1,10 +1,12 @@
 import express, { Request, Response } from 'express'
 import { connectDB } from "./database/connection"
 import userRouter from './routes/user.route'
+import dotenv from "dotenv"
 
+dotenv.config({ path: '../.env' });
 
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT
 const prefix = "/api/v1"
 
 app.use(express.json());
