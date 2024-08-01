@@ -15,8 +15,7 @@ const therapistSchema = new Schema(
       type: String,
       required: true,
     }
-  },
-  { timestamps: true }
+  }
 );
 
 const Therapist = User.discriminator("Therapist", therapistSchema);

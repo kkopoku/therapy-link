@@ -12,8 +12,7 @@ const clientSchema = new Schema(
       type: String,
       required: true,
     },
-  },
-  { timestamps: true }
+  }
 );
 
 const Client = User.discriminator("Client", clientSchema);
