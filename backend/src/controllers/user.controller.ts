@@ -1,12 +1,10 @@
 import User from "../models/user.model"
-import mongoose from "mongoose"
 import { Request, Response } from "express"
-import bcrypt from "bcrypt"
 import Joi from "joi"
+import { createUser } from "../library/user.library"
 
-async function createUser(req: Request, res: Response) {
+export async function registerUser(req: Request, res: Response) {
     
-    const userTypes = ["Administrator", "Therapist", "Client"]
     enum UserType {
         Administrator = "Administrator",
         Client = "Client",
@@ -17,7 +15,7 @@ async function createUser(req: Request, res: Response) {
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
         type: Joi.string().valid(...Object.values(UserType)).required(),
-    })
+    }).unknown(true)
 
     const { error, value } = schema.validate(req.body)
 
@@ -28,7 +26,7 @@ async function createUser(req: Request, res: Response) {
         })
     }
 
-    const { email, password } = value
+    const { email } = value
     try{
         const foundUser = await User.findOne({ email }).lean().exec()
         if(foundUser){
@@ -37,13 +35,8 @@ async function createUser(req: Request, res: Response) {
                 status: "failed"
             })
         }
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
 
-        const user = await User.create({
-        email,
-        password: hashedPassword,
-        })
+        const user = await createUser(req.body)
 
     if (user)
       return res
@@ -55,5 +48,3 @@ async function createUser(req: Request, res: Response) {
     }
 
 }
-
-export { createUser }
