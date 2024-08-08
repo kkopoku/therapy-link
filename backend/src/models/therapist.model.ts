@@ -5,17 +5,17 @@ const therapistSchema = new Schema(
   {
     momoNumber:{
       type: String,
-      required: true,
+      required: false,
     },
     momoNetwork:{
       type: String,
-      required: true,
+      required: false,
     },
     bio:{
       type: String,
-      required: true,
+      required: false,
     }
-  }
+  },{ discriminatorKey: 'userType' }
 );
 
 const Therapist = User.discriminator("Therapist", therapistSchema);

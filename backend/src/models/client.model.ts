@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
 import User from "./user.model"
+import mongoose from "mongoose"
 
-
+const Schema = mongoose.Schema
 const clientSchema = new Schema(
   {
     momoNumber:{
@@ -12,7 +12,7 @@ const clientSchema = new Schema(
       type: String,
       required: true,
     },
-  }
+  },{ discriminatorKey: 'userType'}
 );
 
 const Client = User.discriminator("Client", clientSchema);
