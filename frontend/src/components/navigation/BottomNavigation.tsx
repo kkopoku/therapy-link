@@ -15,7 +15,7 @@ export default function BottomNavigation() {
     <nav className="relative bottom-0 w-full bg-[#1A3634] shadow-lg border-t min-h-96 px-10 py-8">
       <div className="grid grid-cols-6 gap-8 px-20">
         <div className="col-span-1 flex flex-col gap-y-3">
-          <p className="text-xl font-semibold">About Us</p>
+          <p className="text-xl font-semibold text-slate-300">About Us</p>
           <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/join-our-network">Join Our Network</Link>
@@ -45,7 +45,7 @@ export default function BottomNavigation() {
         </div>
 
         <div className="col-span-1 flex flex-col gap-y-3">
-          <p className="text-xl font-semibold">Services</p>
+          <p className="text-xl font-semibold text-slate-300">Services</p>
           <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/therapy">Therapy</Link>
@@ -66,7 +66,7 @@ export default function BottomNavigation() {
         </div>
 
         <div className="col-span-1 flex flex-col gap-y-3">
-          <p className="text-xl font-semibold">Industries</p>
+          <p className="text-xl font-semibold text-slate-300">Industries</p>
           <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/contact">Contact Us</Link>
@@ -81,7 +81,7 @@ export default function BottomNavigation() {
         </div>
 
         <div className="col-span-1 flex flex-col gap-y-3">
-          <p className="text-xl font-semibold">Useful Links</p>
+          <p className="text-xl font-semibold text-slate-300">Useful Links</p>
           <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/contact">Contact Us</Link>
@@ -96,8 +96,8 @@ export default function BottomNavigation() {
         </div>
 
         <div className="col-span-2 flex flex-col gap-y-3 items-center">
-          <p className="text-xl font-semibold">Logo</p>
-          <p className="text-xl font-semibold">Follow Us</p>
+          <p className="text-xl font-semibold text-slate-300">Logo</p>
+          <p className="text-xl font-semibold text-slate-300">Follow Us</p>
           <div className="flex space-x-4 text-slate-100">
             <Link href="https://www.facebook.com">
               <div className="hover:text-black cursor-pointer">
