@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import { connectDB } from "./database/connection"
 import userRouter from './routes/user.route'
 import dotenv from "dotenv"
+import cors from "cors"
 
 dotenv.config({ path: '../.env' });
 
@@ -11,8 +12,7 @@ const prefix = "/api/v1"
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
