@@ -20,7 +20,7 @@ export default function Home() {
       <TopNavigation />
 
       <div className="flex flex-col bg-[#1A3634] w-full items-center justify-center min-h-96 text-white gap-y-3">
-        <p className="text-4xl text-center font-bold">Safe Space To Figure Things Out</p>
+        <p className="text-5xl text-center font-medium">Safe Space To Figure Things Out</p>
         <p className="text-md text-center font-medium">What Mental Health Support Do You Need?</p>
       </div>
 
@@ -100,7 +100,7 @@ export default function Home() {
 
       </div>
 
-      <div className="flex w-full bg-[#1A3634] min-h-48 px-10 items-center justify-center text-center text-2xl text-white font-semibold">
+      <div className="flex w-full bg-[#1A3634] min-h-48 px-10 items-center justify-center text-center text-3xl text-white font-light">
         Pay as low as GHS 150.00 for a Session
       </div>
 
