@@ -12,7 +12,7 @@ interface ButtonItem {
 const TopNavigation: React.FC = () => {
   const router = useRouter();
   const firstButtonList: ButtonItem[] = [
-    { name: "Pricing", style: "", link: "" },
+    { name: "Pricing", style: "", link: "/pricing" },
     { name: "Solutions", style: "", link: "" },
     { name: "Community", style: "", link: "" },
     { name: "Resources", style: "", link: "" },
