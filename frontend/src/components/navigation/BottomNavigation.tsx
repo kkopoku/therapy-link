@@ -12,11 +12,11 @@ import {
 
 export default function BottomNavigation() {
   return (
-    <nav className="relative bottom-0 w-full bg-white shadow-lg border-t min-h-96 border-black px-10 py-8">
+    <nav className="relative bottom-0 w-full bg-[#1A3634] shadow-lg border-t min-h-96 px-10 py-8">
       <div className="grid grid-cols-6 gap-8 px-20">
         <div className="col-span-1 flex flex-col gap-y-3">
           <p className="text-xl font-semibold">About Us</p>
-          <ul className="text-sm font-light text-slate-600 space-y-1">
+          <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/join-our-network">Join Our Network</Link>
             </li>
@@ -46,7 +46,7 @@ export default function BottomNavigation() {
 
         <div className="col-span-1 flex flex-col gap-y-3">
           <p className="text-xl font-semibold">Services</p>
-          <ul className="text-sm font-light text-slate-600 space-y-1">
+          <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/therapy">Therapy</Link>
             </li>
@@ -67,7 +67,7 @@ export default function BottomNavigation() {
 
         <div className="col-span-1 flex flex-col gap-y-3">
           <p className="text-xl font-semibold">Industries</p>
-          <ul className="text-sm font-light text-slate-600 space-y-1">
+          <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/contact">Contact Us</Link>
             </li>
@@ -82,7 +82,7 @@ export default function BottomNavigation() {
 
         <div className="col-span-1 flex flex-col gap-y-3">
           <p className="text-xl font-semibold">Useful Links</p>
-          <ul className="text-sm font-light text-slate-600 space-y-1">
+          <ul className="text-sm font-light text-slate-100 space-y-1">
             <li>
               <Link href="/contact">Contact Us</Link>
             </li>
@@ -98,7 +98,7 @@ export default function BottomNavigation() {
         <div className="col-span-2 flex flex-col gap-y-3 items-center">
           <p className="text-xl font-semibold">Logo</p>
           <p className="text-xl font-semibold">Follow Us</p>
-          <div className="flex space-x-4 text-slate-600">
+          <div className="flex space-x-4 text-slate-100">
             <Link href="https://www.facebook.com">
               <div className="hover:text-black cursor-pointer">
                 <BsFacebook size={24} />
