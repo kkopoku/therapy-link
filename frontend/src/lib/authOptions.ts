@@ -11,27 +11,32 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
 
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
+        type: { label: "Type", type: "text" },
       },
 
       async authorize(credentials, req): Promise<any | {}> {
+
         if (!credentials) {
           throw new Error("Please provide all required login credentials");
         }
 
-        const { username, password } = credentials;
+        const { email, password } = credentials
 
-        const response = await axios.post(`${uri}/v1/user/create`, {
-          username,
-          password,
-        });
+        const response = await axios.post(`${uri}/api/v1/user/login`, {
+          email,
+          password
+        }).catch(err => {
+          console.log(err.response.data)
+          throw err.response.data
+        })
 
         const user = {
-          id: response.data.user.id,
-          username: response.data.user.username,
+          id: response.data.user._id,
           email: response.data.user.email,
-          accessToken: response.data.user.accessToken,
+          type: response.data.user.userType,
+          accessToken: response.data.token,
         };
 
         return user;
@@ -40,7 +45,7 @@ export const authOptions: NextAuthOptions = {
   ],
 
   pages: {
-    signIn: "/auth/sign-in",
+    signIn: "/auth/login",
   },
 
   session: {
