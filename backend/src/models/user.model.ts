@@ -1,24 +1,31 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export interface IUser extends Document {
   email: string;
+  emailVerified: boolean;
   password: string;
   primaryPhone: string;
   userType: 'Administrator' | 'Client' | 'Therapist';
   secondaryPhone?: string;
-  check(): string; // Custom method
+}
+
+interface IUserMethods{
+  check(): string;
   createJWT(): string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-const userSchema = new Schema<IUser>(
+export type UserModel = Model<IUser, {}, IUserMethods>;
+
+const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     email: { type: String, required: true, unique: true },
+    emailVerified: { type: Boolean, required: false},
     password: { type: String, required: true },
-    primaryPhone: { type: String, required: true },
-    secondaryPhone: { type: String },
+    primaryPhone: { type: String, required: false },
+    secondaryPhone: { type: String, required: false},
     userType: { type: String, required: true, enum: ['Therapist', 'Client', 'Administrator'] },
   },
   { discriminatorKey: 'userType', timestamps: true }
@@ -35,12 +42,11 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.createJWT = function (): string {
+  console.log("I want to check here: "+this.userType)
   return jwt.sign(
     {
-      employee_id: this._id,
-      first_name: this.first_name,
-      last_name: this.last_name,
-      organisation_id: this.organisation_id,
+      email: this.email,
+      password: this.password
     },
     process.env.JWT_SECRET!,
     { expiresIn: process.env.JWT_LIFETIME }
@@ -56,5 +62,5 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
   return isMatch;
 };
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = model<IUser, UserModel>('User', userSchema);
 export default User;
