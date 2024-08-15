@@ -1,84 +1,86 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import PrimaryButton from "@/components/buttons/PrimaryButton";
-import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
+import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import PrimaryButton from "@/components/buttons/PrimaryButton"
+import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
 
 export default function Page() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setError(null)
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    })
+
+    if (result?.error) {
+      setError(result.error)
+    } else {
+      router.push("/dashboard")
+    }
+  }
 
   return (
     <UnauthenticatedLayout>
       <div className="grid flex-grow grid-cols-2 items-center justify-center w-full h-full bg-yellow-400">
-        <div className="flex col-span-1 flex-grow h-full w-full  bg-[#1A3634]"></div>
+        <div className="flex col-span-1 flex-grow h-full w-full bg-[#1A3634]"></div>
 
         <div className="flex flex-col col-span-1 flex-grow h-full w-full bg-white items-center justify-center">
-
           <div className="col-span-2 lg:col-span-1 bg-white flex flex-col items-center justify-center px-5 lg:px-16 gap-y-2">
             <div className="text-center text-2xl text-black font-bold">
-              Create An Account
+              Sign In
             </div>
 
             <div className="text-center text-sm font-semibold text-slate-700">
-              Enter You Email To Create An Account
+              Enter your email and password to sign in
             </div>
 
-            <form className="flex flex-col w-full items-center gap-2">
+            <form
+              className="flex flex-col w-full items-center gap-2"
+              onSubmit={handleSubmit}
+            >
               <input
-                className="border border-slate-500 rounded-md px-3 min-h-10 w-full text-center"
+                className="border border-slate-500 rounded-md px-3 min-h-10 w-full"
                 name="email"
                 type="email"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <PrimaryButton>Sign In With Email</PrimaryButton>
+
+              <input
+                className="border border-slate-500 rounded-md px-3 min-h-10 w-full"
+                name="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              {error && (
+                <div className="text-red-500 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <PrimaryButton type="submit">Sign In</PrimaryButton>
             </form>
 
-            <span className="font-light text-slate-500">or</span>
-
-            <PrimaryButton>Sign In With Google</PrimaryButton>
-
             <span className="text-center text-sm font-light lg:w-2/3">
-              By clicking continue, you agree to our Terms of Service and
-              Privacy Policy.
+              By clicking continue, you agree to our Terms of Service and Privacy Policy.
             </span>
           </div>
         </div>
-
-        {/* <div className="h-full hidden lg:block col-span-1 bg-[#1A3634]">
-          <div className="p-5">Logo</div>
-        </div>
-
-        <div className="col-span-2 lg:col-span-1 bg-white flex flex-col items-center justify-center px-5 lg:px-16 gap-y-2">
-          <div className="text-center text-2xl text-black font-bold">
-            Create An Account
-          </div>
-
-          <div className="text-center text-sm font-semibold text-slate-700">
-            Enter You Email To Create An Account
-          </div>
-
-          <form className="flex flex-col w-full items-center gap-2">
-            <input
-              className="border border-slate-500 rounded-md px-3 min-h-10 w-full text-center"
-              name="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <PrimaryButton>Sign In With Email</PrimaryButton>
-          </form>
-
-          <span className="font-light text-slate-500">or</span>
-
-          <PrimaryButton>Sign In With Google</PrimaryButton>
-
-          <span className="text-center text-sm font-light lg:w-2/3">
-            By clicking continue, you agree to our Terms of Service and Privacy
-            Policy.
-          </span>
-        </div> */}
       </div>
     </UnauthenticatedLayout>
-  );
+  )
 }
