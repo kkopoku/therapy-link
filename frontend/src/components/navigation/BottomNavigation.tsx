@@ -12,7 +12,7 @@ import {
 
 export default function BottomNavigation() {
   return (
-    <nav className="relative bottom-0 w-full bg-[#1A3634] shadow-lg border-t min-h-96 px-10 py-8">
+    <nav className="relative bottom-0 w-full bg-[#1A3634] shadow-lg border-t border-black min-h-96 px-10 py-8">
       <div className="grid grid-cols-6 gap-8 px-20">
         <div className="col-span-1 flex flex-col gap-y-3">
           <p className="text-xl font-semibold text-slate-300">About Us</p>
