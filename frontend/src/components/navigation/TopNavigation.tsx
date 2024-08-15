@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 interface ButtonItem {
   name: string;
@@ -11,6 +12,8 @@ interface ButtonItem {
 
 const TopNavigation: React.FC = () => {
   const router = useRouter();
+  const { status } = useSession()
+
   const firstButtonList: ButtonItem[] = [
     { name: "Pricing", style: "", link: "/pricing" },
     { name: "Solutions", style: "", link: "" },
@@ -19,7 +22,21 @@ const TopNavigation: React.FC = () => {
     { name: "Contact", style: "", link: "" },
   ];
 
-  const secondButtonList: ButtonItem[] = [
+  const secondButtonList: ButtonItem[] = (status === "authenticated") ? [
+    {
+      name: "Sign Out",
+      style:
+        "rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
+      link: "api/auth/signout",
+    },
+    {
+      name: "Start Assessment",
+      style:
+        "rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
+      link: "/auth/client-sign-up",
+    },
+  ] :
+  [
     {
       name: "Sign In",
       style:
@@ -32,13 +49,14 @@ const TopNavigation: React.FC = () => {
         "rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
       link: "/auth/client-sign-up",
     },
-  ];
+  ]
+
 
   const firstButtonListStyle =
     "rounded-md py-1 px-2 bg-slate-100 hover:bg-slate-300 transition-all duration-500";
 
   return (
-    <div className="relative top-0 flex flex-row z-10 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32 shadow-md">
+    <div className="relative top-0 flex flex-row z-s0 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32 shadow-md">
       <div className="basis-1/3">
         <button onClick={()=>router.push("/")}>Logo</button>
       </div>
@@ -59,7 +77,12 @@ const TopNavigation: React.FC = () => {
             <button
               key={item.name}
               className={item.style}
-              onClick={() => router.push(item.link)}
+              onClick={() =>{
+                if (item.link !== "api/auth/signout")
+                  router.push(item.link)
+                else
+                  signOut()
+              }}
             >
               {item.name}
             </button>
