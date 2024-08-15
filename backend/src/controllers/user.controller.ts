@@ -51,8 +51,7 @@ export async function registerUser(req: Request, res: Response) {
 export async function login(req: Request, res: Response): Promise<void | {}> {
     const schema = Joi.object({
         email: Joi.string().email().required(),
-        password: Joi.string().min(8).required(),
-        type: Joi.string().valid(...Object.values(UserType)).required(),
+        password: Joi.string().min(8).required()
     })
 
     const { error, value } = schema.validate(req.body)
@@ -88,7 +87,7 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
 
         return res
             .status(200)
-            .json({ foundUser, token, message: "You logged in successfully" })
+            .json({ user:foundUser, token, message: "You logged in successfully" })
 
     }catch(error){
         console.log(error)
