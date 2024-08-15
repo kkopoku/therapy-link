@@ -18,7 +18,7 @@ export default function Home() {
     <UnauthenticatedLayout>
       <div className="flex flex-col bg-[#1A3634] w-full items-center justify-center min-h-96 text-white gap-y-3">
         <p className="text-5xl text-center font-medium">
-          Safe Space To Figure Things Out
+          Connecting You To Care
         </p>
         <p className="text-md text-center font-medium">
           What Mental Health Support Do You Need?
