@@ -3,7 +3,6 @@ import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
 
 
-
 /**
  * @param {any} data request body parameters
  * 
@@ -21,7 +20,6 @@ export async function createUser(data:any):Promise<any>{
         case "Administrator":
             return await createAdministrator(data)
     }
-
 }
 
 
@@ -43,6 +41,7 @@ async function createClient(data:any){
     }
 }
 
+
 async function createTherapist(data:any){
     try{
         const therapist = await Therapist.create({
@@ -60,8 +59,8 @@ async function createTherapist(data:any){
     }catch(e){
         return false
     }
-
 }
+
 
 async function createAdministrator(data:any){
     try{
@@ -77,6 +76,4 @@ async function createAdministrator(data:any){
     }catch(e){
         return false
     }
-    
-
 }
