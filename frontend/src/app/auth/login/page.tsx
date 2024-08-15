@@ -31,8 +31,12 @@ export default function Page() {
 
   return (
     <UnauthenticatedLayout>
-      <div className="grid flex-grow grid-cols-2 items-center justify-center w-full h-full bg-yellow-400">
-        <div className="flex col-span-1 flex-grow h-full w-full bg-[#1A3634]"></div>
+      <div className="grid flex-grow grid-cols-1 lg:grid-cols-2 items-center justify-center w-full h-full">
+
+        <div className="hidden lg:flex relative col-span-1 flex-grow h-full w-full">
+          <img className="absolute inset-0 w-full h-full object-cover" src="/landing-page/image1.jpg"/>
+          <div className="h-full inset-0 z-10 w-full bg-primaryGreen bg-opacity-60"></div>
+        </div>
 
         <div className="flex flex-col col-span-1 flex-grow h-full w-full bg-white items-center justify-center">
           <div className="col-span-2 lg:col-span-1 bg-white flex flex-col items-center justify-center px-5 lg:px-16 gap-y-2">
