@@ -1,5 +1,6 @@
 import axios from "axios";
 import { NextAuthOptions, Session } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const uri = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -21,7 +22,7 @@ export const authOptions: NextAuthOptions = {
 
         const { username, password } = credentials;
 
-        const response = await axios.post(`${uri}/auth`, {
+        const response = await axios.post(`${uri}/v1/user/create`, {
           username,
           password,
         });
@@ -67,3 +68,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+export default NextAuth(authOptions)
