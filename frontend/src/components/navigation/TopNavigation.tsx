@@ -17,6 +17,7 @@ const TopNavigation: React.FC = () => {
   const firstButtonList: ButtonItem[] = [
     { name: "Pricing", style: "", link: "/pricing" },
     { name: "Solutions", style: "", link: "" },
+    { name: "Careers", style: "", link: "/therapist-jobs" },
     { name: "Community", style: "", link: "" },
     { name: "Resources", style: "", link: "" },
     { name: "Contact", style: "", link: "" },
