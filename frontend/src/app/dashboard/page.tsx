@@ -7,13 +7,15 @@ import { useSession, signOut } from "next-auth/react";
 export default function DashboardPage(){
 
     const { data: session, status } = useSession()
+    const user = session?.user
 
     return (
-        <AuthenticatedLayout>
-            <div className="text-4xl font bold"> User is now Authenticated </div>
-            <div className="flex flex-col pt-20 gap-y-3 text-xs w-screen font bold text-wrap items-center justify-center"> 
-                <div>{ JSON.stringify(session?.user.type) }</div>
-                <button className="p-2 text-center bg-black text-white hover:scale-105 transition-all rounded-lg" onClick={()=>signOut()}>sign out</button>
+        <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={signOut}>
+            <div className="flex min-h-screen w-full">
+                <div className="text-2xl font-light"> Hello, {user?.name} 👋🏽</div>
+                <div className="flex flex-col pt-20 gap-y-3 text-xs font bold text-wrap items-center justify-center"> 
+
+                </div>
             </div>
         </AuthenticatedLayout>
     )
