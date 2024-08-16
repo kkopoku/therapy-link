@@ -10,11 +10,13 @@ export default function Page() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
+    setLoading(true)
 
     const result = await signIn("credentials", {
       redirect: false,
@@ -27,62 +29,82 @@ export default function Page() {
     } else {
       router.push("/dashboard")
     }
+    setLoading(false)
   }
 
   return (
     <UnauthenticatedLayout>
-      <div className="grid flex-grow grid-cols-1 lg:grid-cols-2 items-center justify-center w-full h-full">
-
-        <div className="hidden lg:flex relative col-span-1 flex-grow h-full w-full">
-          <img className="absolute inset-0 w-full h-full object-cover" src="/landing-page/image1.jpg"/>
-          <div className="h-full inset-0 z-10 w-full bg-primaryGreen bg-opacity-60"></div>
-        </div>
+      <div className="grid flex-grow grid-cols-1 lg:grid-cols-3 items-center justify-center w-full h-full">
 
         <div className="flex flex-col col-span-1 flex-grow h-full w-full bg-white items-center justify-center">
-          <div className="col-span-2 lg:col-span-1 bg-white flex flex-col items-center justify-center px-5 lg:px-16 gap-y-2">
-            <div className="text-center text-2xl text-black font-bold">
+          <div className="col-span-2 lg:col-span-1 min-h-[30rem] w-full max-w-lg rounded-lg p-5 flex flex-col items-center justify-center px-14 lg:px-5 gap-y-2">
+            <div className="text-center text-2xl text-black font-semibold">
               Sign In
             </div>
 
-            <div className="text-center text-sm font-semibold text-slate-700">
+            <div className="text-center text-sm font-medium text-slate-700">
               Enter your email and password to sign in
             </div>
 
             <form
-              className="flex flex-col w-full items-center gap-2"
+              className="flex flex-col w-full items-center gap-5 text-sm font-extralight"
               onSubmit={handleSubmit}
             >
-              <input
-                className="border border-slate-500 rounded-md px-3 min-h-10 w-full"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div className="flex flex-col w-full">
+                <label className="w-full text-xs pl-1">Email <span className="text-red-600">*</span></label>
+                <input
+                  className="border border-slate-500 rounded-lg px-3 min-h-10 w-full disabled:bg-slate-200"
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    setError("")
+                  }}
+                  disabled={loading}
+                  required
+                />
+              </div>
 
+            <div className="flex flex-col w-full">
+              <label className="w-full text-xs pl-1">Password <span className="text-red-600">*</span></label>
               <input
-                className="border border-slate-500 rounded-md px-3 min-h-10 w-full"
+                className="border border-slate-500 rounded-lg px-3 min-h-10 w-full disabled:bg-slate-200"
                 name="password"
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  setError("")
+                }}
+                disabled={loading}
+                required
               />
+            </div>
 
-              {error && (
-                <div className="text-red-500 text-sm">
-                  {error}
-                </div>
-              )}
+            {error && (
+              <div className="text-red-500 text-sm">
+                {error}
+              </div>
+            )}
 
-              <PrimaryButton type="submit">Sign In</PrimaryButton>
+            <PrimaryButton type="submit">Sign In</PrimaryButton>
             </form>
+            
 
-            <span className="text-center text-sm font-light lg:w-2/3">
-              By clicking continue, you agree to our Terms of Service and Privacy Policy.
-            </span>
+            {/* <span className="flex gap-2 items-center text-center text-xs font-light">
+              <input type="checkbox" className=""/>
+              <a>By clicking continue, you agree to our Terms of Service and Privacy Policy.</a>
+            </span> */}
+
           </div>
+        </div>
+
+        <div className="hidden lg:flex relative col-span-2 flex-grow h-full w-full">
+          <img className="absolute inset-0 w-full h-full object-cover" src="/landing-page/image1.jpg"/>
+          <div className="h-full inset-0 z-10 w-full bg-primaryGreen bg-opacity-60"></div>
         </div>
       </div>
     </UnauthenticatedLayout>
