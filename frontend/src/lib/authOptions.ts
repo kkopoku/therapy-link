@@ -35,6 +35,7 @@ export const authOptions: NextAuthOptions = {
         const user = {
           id: response.data.user._id,
           email: response.data.user.email,
+          name: response.data.user.firstName + ' ' + response.data.user.otherNames,
           type: response.data.user.userType,
           accessToken: response.data.token,
         };
