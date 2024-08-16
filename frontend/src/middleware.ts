@@ -11,5 +11,10 @@ export default withAuth(function middleware(req) {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*"],// Routes you want to protect
+  matcher: [
+    "/dashboard/:path*", 
+    "/profile/:path*", 
+    "/sessions/:path*",
+    "/plan/:path*"
+  ]
 };
