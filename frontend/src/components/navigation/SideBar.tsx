@@ -7,6 +7,7 @@ import { MdPendingActions } from "react-icons/md";
 import { useSession } from 'next-auth/react';
 import { IoDiamond } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
+import { RiMentalHealthLine } from "react-icons/ri";
 
 
 interface ButtonItem{
@@ -21,6 +22,7 @@ const buttonList:ButtonItem[] = [
     {name: "Profile", link:"/profile", icon: <FaUser /> },
     {name: "Sessions", link:"/sessions", icon: <MdPendingActions /> },
     {name: "Plan", link:"/plan", icon: <IoDiamond /> },
+    {name: "My Therapist", link:"/my-therapist", icon: <RiMentalHealthLine /> },
 ]
 
 const bottomList:ButtonItem[] = [
