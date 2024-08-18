@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import PrimaryButton from "@/components/buttons/PrimaryButton"
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
+import Image from "next/image"
 
 export default function Page() {
   const [email, setEmail] = useState("")
@@ -103,7 +104,7 @@ export default function Page() {
         </div>
 
         <div className="hidden lg:flex relative col-span-2 flex-grow h-full w-full">
-          <img className="absolute inset-0 w-full h-full object-cover" src="/landing-page/image1.jpg"/>
+          <Image alt="image" fill className="absolute inset-0 w-full h-full object-cover" src="/landing-page/image1.jpg"/>
           <div className="h-full inset-0 z-10 w-full bg-primaryGreen bg-opacity-60"></div>
         </div>
       </div>

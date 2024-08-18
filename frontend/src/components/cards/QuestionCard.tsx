@@ -52,7 +52,7 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back}) =>
             {type === "option" && 
                 <div className="w-full flex flex-col gap-4">
                     {options?.map((value, idx) => (
-                        <button id={`${idx}`} value={value} className="px-2 min-h-12 rounded-xl bg-gray-100 text-black hover:bg-slate-300 transition-all"
+                        <button key={`${idx}`} value={value} className="px-2 min-h-12 rounded-xl bg-gray-100 text-black hover:bg-slate-300 transition-all"
                             onClick={(e)=>handleAnswerChange(e,"option")} name="options" >{value}
                         </button>
                     ))}
@@ -60,7 +60,7 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back}) =>
             }
 
             <div className='p-5 bg-[#26504d] font-extralight rounded-lg'>
-                Let's walk through the process of finding the best therapist for you! We'll start off with some basic questions.
+                Let&apos;s walk through the process of finding the best therapist for you! We&apos;ll start off with some basic questions.
             </div>
         </div>
     )

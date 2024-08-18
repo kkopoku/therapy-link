@@ -12,7 +12,7 @@ export default function ProfilePage(){
 
     return(
         <AuthenticatedLayout pageName="Profile" navFunctionName="Create Profile" navFunction={createProfile}>
-            Hello blud. You're at profile
+            Hello blud. You&apos;re at profile
         </AuthenticatedLayout>
     )
 }

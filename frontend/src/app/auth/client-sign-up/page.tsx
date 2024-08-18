@@ -547,7 +547,7 @@ export default function ClientSignUpPage() {
           Help us match you to the right Therapist
         </div>
         <div className="font-extralight">
-          It's important to have a therapist who you can establish a personal
+          It&apos;s important to have a therapist who you can establish a personal
           connection with. The following questions are designed to help match
           you to a licensed therapist based on your needs and personal
           preferences.

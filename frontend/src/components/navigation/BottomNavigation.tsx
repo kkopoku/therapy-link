@@ -124,7 +124,7 @@ export default function BottomNavigation() {
             For Support: Contact: +233256619388 | +233501396664
           </p>
           <p className="text-center font-light mt-5 text-sm">
-            If you are in a crisis or any other person may be in danger - don't
+            If you are in a crisis or any other person may be in danger - don&apos;t
             use this site. These resources can provide you with immediate help.
           </p>
         </div>
