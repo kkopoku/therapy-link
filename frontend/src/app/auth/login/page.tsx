@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import PrimaryButton from "@/components/buttons/PrimaryButton"
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
 import Image from "next/image"
+import BlackLogo from "@/components/logo/logo-black"
 
 export default function Page() {
   const [email, setEmail] = useState("")
@@ -39,7 +40,10 @@ export default function Page() {
 
         <div className="flex flex-col col-span-1 flex-grow h-full w-full bg-white items-center justify-center">
           <div className="col-span-2 lg:col-span-1 min-h-[30rem] w-full max-w-lg rounded-lg p-5 flex flex-col items-center justify-center px-14 lg:px-5 gap-y-2">
-            <div className="text-center text-2xl text-black font-semibold">
+            
+            <BlackLogo />
+            
+            <div className="text-center text-2xl text-black font-semibold pt-5">
               Sign In
             </div>
 

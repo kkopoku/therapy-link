@@ -11,17 +11,19 @@ interface LayoutProps {
 const UnauthenticatedLayout: React.FC<LayoutProps> = ({children}) => {
 
     const [showBottomNav, setShowBottomNav] = useState(false);
+    const [showTopNav, setShowTopNav] = useState(false);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setShowBottomNav(window.location.pathname !== '/auth/login');
+            setShowTopNav(window.location.pathname !== '/auth/login');
         }
     }, []);
 
     return(
         <div>
             <main className="flex min-h-screen bg-slate-50 flex-col items-center font-sans text-black">
-                <TopNavigation />
+                {showTopNav && <TopNavigation />}
                 {children}
             </main>
             {showBottomNav && <BottomNavigation />}

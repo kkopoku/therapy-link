@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import BlackLogo from "../logo/logo-black";
 
 interface ButtonItem {
   name: string;
@@ -58,11 +59,10 @@ const TopNavigation: React.FC = () => {
 
   return (
     <div className="relative top-0 flex flex-row z-s0 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32 shadow-md">
-      <div className="basis-1/3">
-        <button onClick={()=>router.push("/")}>Logo</button>
-      </div>
-      <div className="hidden lg:flex flex-row justify-between basis-2/3">
         <div className="flex flex-row gap-3">
+
+          {/* <BlackLogo /> */}
+
           {firstButtonList.map((item) => (
             <button
               key={item.name}
@@ -73,6 +73,7 @@ const TopNavigation: React.FC = () => {
             </button>
           ))}
         </div>
+
         <div className="flex flex-row gap-3">
           {secondButtonList.map((item) => (
             <button
@@ -89,7 +90,8 @@ const TopNavigation: React.FC = () => {
             </button>
           ))}
         </div>
-      </div>
+
+
     </div>
   );
 };

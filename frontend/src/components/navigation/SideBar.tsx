@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import { IoDiamond } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
 import { RiMentalHealthLine } from "react-icons/ri";
+import BlackLogo from '../logo/logo-black';
 
 
 interface ButtonItem{
@@ -43,7 +44,9 @@ export default function SideBar(){
             <div className="flex flex-col w-full border border-slate-200 shadow-sm rounded-xl justify-between px-1">
 
                 <div className='flex flex-col items-center gap-y-2'>
-                    <div className='flex w-full h-16 items-center justify-center rounded-lg'>Application Logo</div>
+                    <div className='flex w-full h-16 items-center pl-2 justify-start rounded-lg'>
+                        <BlackLogo />
+                    </div>
                     <div className='flex w-full flex-col items-center font-extralight text-sm gap-y-1'>
                         {buttonList.map(button => 
                             <button className='flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-slate-50 hover:bg-secondaryGreen hover:scale-95 hover:text-white' 
