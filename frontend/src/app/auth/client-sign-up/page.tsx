@@ -13,454 +13,205 @@ export default function ClientSignUpPage() {
     category: string;
   }
 
-  const questions: Array<Question> = [
+  const questions: Question[] = [
     {
-      question: "How old are you?",
-      type: "option",
-      options: ["18-25", "26-35", "35-45", "50+"],
       id: "1",
-      category: "client-registration",
+      question: "Help us match you to the right therapist:",
+      type: "option",
+      options: ["Individual (for myself)", "Couples (for myself and my partner)", "Family (for family counseling)"],
+      category: "General"
     },
     {
-      question: "Are you Ghanaian?",
-      type: "option",
-      options: ["yes", "no"],
       id: "2",
-      category: "client-registration",
+      question: "What gender do you identify with?",
+      type: "option",
+      options: ["Woman", "Man", "Prefer not to say"],
+      category: "Demographics"
     },
     {
-      question: "What type of therapy are you looking for?",
-      type: "option",
-      options: [
-        "Individual (for myself)",
-        "Couples (for myself and my partner)",
-        "Teen (for my child)",
-      ],
       id: "3",
-      category: "client-registration",
+      question: "How old are you?",
+      type: "dropdown",
+      options: ["18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"],
+      category: "Demographics"
     },
     {
-      question: "What is your gender identity?",
-      type: "option",
-      options: ["Woman", "Man"],
       id: "4",
-      category: "client-registration",
-    },
-    /*{
-            "question": "How old are you?",
-            "type": "option",
-            "options": [],
-            "id": "5",
-            "category": "client-registration"
-        },*/
-    {
-      question: "How do you identify?",
+      question: "How do you identify sexually?",
       type: "option",
-      options: ["Straight", "Gay", "Lesbian", "Bi or Pan", "Prefer not to say"],
-      id: "6",
-      category: "client-registration",
+      options: ["Straight", "Prefer not to say"],
+      category: "Demographics"
     },
     {
+      id: "5",
       question: "What is your relationship status?",
       type: "option",
-      options: [
-        "Single",
-        "In a relationship",
-        "Married",
-        "Divorced",
-        "Widowed",
-        "Other",
-      ],
-      id: "7",
-      category: "client-registration",
+      options: ["Single", "Married", "Divorced", "Separated", "In a relationship", "Widowed", "Prefer not to say"],
+      category: "Demographics"
     },
     {
+      id: "6",
       question: "How important is religion in your life?",
       type: "option",
-      options: [
-        "Very important",
-        "Important",
-        "Somewhat important",
-        "Not important at all",
-      ],
-      id: "8",
-      category: "client-registration",
+      options: ["Very Important", "Important", "Neutral", "Not Important", "Not a part of my life"],
+      category: "Values"
     },
     {
+      id: "7",
       question: "Which religion do you identify with?",
       type: "option",
-      options: [
-        "Christianity",
-        "Islam",
-        "Judaism",
-        "Hinduism",
-        "Buddhism",
-        "Other",
-        "Prefer not to say",
-      ],
+      options: ["Christianity", "Islam", "Traditional", "Other (Please specify)", "None"],
+      category: "Values"
+    },
+    {
+      id: "8",
+      question: "Would you prefer to be matched with a therapist who shares your religious beliefs?",
+      type: "option",
+      options: ["Yes", "No", "No Preference"],
+      category: "Values"
+    },
+    {
       id: "9",
-      category: "client-registration",
+      question: "What led you to seek therapy today?",
+      type: "checkbox",
+      options: ["Anxiety", "Depression", "Stress Management", "Relationship Issues", "Family Conflict", "Work/Career Issues", "Grief/Loss", "Trauma/Abuse", "Substance Abuse", "Eating Disorders", "Self-Esteem Issues", "Life Transitions", "Chronic Illness", "LGBTQIA+ Issues", "Other (Please specify)"],
+      category: "Therapy"
     },
     {
-      question:
-        "Would you like to be matched with a therapist who provides Christian-based therapy?",
-      type: "option",
-      options: ["No", "Yes"],
       id: "10",
-      category: "client-registration",
+      question: "What are your expectations from your therapist?",
+      type: "checkbox",
+      options: ["Help me understand my feelings", "Provide me with coping strategies", "Offer guidance and advice", "Listen without judgment", "Help me set and achieve personal goals", "Improve my relationships", "Support me in making life changes", "Other (Please specify)"],
+      category: "Therapy"
     },
     {
-      question: "Do you consider yourself to be spiritual?",
-      type: "option",
-      options: ["No", "Yes"],
       id: "11",
-      category: "client-registration",
-    },
-    {
-      question: "Have you ever been in therapy before?",
-      type: "option",
-      options: ["No", "Yes"],
-      id: "12",
-      category: "client-registration",
-    },
-    {
-      question: "How would you rate your current physical health?",
-      type: "option",
-      options: ["Good", "Fair", "Poor"],
-      id: "13",
-      category: "client-registration",
-    },
-    {
       question: "How would you rate your current eating habits?",
       type: "option",
-      options: ["Good", "Fair", "Poor"],
+      options: ["Good", "Fair", "Not great"],
+      category: "Lifestyle"
+    },
+    {
+      id: "12",
+      question: "How would you describe your current sleep patterns?",
+      type: "option",
+      options: ["Regular and restful", "Sometimes restless", "Struggle with sleep", "Prefer not to say"],
+      category: "Lifestyle"
+    },
+    {
+      id: "13",
+      question: "Are you currently taking any medications for mental health?",
+      type: "option",
+      options: ["Yes", "No", "Prefer not to say"],
+      category: "Health"
+    },
+    {
       id: "14",
-      category: "client-registration",
+      question: "Have you attended therapy before?",
+      type: "option",
+      options: ["Yes", "No", "Prefer not to say"],
+      category: "Therapy"
     },
     {
-      question:
-        "Are you currently experiencing overwhelming sadness, grief, or depression?",
-      type: "option",
-      options: ["No", "Yes"],
       id: "15",
-      category: "client-registration",
+      question: "Do you have any preferences for your therapist’s age?",
+      type: "option",
+      options: ["No preference", "Younger (18-30)", "Middle-aged (31-50)", "Older (51+)"],
+      category: "Preferences"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Little interest or pleasure in doing things?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "16",
-      category: "client-registration",
+      question: "How would you describe your current support system?",
+      type: "option",
+      options: ["Strong (Family/friends actively involved)", "Moderate (Some support but could be stronger)", "Weak (Limited to no support)", "Prefer not to say"],
+      category: "Support"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "17",
-      category: "client-registration",
+      question: "Do you have a history of trauma or abuse that you’d like to address in therapy?",
+      type: "option",
+      options: ["Yes", "No", "Prefer not to say"],
+      category: "Health"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Feeling down, depressed or hopeless?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "18",
-      category: "client-registration",
+      question: "Are you currently experiencing suicidal thoughts?",
+      type: "option",
+      options: ["Yes, frequently", "Yes, occasionally", "No", "Prefer not to say"],
+      category: "Health"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Trouble falling asleep, staying asleep, or sleeping too much?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "19",
-      category: "client-registration",
+      question: "How do you prefer your therapy sessions to be conducted?",
+      type: "option",
+      options: ["In-person", "Online (video or phone)", "No preference"],
+      category: "Therapy"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Feeling tired or having little energy?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "20",
-      category: "client-registration",
+      question: "How often would you like to attend therapy sessions?",
+      type: "option",
+      options: ["Weekly", "Bi-weekly", "Monthly", "As needed"],
+      category: "Therapy"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Poor appetite or overeating?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "21",
-      category: "client-registration",
+      question: "Do you have any specific challenges or disabilities you'd like your therapist to be aware of?",
+      type: "textarea",
+      options: [],
+      category: "Health"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Feeling bad about yourself - or that you are a failure or have let yourself or your family down?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "22",
-      category: "client-registration",
+      question: "What language would you prefer for your therapy sessions?",
+      type: "option",
+      options: ["English", "Akan", "Ewe", "Ga", "Other (Please specify)"],
+      category: "Preferences"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Trouble concentrating on things, such as reading the newspaper or watching television?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "23",
-      category: "client-registration",
+      question: "Are there any specific characteristics or qualities you prefer in a therapist?",
+      type: "textarea",
+      options: [],
+      category: "Preferences"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: Thoughts that you would be better off dead or of hurting yourself in some way?",
-      type: "option",
-      options: [
-        "Not at all",
-        "Several days",
-        "More than half the days",
-        "Nearly every day",
-      ],
       id: "24",
-      category: "client-registration",
+      question: "How do you cope with stress or difficult situations?",
+      type: "checkbox",
+      options: ["Talking to friends or family", "Exercise or physical activity", "Meditation or mindfulness practices", "Avoidance or distraction", "Substance use", "Other (Please specify)"],
+      category: "Lifestyle"
     },
     {
-      question:
-        "Over the past 2 weeks, how often have you been bothered by any of the following problems: How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?",
-      type: "option",
-      options: [
-        "Not difficult at all",
-        "Somewhat difficult",
-        "Very difficult",
-        "Extremely difficult",
-      ],
       id: "25",
-      category: "client-registration",
+      question: "How would you describe your current mental health?",
+      type: "option",
+      options: ["Excellent", "Good", "Fair", "Poor", "Prefer not to say"],
+      category: "Health"
     },
     {
-      question: "Are you currently employed?",
-      type: "option",
-      options: ["No", "Yes"],
       id: "26",
-      category: "client-registration",
+      question: "Are you currently employed or in school?",
+      type: "option",
+      options: ["Employed full-time", "Employed part-time", "Unemployed", "Student", "Prefer not to say"],
+      category: "Demographics"
     },
     {
-      question: "Do you have any problems or worries about intimacy?",
-      type: "option",
-      options: ["No", "Yes"],
       id: "27",
-      category: "client-registration",
+      question: "Do you have any financial concerns that might affect your therapy sessions?",
+      type: "option",
+      options: ["Yes", "No", "Prefer not to say"],
+      category: "Preferences"
     },
     {
-      question: "How often do you drink alcohol?",
-      type: "option",
-      options: ["Never", "Infrequently", "Monthly", "Weekly", "Daily"],
       id: "28",
-      category: "client-registration",
-    },
-    {
-      question: "When was the last time you thought about suicide?",
-      type: "option",
-      options: [
-        "Never",
-        "Over a year ago",
-        "Over 3 months ago",
-        "Over a month ago",
-        "Over 2 weeks ago",
-        "In the last 2 weeks",
-      ],
-      id: "29",
-      category: "client-registration",
-    },
-    {
-      question:
-        "Are you currently experiencing anxiety, panic attacks or have any phobias?",
-      type: "option",
-      options: ["No", "Yes"],
-      id: "30",
-      category: "client-registration",
-    },
-    {
-      question: "Are you currently taking any medication?",
-      type: "option",
-      options: ["No", "Yes"],
-      id: "31",
-      category: "client-registration",
-    },
-    {
-      question: "Are you currently experiencing any chronic pain?",
-      type: "option",
-      options: ["No", "Yes"],
-      id: "32",
-      category: "client-registration",
-    },
-    {
-      question: "How would you rate your current financial status?",
-      type: "option",
-      options: ["Good", "Fair", "Poor"],
-      id: "33",
-      category: "client-registration",
-    },
-    {
-      question: "How would you rate your current sleeping habits?",
-      type: "option",
-      options: ["Good", "Fair", "Poor"],
-      id: "34",
-      category: "client-registration",
-    },
-    {
-      question:
-        "If you identify as a Christian, which denomination best describes you?",
-      type: "option",
-      options: [
-        "Protestant",
-        "Catholic",
-        "Orthodox",
-        "Anglican",
-        "Presbyterian",
-        "Baptist",
-        "Lutheran",
-        "Methodist",
-        "Other",
-        "Non-denominational",
-        "Not sure",
-        "Not a Christian",
-      ],
-      id: "35",
-      category: "client-registration",
-    },
-    {
-      question:
-        "In order to give your therapist the right expectations, please answer a few questions about your spiritual background. How long has your faith been important to you?",
-      type: "option",
-      options: [
-        "Less than a year",
-        "1-3 years",
-        "More than 3 years",
-        "My whole life",
-      ],
-      id: "36",
-      category: "client-registration",
-    },
-    {
-      question: "Which best describes your prayer life?",
-      type: "option",
-      options: [
-        "I never pray",
-        "I occasionally pray",
-        "I pray daily",
-        "I pray throughout my day",
-      ],
-      id: "37",
-      category: "client-registration",
-    },
-    {
-      question:
-        "Which best describes the nature of the therapy you are seeking?",
-      type: "option",
-      options: [
-        "Mental health therapy from a Christian perspective",
-        "Spiritual therapy on primarily faith-based matters",
-        "Holistic therapy addressing both psychological and spiritual components",
-        "Other",
-      ],
-      id: "38",
-      category: "client-registration",
-    },
-    {
-      question: "How do you prefer to communicate with your therapist?",
-      type: "option",
-      options: [
-        "Mostly via messaging",
-        "Mostly via phone or video sessions",
-        "Not sure yet (decide later)",
-      ],
-      id: "39",
-      category: "client-registration",
-    },
-    {
-      question: "Who referred you to BetterHelp?",
-      type: "option",
-      options: [
-        "Instagram",
-        "TV",
-        "Magazine or newspaper",
-        "Celebrity",
-        "Snapchat",
-        "Radio",
-        "Facebook",
-        "Google search",
-        "Podcast",
-        "YouTube",
-        "Friend or family member",
-        "Spotify streaming music",
-        "Reddit",
-        "Streaming TV (Hulu, Peacock...)",
-        "TikTok",
-        "Mailer/Direct Mail",
-        "Other",
-      ],
-      id: "40",
-      category: "client-registration",
-    },
-    {
-      question: "Are you Ghanaian?",
-      type: "option",
-      options: ["Yes", "No"],
-      id: "41",
-      category: "client-registration",
-    },
-    {
-      question: "Select all that apply",
-      type: "option",
-      options: [
-        "I am a student",
-        "I am unemployed",
-        "I am poor",
-        "I am employed",
-      ],
-      id: "41",
-      category: "client-registration",
-    },
+      question: "Is there anything else you’d like your therapist to know before starting your sessions?",
+      type: "textarea",
+      options: [],
+      category: "Preferences"
+    }
   ];
+  
 
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
   const [questionIndex, setQuestionIndex] = useState(0);
