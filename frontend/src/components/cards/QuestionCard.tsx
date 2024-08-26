@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { IoMdArrowBack } from "react-icons/io";
+import PrimaryButton from '../buttons/PrimaryButton';
 
 
 interface props {
@@ -15,15 +16,30 @@ interface props {
 const QuestionCard: React.FC<props> = ({question, type, options, next, back}) => {
 
     const [selectedOption, setSelectedOption] = useState("");
+    const [selectedCheckboxOptions, setSelectedCheckboxOptions] = useState<string[]>([]);
+    const [selectedDropdownOption, setSelectedDropdownOption] = useState<string>("");
+    const [selectedTextArea, setSelectedTextArea] = useState<string>("");
 
     const handleAnswerChange = (event:any, type:string) => {
         switch (type) {
             case "checkbox":
+                setSelectedCheckboxOptions((prev) =>
+                prev.includes(event.target.value)
+                    ? prev.filter((v) => v !== event.target.value)
+                    : [...prev, event.target.value]
+                )
+                break
             case "option":
-                console.log(event.target.value)
                 setSelectedOption(event.target.value)
                 next()
-
+                break
+            case "dropdown":
+                setSelectedDropdownOption(event.target.value)
+                // next()
+                break
+            case "textarea":
+                setSelectedTextArea(event.target.value)
+                break
         }
     };
 
@@ -40,13 +56,50 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back}) =>
             <div className="w-full">
                 {options?.map((value, idx) => (
                     <label key={idx} className="block">
-                        <input type="checkbox" value={value} checked={selectedOption === value} 
+                        <input type="checkbox" value={value} checked={selectedCheckboxOptions.includes(value)}
                                 onChange={(e)=>handleAnswerChange(e,"checkbox")} name="options" className='mr-2'
                         />
                         {value}
                     </label>
                 ))}
+                <SecondaryButton onClick={next} className='mt-3'>next</SecondaryButton>
             </div>
+            }
+
+            {type === "dropdown" && 
+                <div className="flex flex-col w-full gap-y-3">
+                    <select 
+                        value={selectedDropdownOption} 
+                        onChange={(e) => handleAnswerChange(e, "dropdown")} 
+                        name="options"
+                        className="w-full p-2 border text-black border-gray-300 rounded"
+                    >
+                        {options?.map((value, idx) => (
+                            <option key={idx} value={value}>
+                            {value}
+                            </option>
+                        ))}
+                    </select>
+                    <SecondaryButton onClick={next}>
+                        Next
+                    </SecondaryButton>
+                </div>
+            }
+
+            {type === "textarea" && 
+            <div className="w-full">
+                <input 
+                    type="text" 
+                    value={selectedTextArea} 
+                    onChange={(e) => handleAnswerChange(e,"textarea" )} 
+                    name="text" 
+                    placeholder="Enter your response here..."
+                    className="w-full text-black p-2 border border-gray-300 rounded"
+                />
+                    <SecondaryButton onClick={next} className="mt-3">
+                        Next
+                    </SecondaryButton>
+                </div>
             }
 
             {type === "option" && 
