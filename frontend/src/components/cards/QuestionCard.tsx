@@ -2,7 +2,6 @@
 import React, {useState} from 'react';
 import SecondaryButton from '../buttons/SecondaryButton';
 import { IoMdArrowBack } from "react-icons/io";
-import PrimaryButton from '../buttons/PrimaryButton';
 
 
 interface props {
@@ -11,9 +10,10 @@ interface props {
     options?: Array<string>,
     next(): void,
     back(): void,
+    setMode(mode:string): void
 }
 
-const QuestionCard: React.FC<props> = ({question, type, options, next, back}) => {
+const QuestionCard: React.FC<props> = ({question, type, options, next, back, setMode}) => {
 
     const [selectedOption, setSelectedOption] = useState("");
     const [selectedCheckboxOptions, setSelectedCheckboxOptions] = useState<string[]>([]);
@@ -21,6 +21,11 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back}) =>
     const [selectedTextArea, setSelectedTextArea] = useState<string>("");
 
     const handleAnswerChange = (event:any, type:string) => {
+        if (question == "Help us match you to the right therapist:"){
+            if(selectedOption !== "Individual (for myself)"){
+                setMode("couple")
+            }
+        }
         switch (type) {
             case "checkbox":
                 setSelectedCheckboxOptions((prev) =>
@@ -35,7 +40,6 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back}) =>
                 break
             case "dropdown":
                 setSelectedDropdownOption(event.target.value)
-                // next()
                 break
             case "textarea":
                 setSelectedTextArea(event.target.value)
