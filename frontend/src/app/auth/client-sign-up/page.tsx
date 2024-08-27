@@ -13,7 +13,266 @@ export default function ClientSignUpPage() {
     category: string;
   }
 
-  const questions: Question[] = [
+  const coupleQuestions: Question[] = [
+    {
+      id: "1",
+      question: "What is your gender identity?",
+      type: "option",
+      options: ["Woman", "Man", "Prefer not to say"],
+      category: "General",
+    },
+    {
+      id: "2",
+      question: "What is your partner's gender identity?",
+      type: "option",
+      options: ["Woman", "Man", "Prefer not to say"],
+      category: "General",
+    },
+    {
+      id: "3",
+      question: "How long have you and your partner been together?",
+      type: "option",
+      options: [
+        "Less than 1 year",
+        "1-3 years",
+        "4-7 years",
+        "8-10 years",
+        "10+ years",
+      ],
+      category: "Relationship",
+    },
+    {
+      id: "4",
+      question: "What is your relationship status?",
+      type: "option",
+      options: [
+        "Dating",
+        "Engaged",
+        "Married",
+        "Separated",
+        "Living together",
+        "Other (Please specify)",
+      ],
+      category: "Relationship",
+    },
+    {
+      id: "5",
+      question: "Have either of you attended couples therapy before?",
+      type: "option",
+      options: [
+        "Yes, both of us",
+        "Yes, only one of us",
+        "No, neither of us",
+        "Prefer not to say",
+      ],
+      category: "Therapy History",
+    },
+    {
+      id: "6",
+      question: "What are the main reasons you are seeking couples therapy?",
+      type: "textarea",
+      options: [],
+      category: "Therapy Goals",
+    },
+    {
+      id: "7",
+      question: "Are there any specific issues you would like to focus on?",
+      type: "checkbox",
+      options: [
+        "Communication",
+        "Trust/Infidelity",
+        "Financial Stress",
+        "Intimacy/Sexual issues",
+        "Parenting/Family dynamics",
+        "Blended family challenges",
+        "Conflict resolution",
+        "Role expectations",
+        "Emotional connection",
+        "Life transitions (e.g., having a baby, retirement)",
+        "Other (Please specify)",
+      ],
+      category: "Therapy Focus",
+    },
+    {
+      id: "8",
+      question: "How important is religion in your relationship?",
+      type: "option",
+      options: [
+        "Very Important",
+        "Important",
+        "Neutral",
+        "Not Important",
+        "Not a part of our relationship",
+      ],
+      category: "Religion",
+    },
+    {
+      id: "9",
+      question: "Would you prefer to be matched with a therapist who shares your religious beliefs?",
+      type: "option",
+      options: ["Yes", "No", "No Preference"],
+      category: "Religion",
+    },
+    {
+      id: "10",
+      question: "Do you or your partner have any mental health conditions or concerns?",
+      type: "checkbox",
+      options: [
+        "Anxiety",
+        "Depression",
+        "Trauma/PTSD",
+        "Substance abuse",
+        "Anger management issues",
+        "None",
+        "Prefer not to say",
+      ],
+      category: "Mental Health",
+    },
+    {
+      id: "11",
+      question: "Are there any lifestyle factors or habits you’d like to address in therapy?",
+      type: "checkbox",
+      options: [
+        "Smoking",
+        "Drinking",
+        "Drug use",
+        "Diet/Eating habits",
+        "Exercise/Physical activity",
+        "Work-life balance",
+        "Other (Please specify)",
+        "None",
+      ],
+      category: "Lifestyle",
+    },
+    {
+      id: "12",
+      question: "How would you describe the level of communication in your relationship?",
+      type: "option",
+      options: [
+        "Excellent (We communicate openly and effectively)",
+        "Good (We communicate well most of the time)",
+        "Fair (We have some communication issues)",
+        "Poor (We struggle with communication)",
+      ],
+      category: "Communication",
+    },
+    {
+      id: "13",
+      question: "How would you rate the level of trust in your relationship?",
+      type: "option",
+      options: [
+        "High (We fully trust each other)",
+        "Moderate (There are some trust issues)",
+        "Low (Trust is a significant issue for us)",
+        "Prefer not to say",
+      ],
+      category: "Trust",
+    },
+    {
+      id: "14",
+      question: "How do you currently handle conflict in your relationship?",
+      type: "option",
+      options: [
+        "We discuss issues calmly and respectfully",
+        "We argue but usually resolve the issue",
+        "We avoid conflict and don’t discuss problems",
+        "We often have heated arguments with unresolved issues",
+        "Other (Please specify)",
+      ],
+      category: "Conflict",
+    },
+    {
+      id: "15",
+      question: "What are your shared goals for therapy?",
+      type: "checkbox",
+      options: [
+        "Strengthen communication",
+        "Rebuild trust",
+        "Improve intimacy",
+        "Manage conflicts better",
+        "Navigate life transitions",
+        "Strengthen emotional connection",
+        "Other (Please specify)",
+      ],
+      category: "Therapy Goals",
+    },
+    {
+      id: "16",
+      question: "Do you have any cultural or personal preferences we should consider when matching you with a therapist?",
+      type: "checkbox",
+      options: [
+        "Ethnicity",
+        "Language preference",
+        "Age",
+        "Sexual orientation",
+        "Other (Please specify)",
+      ],
+      category: "Preferences",
+    },
+    {
+      id: "17",
+      question: "Are there any external factors causing stress in your relationship?",
+      type: "checkbox",
+      options: [
+        "Financial stress",
+        "Work-related stress",
+        "Family interference",
+        "Health issues",
+        "Infertility",
+        "Other (Please specify)",
+      ],
+      category: "Stress Factors",
+    },
+    {
+      id: "18",
+      question: "How would you describe your and your partner’s love languages?",
+      type: "checkbox",
+      options: [
+        "Words of Affirmation",
+        "Acts of Service",
+        "Receiving Gifts",
+        "Quality Time",
+        "Physical Touch",
+        "We haven’t identified our love languages yet",
+        "Prefer not to say",
+      ],
+      category: "Love Languages",
+    },
+    {
+      id: "19",
+      question: "Do either of you have children, and how do they affect your relationship?",
+      type: "option",
+      options: [
+        "Yes, children are a major factor in our relationship",
+        "Yes, but they don’t impact our relationship significantly",
+        "No, we don’t have children",
+        "Prefer not to say",
+      ],
+      category: "Family",
+    },
+    {
+      id: "20",
+      question: "Are you dealing with any extended family issues that impact your relationship?",
+      type: "option",
+      options: [
+        "Yes, significant issues",
+        "Yes, but they are manageable",
+        "No, not an issue for us",
+        "Prefer not to say",
+      ],
+      category: "Family",
+    },
+    {
+      id: "21",
+      question: "Do you have any additional preferences or concerns you’d like us to consider?",
+      type: "textarea",
+      options: [],
+      category: "Additional",
+    }
+  ];
+  
+
+  const individualQuestions: Question[] = [
     {
       id: "1",
       question: "Help us match you to the right therapist:",
@@ -215,6 +474,7 @@ export default function ClientSignUpPage() {
 
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [questions, setQuestions] = useState(individualQuestions);
   const [question, setQuestion] = useState(questions[questionIndex]);
   const [showSignUp, setShowSignUp] = useState(false);
   const [email, setEmail] = useState("");
@@ -238,6 +498,14 @@ export default function ClientSignUpPage() {
       let prev = questionIndex - 1;
       setQuestionIndex(prev);
       setQuestion(questions[prev]);
+    }
+  }
+
+  function setMode(mode: string) {
+    if (mode === "couple"){
+      setQuestions(coupleQuestions)
+    }else{
+      setQuestions(individualQuestions)
     }
   }
 
@@ -313,6 +581,7 @@ export default function ClientSignUpPage() {
             options={question.options}
             next={nextQuestion}
             back={previousQuestion}
+            setMode={setMode}
           />
         </div>
       )}
