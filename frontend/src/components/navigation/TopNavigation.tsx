@@ -3,7 +3,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import BlackLogo from "../logo/logo-black";
 
 interface ButtonItem {
   name: string;
@@ -60,8 +59,6 @@ const TopNavigation: React.FC = () => {
   return (
     <div className="relative top-0 flex flex-row z-s0 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32 shadow-md">
         <div className="flex flex-row gap-3">
-
-          {/* <BlackLogo /> */}
 
           {firstButtonList.map((item) => (
             <button
