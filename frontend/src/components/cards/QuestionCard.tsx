@@ -8,7 +8,7 @@ interface props {
     question?: string,
     type?: string,
     options?: Array<string>,
-    next(): void,
+    next(data? : any): void,
     back(): void,
     setMode(mode:string): void
 }
@@ -21,11 +21,6 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back, set
     const [selectedTextArea, setSelectedTextArea] = useState<string>("");
 
     const handleAnswerChange = (event:any, type:string) => {
-        if (question == "Help us match you to the right therapist:"){
-            if(selectedOption !== "Individual (for myself)"){
-                setMode("couple")
-            }
-        }
         switch (type) {
             case "checkbox":
                 setSelectedCheckboxOptions((prev) =>
@@ -36,7 +31,7 @@ const QuestionCard: React.FC<props> = ({question, type, options, next, back, set
                 break
             case "option":
                 setSelectedOption(event.target.value)
-                next()
+                next(event.target.value)
                 break
             case "dropdown":
                 setSelectedDropdownOption(event.target.value)
