@@ -16,20 +16,27 @@ export default function ClientSignUpPage() {
   const coupleQuestions: Question[] = [
     {
       id: "1",
+      question: "Help us match you to the right therapist:",
+      type: "option",
+      options: ["Individual (for myself)", "Couples (for myself and my partner)"],
+      category: "General"
+    },
+    {
+      id: "2",
       question: "What is your gender identity?",
       type: "option",
       options: ["Woman", "Man", "Prefer not to say"],
       category: "General",
     },
     {
-      id: "2",
+      id: "3",
       question: "What is your partner's gender identity?",
       type: "option",
       options: ["Woman", "Man", "Prefer not to say"],
       category: "General",
     },
     {
-      id: "3",
+      id: "4",
       question: "How long have you and your partner been together?",
       type: "option",
       options: [
@@ -42,7 +49,7 @@ export default function ClientSignUpPage() {
       category: "Relationship",
     },
     {
-      id: "4",
+      id: "5",
       question: "What is your relationship status?",
       type: "option",
       options: [
@@ -56,7 +63,7 @@ export default function ClientSignUpPage() {
       category: "Relationship",
     },
     {
-      id: "5",
+      id: "6",
       question: "Have either of you attended couples therapy before?",
       type: "option",
       options: [
@@ -68,14 +75,14 @@ export default function ClientSignUpPage() {
       category: "Therapy History",
     },
     {
-      id: "6",
+      id: "7",
       question: "What are the main reasons you are seeking couples therapy?",
       type: "textarea",
       options: [],
       category: "Therapy Goals",
     },
     {
-      id: "7",
+      id: "8",
       question: "Are there any specific issues you would like to focus on?",
       type: "checkbox",
       options: [
@@ -94,7 +101,7 @@ export default function ClientSignUpPage() {
       category: "Therapy Focus",
     },
     {
-      id: "8",
+      id: "9",
       question: "How important is religion in your relationship?",
       type: "option",
       options: [
@@ -107,14 +114,14 @@ export default function ClientSignUpPage() {
       category: "Religion",
     },
     {
-      id: "9",
+      id: "10",
       question: "Would you prefer to be matched with a therapist who shares your religious beliefs?",
       type: "option",
       options: ["Yes", "No", "No Preference"],
       category: "Religion",
     },
     {
-      id: "10",
+      id: "11",
       question: "Do you or your partner have any mental health conditions or concerns?",
       type: "checkbox",
       options: [
@@ -129,7 +136,7 @@ export default function ClientSignUpPage() {
       category: "Mental Health",
     },
     {
-      id: "11",
+      id: "12",
       question: "Are there any lifestyle factors or habits you’d like to address in therapy?",
       type: "checkbox",
       options: [
@@ -145,7 +152,7 @@ export default function ClientSignUpPage() {
       category: "Lifestyle",
     },
     {
-      id: "12",
+      id: "13",
       question: "How would you describe the level of communication in your relationship?",
       type: "option",
       options: [
@@ -157,7 +164,7 @@ export default function ClientSignUpPage() {
       category: "Communication",
     },
     {
-      id: "13",
+      id: "14",
       question: "How would you rate the level of trust in your relationship?",
       type: "option",
       options: [
@@ -169,7 +176,7 @@ export default function ClientSignUpPage() {
       category: "Trust",
     },
     {
-      id: "14",
+      id: "15",
       question: "How do you currently handle conflict in your relationship?",
       type: "option",
       options: [
@@ -182,7 +189,7 @@ export default function ClientSignUpPage() {
       category: "Conflict",
     },
     {
-      id: "15",
+      id: "16",
       question: "What are your shared goals for therapy?",
       type: "checkbox",
       options: [
@@ -197,7 +204,7 @@ export default function ClientSignUpPage() {
       category: "Therapy Goals",
     },
     {
-      id: "16",
+      id: "17",
       question: "Do you have any cultural or personal preferences we should consider when matching you with a therapist?",
       type: "checkbox",
       options: [
@@ -210,7 +217,7 @@ export default function ClientSignUpPage() {
       category: "Preferences",
     },
     {
-      id: "17",
+      id: "18",
       question: "Are there any external factors causing stress in your relationship?",
       type: "checkbox",
       options: [
@@ -224,8 +231,8 @@ export default function ClientSignUpPage() {
       category: "Stress Factors",
     },
     {
-      id: "18",
-      question: "How would you describe your and your partner’s love languages?",
+      id: "19",
+      question: "How would you describe your and your partner's love languages?",
       type: "checkbox",
       options: [
         "Words of Affirmation",
@@ -239,7 +246,7 @@ export default function ClientSignUpPage() {
       category: "Love Languages",
     },
     {
-      id: "19",
+      id: "20",
       question: "Do either of you have children, and how do they affect your relationship?",
       type: "option",
       options: [
@@ -251,7 +258,7 @@ export default function ClientSignUpPage() {
       category: "Family",
     },
     {
-      id: "20",
+      id: "21",
       question: "Are you dealing with any extended family issues that impact your relationship?",
       type: "option",
       options: [
@@ -263,7 +270,7 @@ export default function ClientSignUpPage() {
       category: "Family",
     },
     {
-      id: "21",
+      id: "22",
       question: "Do you have any additional preferences or concerns you’d like us to consider?",
       type: "textarea",
       options: [],
@@ -277,7 +284,7 @@ export default function ClientSignUpPage() {
       id: "1",
       question: "Help us match you to the right therapist:",
       type: "option",
-      options: ["Individual (for myself)", "Couples (for myself and my partner)", "Family (for family counseling)"],
+      options: ["Individual (for myself)", "Couples (for myself and my partner)"],
       category: "General"
     },
     {
@@ -482,15 +489,28 @@ export default function ClientSignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(false);
 
-  function nextQuestion() {
-    if (questions.length - 1 === parseInt(question.id)) {
-      setShowSignUp(true);
+  function nextQuestion(data?:string) {
+    let coupleAnswer = "Couples (for myself and my partner)"
+    let firstQuestion = questions[0].question
+
+    if(question.question === firstQuestion) {
+      if (data === coupleAnswer){
+        setQuestions(coupleQuestions)
+      }else{
+        setQuestions(individualQuestions)
+      }
     }
+
     if (questionIndex < questions.length - 1) {
       let next = questionIndex + 1;
       setQuestionIndex(next);
       setQuestion(questions[next]);
     }
+
+    if (coupleQuestions.length - 1 === parseInt(question.id)) {
+      setShowSignUp(true);
+    }
+
   }
 
   function previousQuestion() {
