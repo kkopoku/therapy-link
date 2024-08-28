@@ -128,14 +128,14 @@ export default function DashboardPage(){
 
                 <div className="flex flex-col text-xs items-center"> 
                     <div className="grid grid-cols-3 w-full gap-6">
-                        <div className="flex flex-col col-span-1 w-full h-24 bg-green-100 rounded-3xl border-dashed border-2 border-secondaryGreen p-3">
+                        <div className="flex flex-col col-span-1 w-full h-24 bg-green-100 rounded-3xl border-dashed border border-secondaryGreen p-3">
                             <p>Linked Therapist:</p>
                             <p className="text-xl">N/A</p>
                         </div>
-                        <div className="col-span-1 w-full h-24 bg-slate-100 rounded-3xl border-dashed border-2 border-secondaryGreen">
+                        <div className="col-span-1 w-full h-24 bg-slate-100 rounded-3xl border-dashed border border-secondaryGreen">
 
                         </div>
-                        <div className="col-span-1 w-full h-24 bg-blue-100 rounded-3xl border-dashed border-2 border-secondaryGreen">
+                        <div className="col-span-1 w-full h-24 bg-blue-100 rounded-3xl border-dashed border border-secondaryGreen">
 
                         </div>
                     </div>
@@ -144,7 +144,7 @@ export default function DashboardPage(){
 
                 <div className="flex flex-col w-full h-[540px]">
                     <label>{("Upcoming Therapy Sessions").toUpperCase()}</label>
-                    <div className="pb-1 max-h-fit rounded-xl border border-slate-300 border-dashed overflow-y-scroll shadow-md">
+                    <div className="pb-1 max-h-fit rounded-xl border border-primaryGreen border-dashed overflow-y-scroll shadow-md">
                         <Table hoverable className="relative">
                             <Table.Head >
                                 <Table.HeadCell>Date</Table.HeadCell>
@@ -158,7 +158,7 @@ export default function DashboardPage(){
                                 {data.map(data => 
                                     <Table.Row key={data.date+data.status} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0">
                                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{(new Date(data.date)).toDateString()}</Table.Cell>
-                                        <Table.Cell className="py-0">{(new Date(data.date)).toLocaleTimeString()}</Table.Cell>
+                                        <Table.Cell className="py-0">{(new Date(data.date)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
                                         <Table.Cell className="py-0">{data.therapistName}</Table.Cell>
                                         <Table.Cell className="py-0">{data.sessionType}</Table.Cell>
                                         <Table.Cell className="py-0">{data.duration}</Table.Cell>
