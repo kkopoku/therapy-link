@@ -14,6 +14,19 @@ const sessionSchema = new Schema(
             type: Schema.Types.ObjectId,
             required: true
         },
+        startTime: {
+            type: Date,
+            required: true
+        },
+        endTime: {
+            type: Date,
+            required: true
+        },
+        status: {
+            type: String,
+            required: true,
+            enum: ["Pending", "Confirmed", "Completed", "Cancelled"]
+        }
     },
     { timestamps: true }
 );
