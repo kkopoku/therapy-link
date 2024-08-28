@@ -61,7 +61,7 @@ export default function TherapistJobsPage(){
 
             <div className="flex relative h-[80vh] w-full">
                 <div className="bg-primaryGreen bg-opacity-45 z-10 h-full w-full"></div>
-                <Image fill alt="image" src="landing-page/image1.jpg" className="absolute w-full h-full object-cover inset-0 z-0"/>
+                <Image fill alt="image" src="/landing-page/image1.jpg"/>
                 <div className="flex absolute inset-0 justify-center items-center">
                     <div className="bg-white rounded-lg max-w-2xl p-1 z-20">
                         {/* I am gonna put some shit here */}
@@ -71,6 +71,7 @@ export default function TherapistJobsPage(){
                             options={question.options}
                             next={nextQuestion}
                             back={previousQuestion}
+                            setMode={()=>null}
                         />
                     </div>
                 </div>
