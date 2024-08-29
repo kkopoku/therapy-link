@@ -1,7 +1,9 @@
 import { glob } from 'glob';
 import path from 'path';
+import { Response } from 'express';
+import { ApiResponse } from '../types/response.types';
 
-async function loadModels() {
+export async function loadModels() {
   const models: { [key: string]: any } = {};
 
 //   const files = glob.sync(path.join(__dirname, '**/*.model.ts'));
@@ -16,6 +18,12 @@ async function loadModels() {
   return models;
 }
 
-console.log(loadModels())
+export async function sendResponse<T>(res: Response, statusCode: number, response: ApiResponse<T>){
+  if (typeof response.status !== "string" || typeof response.message !== "string") {
+    throw new Error("Response does not match the ApiResponse contract");
+  }
+  return res.status(statusCode).json(response);
+}
 
-export {loadModels}
+
+
