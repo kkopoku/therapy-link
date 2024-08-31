@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import { connectDB } from "./database/connection"
 import userRouter from './routes/user.route'
+import sessionRouter from "./routes/session.route"
 import dotenv from "dotenv"
 import cors from "cors"
 
@@ -20,6 +21,7 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.use(`${prefix}/user`, userRouter);
+app.use(`${prefix}/session`, sessionRouter);
 
 const run = async () => {
   try {
