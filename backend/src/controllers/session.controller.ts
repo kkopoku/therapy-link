@@ -31,12 +31,6 @@ export async function createSession(req: Request, res: Response) {
 
     try {
         // check user and client
-        if (!mongoose.Types.ObjectId.isValid(value.clientId))
-            return res.status(400).json({ message: "Invalid client ID" });
-
-        if (!mongoose.Types.ObjectId.isValid(value.therapistId))
-            return res.status(400).json({ message: "Invalid therapist ID" });
-
         let foundClient = await Client.findById(value.clientId).lean().exec()
         console.log(foundClient)
         if (!foundClient)
