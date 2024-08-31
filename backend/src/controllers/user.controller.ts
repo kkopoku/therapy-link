@@ -2,6 +2,10 @@ import User from "../models/user.model"
 import { Request, Response } from "express"
 import Joi from "joi"
 import { createUser } from "../library/user.library"
+import { sendResponse } from "../library/utils.library"
+import Client from "../models/client.model"
+import Therapist from "../models/therapist.model"
+import Administrator from "../models/administrator.model"
 
 enum UserType {
     Administrator = "Administrator",
@@ -93,5 +97,25 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
         console.log(error)
         return res.status(500).json({ message: "Internal Server Error" })
     }
+}
 
+export async function getUsers(req: Request, res: Response) {
+    let user = {}
+    switch (req.params.userType) {
+        case "client":
+            user = await Client.find({}).lean()
+            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            break
+        case "therapist":
+            user = await Therapist.find({}).lean()
+            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            break
+        case "administrator":
+            user = await Administrator.find({}).lean()
+            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            break
+        default:
+            sendResponse(res, 400, { data: user, status: "failed", message: "bad request" })
+            break
+    }
 }
