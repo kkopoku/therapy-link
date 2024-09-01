@@ -41,6 +41,21 @@ userSchema.pre('save', async function (next) {
   }
 });
 
+userSchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate();
+  if (update && typeof update === 'object' && 'password' in update) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      (update as mongoose.UpdateQuery<any>).password = await bcrypt.hash(update.password, salt);
+      this.setUpdate(update);
+    } catch (e: any) {
+      return next(e);
+    }
+  }
+
+  next();
+});
+
 userSchema.methods.createJWT = function (): string {
   console.log("I want to check here: "+this.userType)
   return jwt.sign(
