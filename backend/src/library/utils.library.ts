@@ -22,6 +22,9 @@ export async function sendResponse<T>(res: Response, statusCode: number, respons
   if (typeof response.status !== "string" || typeof response.message !== "string") {
     throw new Error("Response does not match the ApiResponse contract");
   }
+  if (response.data && typeof(response.data) === "object" && "password" in response.data){
+      delete response.data.password
+  }
   return res.status(statusCode).json(response);
 }
 
