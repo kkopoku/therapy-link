@@ -1,11 +1,20 @@
 //custom Joi validation rules
 
-import Joi from "joi";
+import { CustomHelpers, ErrorReport } from "joi";
 import mongoose from "mongoose";
 
-export const objectIdValidator = Joi.string().custom((value, helpers) => {
+export const objectId = (value: string, helpers: CustomHelpers): string | ErrorReport => {
     if (!mongoose.Types.ObjectId.isValid(value)) {
-        return helpers.message({custom:"Invalid ObjectId format"});
+        return helpers.message({ custom: "Invalid ObjectId format" });
     }
     return value;
-}, "ObjectId Validation");
+}
+
+
+export const msisdn = (value: string, helpers: CustomHelpers): string | ErrorReport => {
+    const regex = /^233[0-9]{9}$/
+    if (!regex.test(value)) {
+        return helpers.message({ custom: "Invalid phone number format"});
+    }
+    return value;
+}
