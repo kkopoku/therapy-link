@@ -135,8 +135,6 @@ export async function updateClient(req: Request, res: Response){
     })
 
     const { error, value } = schema.validate(req.body)
-    let id = value.id
-    delete(value.id)
 
     if (error){
         console.log(error)
@@ -148,7 +146,7 @@ export async function updateClient(req: Request, res: Response){
 
     try{
         console.log(value)
-        const updatedClient = await Client.findByIdAndUpdate(id, value, {new:true})
+        const updatedClient = await Client.findByIdAndUpdate(value.id, value, {new:true})
         if(!updatedClient){
             return sendResponse(res, 400, {
                 data: null,
@@ -171,5 +169,47 @@ export async function updateClient(req: Request, res: Response){
 
 
 export async function updateTherapist(req: Request, res: Response){
+    const schema = Joi.object({
+        id: Joi.string().custom(objectId).required(),
+        email: Joi.string(),
+        password: Joi.string().min(8),
+        primaryPhone: Joi.string(),
+        secondaryPhone: Joi.string(),
+        momoNumber: Joi.string().custom(msisdn),
+        momoNetwork: Joi.string().valid("MTN","Telecel","AirtelTigo"),
+        bio: Joi.string()
+    })
 
+    const { error, value } = schema.validate(req.body)
+    let id = value.id
+    delete(value.id)
+
+    if (error){
+        console.log(error)
+        return res.status(400).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    try{
+        console.log(value)
+        const updatedTherapist = await Therapist.findByIdAndUpdate(id, value, {new:true})
+        if(!updatedTherapist){
+            return sendResponse(res, 400, {
+                data: null,
+                status: "failed",
+                message: "Therapist not found"
+            })
+        }
+    
+        sendResponse(res, 200, {
+            data: updatedTherapist,
+            status: "success",
+            message: "test"
+        })
+    }catch(error:any){
+        console.log(error)
+        sendResponse(res, 200, {data: null, message: "Internal Server Error", status: "failed"})
+    }
 }
