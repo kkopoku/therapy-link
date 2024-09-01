@@ -18,7 +18,7 @@ export async function loadModels() {
   return models;
 }
 
-export async function sendResponse<T>(res: Response, statusCode: number, response: ApiResponse<T>){
+export async function sendResponse<T>(res: Response, statusCode: number = 200, response: ApiResponse<T>){
   if (typeof response.status !== "string" || typeof response.message !== "string") {
     throw new Error("Response does not match the ApiResponse contract");
   }
