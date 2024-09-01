@@ -6,6 +6,7 @@ import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
 import Administrator from "../models/administrator.model"
+import { objectId, msisdn } from "../library/joi.library"
 
 enum UserType {
     Administrator = "Administrator",
@@ -118,4 +119,42 @@ export async function getUsers(req: Request, res: Response) {
             sendResponse(res, 400, { data: user, status: "failed", message: "bad request" })
             break
     }
+}
+
+
+
+export function updateClient(req: Request, res: Response){
+    const schema = Joi.object({
+        id: Joi.string().custom(objectId).required(),
+        email: Joi.string(),
+        password: Joi.string().min(8),
+        primaryPhone: Joi.string(),
+        secondaryPhone: Joi.string(),
+        momoNumber: Joi.string().custom(msisdn),
+        momoNetwork: Joi.string().valid("MTN","Telecel","AirtelTigo"),
+    })
+
+    // const schema = Joi.object({
+    //     startDate: Joi.date().required(),
+    //     endDate: Joi.date().required(),
+    //     duration: Joi.number().required(),
+    //     therapistId: objectIdValidator.required(),
+    //     clientId: objectIdValidator.required(),
+    // })
+
+    const { error, value } = schema.validate(req.body)
+
+    if (error){
+        console.log(error)
+        return res.status(400).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    sendResponse(res, 200, {
+        data: value,
+        status: "success",
+        message: "test"
+    })
 }
