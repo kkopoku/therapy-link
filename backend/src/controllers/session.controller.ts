@@ -39,17 +39,17 @@ export async function createSession(req: Request, res: Response) {
             throw new Error("Therapist not found")
 
         let createdSession = await Session.create(value)
-        return sendResponse(res, 201, {
+        return sendResponse(res, {
             data: createdSession,
             status: "success",
             message: "session successfully created"
-        })
+        },201)
     } catch (error: any) {
         console.log(`${logtag} Error: ${error}`)
-        return sendResponse(res, 500, {
+        return sendResponse(res, {
             data: null,
             status: "error",
             message: error.message
-        })
+        },500)
     }
 }

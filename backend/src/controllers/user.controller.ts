@@ -35,10 +35,10 @@ export async function registerUser(req: Request, res: Response) {
     try{
         const foundUser = await User.findOne({ email }).lean().exec()
         if(foundUser){
-            return res.status(409).json({
+            return sendResponse(res,{
                 message: "User already exists",
                 status: "failed"
-            })
+            },400)
         }
 
         const user = await createUser(req.body)
@@ -70,7 +70,6 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
 
     const { email, password } = value
     try{
-        // const foundUser = await User.findOne({ email }).lean().exec()
         const foundUser = await User.findOne({ email })
         if(!foundUser){
             return res.status(400).json({
@@ -105,18 +104,18 @@ export async function getUsers(req: Request, res: Response) {
     switch (req.params.userType) {
         case "client":
             user = await Client.find({}).lean()
-            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         case "therapist":
             user = await Therapist.find({}).lean()
-            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         case "administrator":
             user = await Administrator.find({}).lean()
-            sendResponse(res, 200, { data: user, status: "success", message: "user fetched successfully" })
+            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         default:
-            sendResponse(res, 400, { data: user, status: "failed", message: "bad request" })
+            sendResponse(res, { data: user, status: "failed", message: "bad request" }, 400)
             break
     }
 }
@@ -148,21 +147,21 @@ export async function updateClient(req: Request, res: Response){
         console.log(value)
         const updatedClient = await Client.findByIdAndUpdate(value.id, value, {new:true})
         if(!updatedClient){
-            return sendResponse(res, 400, {
+            return sendResponse(res, {
                 data: null,
                 status: "failed",
                 message: "Client not found"
-            })
+            }, 400)
         }
     
-        sendResponse(res, 200, {
+        sendResponse(res, {
             data: updatedClient,
             status: "success",
             message: "test"
         })
     }catch(error:any){
         console.log(error)
-        sendResponse(res, 200, {data: null, message: "Internal Server Error", status: "failed"})
+        sendResponse(res, {data: null, message: "Internal Server Error", status: "failed"})
     }
     
 }
@@ -196,20 +195,54 @@ export async function updateTherapist(req: Request, res: Response){
         console.log(value)
         const updatedTherapist = await Therapist.findByIdAndUpdate(id, value, {new:true})
         if(!updatedTherapist){
-            return sendResponse(res, 400, {
+            return sendResponse(res, {
                 data: null,
                 status: "failed",
                 message: "Therapist not found"
-            })
+            },404)
         }
     
-        sendResponse(res, 200, {
+        sendResponse(res, {
             data: updatedTherapist,
             status: "success",
             message: "test"
         })
     }catch(error:any){
         console.log(error)
-        sendResponse(res, 200, {data: null, message: "Internal Server Error", status: "failed"})
+        sendResponse(res, {data: null, message: "Internal Server Error", status: "failed"})
     }
+}
+
+export async function getUser(req: Request, res: Response){
+    const logtag = "[user.controller][getUser]"
+    const schema = Joi.object({
+        id: Joi.string().custom(objectId).required(),
+    })
+
+    const { error, value } = schema.validate(req.params)
+
+    if (error){
+        return res.status(400).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    try{
+        const foundUser = await User.findById(value.id).lean()
+        if (!foundUser) return sendResponse(res, {
+            // data: null,
+            message: "user not found",
+            status: "failed"
+        }, 404)
+        else return sendResponse(res, {
+            data: foundUser,
+            message: "user fetched successfully",
+            status: "success"
+        })
+    }catch(err){
+        console.log(`${logtag} Error: ${error}`)
+        sendResponse(res, {data: null, message: "Internal Server Error", status: "error"}, 500)
+    }
+
 }
