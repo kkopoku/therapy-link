@@ -123,7 +123,7 @@ export async function getUsers(req: Request, res: Response) {
 
 
 
-export function updateClient(req: Request, res: Response){
+export async function updateClient(req: Request, res: Response){
     const schema = Joi.object({
         id: Joi.string().custom(objectId).required(),
         email: Joi.string(),
@@ -134,15 +134,9 @@ export function updateClient(req: Request, res: Response){
         momoNetwork: Joi.string().valid("MTN","Telecel","AirtelTigo"),
     })
 
-    // const schema = Joi.object({
-    //     startDate: Joi.date().required(),
-    //     endDate: Joi.date().required(),
-    //     duration: Joi.number().required(),
-    //     therapistId: objectIdValidator.required(),
-    //     clientId: objectIdValidator.required(),
-    // })
-
     const { error, value } = schema.validate(req.body)
+    let id = value.id
+    delete(value.id)
 
     if (error){
         console.log(error)
@@ -152,9 +146,30 @@ export function updateClient(req: Request, res: Response){
         })
     }
 
-    sendResponse(res, 200, {
-        data: value,
-        status: "success",
-        message: "test"
-    })
+    try{
+        console.log(value)
+        const updatedClient = await Client.findByIdAndUpdate(id, value, {new:true})
+        if(!updatedClient){
+            return sendResponse(res, 400, {
+                data: null,
+                status: "failed",
+                message: "Client not found"
+            })
+        }
+    
+        sendResponse(res, 200, {
+            data: updatedClient,
+            status: "success",
+            message: "test"
+        })
+    }catch(error:any){
+        console.log(error)
+        sendResponse(res, 200, {data: null, message: "Internal Server Error", status: "failed"})
+    }
+    
+}
+
+
+export async function updateTherapist(req: Request, res: Response){
+
 }
