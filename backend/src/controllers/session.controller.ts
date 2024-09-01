@@ -4,9 +4,7 @@ import { Request, Response } from "express"
 import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
-import mongoose from "mongoose"
-import { objectIdValidator } from "../library/joi.library"
-import Administrator from "../models/administrator.model"
+import { objectId } from "../library/joi.library"
 
 export async function createSession(req: Request, res: Response) {
     let logtag = "[session.controller.ts][createSession]"
@@ -16,8 +14,8 @@ export async function createSession(req: Request, res: Response) {
         startDate: Joi.date().required(),
         endDate: Joi.date().required(),
         duration: Joi.number().required(),
-        therapistId: objectIdValidator.required(),
-        clientId: objectIdValidator.required(),
+        therapistId: Joi.string().custom(objectId).required(),
+        clientId: Joi.string().custom(objectId).required(),
     })
 
     const { error, value } = schema.validate(req.body)
