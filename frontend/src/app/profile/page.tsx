@@ -1,18 +1,150 @@
 "use client"
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
+import PrimaryInput from "@/components/inputs/PrimaryInput";
+import PrimaryButton from "@/components/buttons/PrimaryButton";
+import { useSession } from "next-auth/react";
+import { getCustomerDetails, createProfile, triggerToast } from "./page.functions";
+import { Toaster } from "react-hot-toast"
 
 
 export default function ProfilePage(){
 
-    function createProfile(){
-        console.log("create session")
-    }
+    const [name, setFirstName] = useState<string|null>(null)
+    const [otherNames, setOtherNames] = useState<string|null>(null)
+    const [primaryPhone, setPrimaryPhone] = useState<string|null>(null)
+    const [secondaryPhone, setSecondaryPhone] = useState<string|null>(null)
+    const [email, setEmail] = useState<string|null>(null)
+    const [password, setPassword] = useState<string|null>(null)
+    const [confirmPassword, setConfirmPassword] = useState<string|null>(null)
+    const [showPasswords, setShowPasswords] = useState<boolean>(false)
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}`
+    const { data: session } = useSession()
+
+    useEffect(()=>{
+        getCustomerDetails
+        (
+            session, 
+            setFirstName, 
+            setEmail, 
+            setSecondaryPhone, 
+            setPrimaryPhone, 
+            setOtherNames, 
+            apiUrl
+        );
+    }, [session])
+
 
     return(
         <AuthenticatedLayout pageName="Profile" navFunctionName="Create Profile" navFunction={createProfile}>
-            Hello blud. You&apos;re at profile
+            <Toaster />
+            <div className="w-full flex flex-col flex-grow">
+
+                <div className="flex h-full items-center flex-row w-full border-b">
+
+                    <div className="grid grid-cols-5 w-full gap-x-5">
+
+                        <div className="flex flex-col col-span-2 font-extralight">
+                            <span>Personal Information</span>
+                            <span className="text-xs">Update Your Personal Information</span>
+                        </div>
+
+                        <div className="grid col-span-3 w-full">
+                            <div className="grid grid-cols-2 gap-y-2">
+                                <div className="flex flex-row col-span-2 items-center gap-x-5">
+                                    <div className="flex rounded-full bg-blue-500 h-16 w-16 text-center items-center justify-center text-white text-3xl">{`${session?.user.name[0].toLocaleUpperCase() ?? ""}`}</div>
+                                    { session && <div className="font-light text-xl">{`${session?.user.name ?? ""}`}</div>}
+                                </div>
+
+                                <div className="flex flex-col col-span-2">
+                                    <div className="grid grid-cols-2 gap-x-5">
+                                        <div className="col-span-2 lg:col-span-1">
+                                            <PrimaryInput
+                                                label="First Name"
+                                                value={name ?? ""}
+                                                onChange={(e) => setFirstName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-span-2 lg:col-span-1">
+                                            <PrimaryInput
+                                                label="Other Names"
+                                                value={otherNames ?? ""}
+                                                onChange={(e) => setOtherNames(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-span-2 lg:col-span-1">
+                                            <PrimaryInput
+                                                label="Email"
+                                                value={email ?? ""}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-span-2 lg:col-span-1">
+                                            <PrimaryInput
+                                                label="Primary Phone"
+                                                value={primaryPhone ?? ""}
+                                                onChange={(e) => setPrimaryPhone(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-span-2 lg:col-span-1">
+                                            <PrimaryInput
+                                                label="Secondary Phone"
+                                                value={secondaryPhone ?? ""}
+                                                onChange={(e) => setSecondaryPhone(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="max-w-20 py-5">
+                                        <PrimaryButton>Save</PrimaryButton>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="grid flex-row w-full items-center h-full">
+                    <div className="grid grid-cols-5 w-full gap-x-5">
+
+                        <div className="flex flex-col col-span-2 font-extralight">
+                            <span>Change Your Password</span>
+                            <span className="text-xs">Update your password associated with your account.</span>
+                        </div>
+
+                        <div className="flex flex-col col-span-3 w-full">
+                            <div className="flex flex-row gap-5">
+                                <div className="w-full">
+                                    <PrimaryInput
+                                        label="New Password"
+                                        onChange={(e)=>setPassword(e.target.value)}
+                                        value={password ?? ""}
+                                        type="password"
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <PrimaryInput
+                                        label="Confirm Password"
+                                        onChange={(e)=>setConfirmPassword(e.target.value)}
+                                        value={confirmPassword ?? ""}
+                                        type="password"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="max-w-32 py-5">
+                                <PrimaryButton>Change Password</PrimaryButton>
+                            </div>
+
+                            <button onClick={triggerToast}>test toast</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </AuthenticatedLayout>
     )
 }
