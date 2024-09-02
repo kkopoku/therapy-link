@@ -125,6 +125,8 @@ export async function getUsers(req: Request, res: Response) {
 export async function updateClient(req: Request, res: Response){
     const schema = Joi.object({
         id: Joi.string().custom(objectId).required(),
+        firstName: Joi.string(),
+        otherNames:Joi.string(),
         email: Joi.string(),
         password: Joi.string().min(8),
         primaryPhone: Joi.string(),
@@ -170,6 +172,8 @@ export async function updateClient(req: Request, res: Response){
 export async function updateTherapist(req: Request, res: Response){
     const schema = Joi.object({
         id: Joi.string().custom(objectId).required(),
+        firstName: Joi.string(),
+        otherNames:Joi.string(),
         email: Joi.string(),
         password: Joi.string().min(8),
         primaryPhone: Joi.string(),
