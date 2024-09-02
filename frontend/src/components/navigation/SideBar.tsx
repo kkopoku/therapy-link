@@ -77,12 +77,15 @@ export default function SideBar(){
                         <BlackLogo />
                     </div>
                     <div className='flex w-full flex-col items-center font-extralight text-sm gap-y-1'>
-                        {getButtonList().map(button => 
+                        {session && getButtonList().map(button => 
                             <button className='flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-slate-50 hover:bg-secondaryGreen hover:scale-95 hover:text-white' 
                                 key={button.name} onClick={()=>router.push(button.link)}> 
                                 <span className='pr-2 hover:text-white text-md'>{button.icon}</span> 
                                 {button.name}
                             </button>
+                        )}
+                        {!session && clientButtonList.map(button => 
+                            <div className='animate-pulse rounded-lg w-full bg-slate-200 h-8' key={button.name} /> 
                         )}
                     </div>
                 </div>
