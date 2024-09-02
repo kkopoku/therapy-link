@@ -9,6 +9,7 @@ import { IoDiamond } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
 import { RiMentalHealthLine } from "react-icons/ri";
 import BlackLogo from '../logo/logo-black';
+import { FaUsersGear } from "react-icons/fa6";
 
 
 interface ButtonItem{
@@ -18,12 +19,27 @@ interface ButtonItem{
     icon?: React.ReactNode
 }
 
-const buttonList:ButtonItem[] = [
+const clientButtonList:ButtonItem[] = [
     {name: "Dashboard", link:"/dashboard", icon: <RiHome3Fill />},
     {name: "Profile", link:"/profile", icon: <FaUser /> },
     {name: "Sessions", link:"/sessions", icon: <MdPendingActions /> },
     {name: "Plan", link:"/plan", icon: <IoDiamond /> },
     {name: "My Therapist", link:"/my-therapist", icon: <RiMentalHealthLine /> },
+]
+
+const therapistButtonList:ButtonItem[] = [
+    {name: "Dashboard", link:"/dashboard", icon: <RiHome3Fill />},
+    {name: "Profile", link:"/profile", icon: <FaUser /> },
+    {name: "My Sessions", link:"/sessions", icon: <MdPendingActions /> },
+    {name: "My Clients", link:"/plan", icon: <FaUsersGear /> },
+]
+
+const administratorButtonList:ButtonItem[] = [
+    {name: "Dashboard", link:"/dashboard", icon: <RiHome3Fill />},
+    {name: "Profile", link:"/profile", icon: <FaUser /> },
+    {name: "Manage Sessions", link:"/sessions", icon: <MdPendingActions /> },
+    {name: "Manage Clients", link:"/plan", icon: <FaUsersGear /> },
+    {name: "Manage Therapists", link:"/plan", icon: <RiMentalHealthLine /> },
 ]
 
 const bottomList:ButtonItem[] = [
@@ -39,6 +55,19 @@ export default function SideBar(){
     const { data: session } = useSession()
     const router = useRouter()
 
+    function getButtonList():ButtonItem[]{
+        switch(session?.user.type){
+            case "Therapist":
+                return therapistButtonList
+            case "Client":
+                return clientButtonList
+            case "Administrator":
+                return administratorButtonList
+            default:
+                return []
+        }
+    }
+
     return(
         <div className={`flex w-[230px] min-h-screen py-3 pl-2 transition-all`}>
             <div className="flex flex-col w-full border border-slate-200 shadow-sm rounded-xl justify-between px-1">
@@ -48,7 +77,7 @@ export default function SideBar(){
                         <BlackLogo />
                     </div>
                     <div className='flex w-full flex-col items-center font-extralight text-sm gap-y-1'>
-                        {buttonList.map(button => 
+                        {getButtonList().map(button => 
                             <button className='flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-slate-50 hover:bg-secondaryGreen hover:scale-95 hover:text-white' 
                                 key={button.name} onClick={()=>router.push(button.link)}> 
                                 <span className='pr-2 hover:text-white text-md'>{button.icon}</span> 
