@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export interface IUser extends Document {
+  firstName: string;
+  otherNames: string;
   email: string;
   emailVerified: boolean;
   password: string;
@@ -21,6 +23,8 @@ export type UserModel = Model<IUser, {}, IUserMethods>;
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
+    firstName: { type: String, required: true},
+    otherNames: { type: String, required: true},
     email: { type: String, required: true, unique: true },
     emailVerified: { type: Boolean, required: false},
     password: { type: String, required: true },
