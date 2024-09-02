@@ -8,16 +8,16 @@ export default function LoadingDashboard(){
         <div className="flex flex-col gap-y-5 overflow-scroll">
             <div className="flex flex-col text-xs items-center"> 
                 <div className="grid grid-cols-3 w-full gap-6">
-                    <div className="flex flex-col col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-secondaryGreen p-3"/>
-                    <div className="col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-secondaryGreen"/>
-                    <div className="col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-secondaryGreen"/>
+                    <div className="col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-slate-400"/>
+                    <div className="col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-slate-400"/>
+                    <div className="col-span-1 w-full h-24 bg-slate-200 animate-pulse rounded-3xl border-dashed border border-slate-400"/>
                 </div>
             </div>
 
 
             <div className="flex flex-col w-full flex-grow overflow-hidden gap-y-2">
                 <label className="w-full max-w-80 animate-pulse h-5 bg-slate-300 rounded-full"/>
-                <div className="max-h-fit rounded-xl border border-primaryGreen border-dashed overflow-y-scroll shadow-md">
+                <div className="max-h-fit rounded-xl border border-slate-400 border-dashed overflow-y-scroll shadow-md">
                     <Table hoverable>
                         <Table.Head >
                             <Table.HeadCell><div className="bg-slate-100 rounded-full w-full"/></Table.HeadCell>
