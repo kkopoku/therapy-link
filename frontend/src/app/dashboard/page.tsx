@@ -3,10 +3,11 @@
 import React from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { useSession, signOut } from "next-auth/react"
-import ClientDashboard from "./client";
-import TherapistDashboard from "./therapist";
-import AdministratorDashboard from "./administrator";
-import { Session } from "next-auth";
+import ClientDashboard from "./Client";
+import TherapistDashboard from "./Therapist"
+import AdministratorDashboard from "./Administrator"
+import LoadingDashboard from "./Loading"
+
 
 export default function DashboardPage(){
 
@@ -21,7 +22,9 @@ export default function DashboardPage(){
               <div className="text-2xl font-light"> Hello, {user?.name} 👋🏽</div>
 
               {!session ? 
-                <div className="text 6xl font-semibold">Loading MF</div> 
+                <>
+                  <LoadingDashboard />
+                </> 
                 :
                 <>
                   {user?.type === "Therapist" && <TherapistDashboard />}
