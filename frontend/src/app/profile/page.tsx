@@ -137,8 +137,6 @@ export default function ProfilePage(){
                             <div className="max-w-32 py-5">
                                 <PrimaryButton>Change Password</PrimaryButton>
                             </div>
-
-                            <button onClick={triggerToast}>test toast</button>
                         </div>
 
                     </div>
