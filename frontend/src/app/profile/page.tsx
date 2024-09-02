@@ -109,7 +109,7 @@ export default function ProfilePage(){
                                         <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 h-12 rounded"></div>
                                         <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 h-12 rounded"></div>
                                     </div>}
-                                    <div className="max-w-20 py-5">
+                                    <div className="max-w-20 py-3">
                                         <PrimaryButton>Save</PrimaryButton>
                                     </div>
                                 </div>
@@ -129,8 +129,8 @@ export default function ProfilePage(){
                         </div>
 
                         <form onSubmit={(e)=>changePassword(e, password, confirmPassword )} className="flex flex-col col-span-3 w-full">
-                            {!loading && <div className="flex flex-row gap-5">
-                                <div className="w-full">
+                            {!loading && <div className="grid grid-cols-2 flex-row lg:gap-5">
+                                <div className="lg:col-span-1 col-span-2 w-full">
                                     <PrimaryInput
                                         label="New Password"
                                         onChange={(e)=>setPassword(e.target.value)}
@@ -139,7 +139,7 @@ export default function ProfilePage(){
                                         required={true}
                                     />
                                 </div>
-                                <div className="w-full">
+                                <div className="lg:col-span-1 col-span-2 w-full">
                                     <PrimaryInput
                                         label="Confirm Password"
                                         onChange={(e)=>setConfirmPassword(e.target.value)}
@@ -150,12 +150,14 @@ export default function ProfilePage(){
                                 </div>
                             </div>}
 
-                            {loading && <div className="flex flex-row gap-5 w-full">
-                                <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 w-full h-12 rounded"></div>
-                                <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 w-full h-12 rounded"></div>
-                            </div>}
+                            <div className="flex flex-col col-span-3 w-full">
+                                {loading && <div className="grid grid-cols-2 flex-row gap-5">
+                                    <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 w-full h-12 rounded"></div>
+                                    <div className="col-span-2 lg:col-span-1 animate-pulse bg-gray-200 w-full h-12 rounded"></div>
+                                </div>}
+                            </div>
 
-                            <div className="max-w-32 py-5">
+                            <div className="max-w-32 py-3">
                                 <PrimaryButton>Change Password</PrimaryButton>
                             </div>
                         </form>
