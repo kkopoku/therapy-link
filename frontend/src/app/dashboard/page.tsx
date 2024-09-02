@@ -122,7 +122,7 @@ export default function DashboardPage(){
     return (
         <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={signOut}>
 
-            <div className="flex flex-grow flex-col gap-y-5 w-full">
+            <div className="flex flex-grow flex-col gap-y-5 w-full overflow-hidden">
 
                 <div className="text-2xl font-light"> Hello, {user?.name} 👋🏽</div>
 
@@ -142,10 +142,10 @@ export default function DashboardPage(){
                 </div>
 
 
-                <div className="flex flex-col w-full h-[540px]">
+                <div className="flex flex-col w-full flex-grow overflow-hidden">
                     <label>{("Upcoming Therapy Sessions").toUpperCase()}</label>
                     <div className="pb-1 max-h-fit rounded-xl border border-primaryGreen border-dashed overflow-y-scroll shadow-md">
-                        <Table hoverable className="relative">
+                        <Table hoverable>
                             <Table.Head >
                                 <Table.HeadCell>Date</Table.HeadCell>
                                 <Table.HeadCell>Time</Table.HeadCell>
@@ -156,13 +156,13 @@ export default function DashboardPage(){
                             </Table.Head>
                             <Table.Body className="divide-y">
                                 {data.map(data => 
-                                    <Table.Row key={data.date+data.status} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0">
+                                    <Table.Row key={data.date+data.status} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
                                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{(new Date(data.date)).toDateString()}</Table.Cell>
-                                        <Table.Cell className="py-0">{(new Date(data.date)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
-                                        <Table.Cell className="py-0">{data.therapistName}</Table.Cell>
-                                        <Table.Cell className="py-0">{data.sessionType}</Table.Cell>
-                                        <Table.Cell className="py-0">{data.duration}</Table.Cell>
-                                        <Table.Cell className="py-0">{data.sessionStatus}</Table.Cell>
+                                        <Table.Cell className="py-0 leading-none">{(new Date(data.date)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
+                                        <Table.Cell className="py-0 leading-none">{data.therapistName}</Table.Cell>
+                                        <Table.Cell className="py-0 leading-none">{data.sessionType}</Table.Cell>
+                                        <Table.Cell className="py-0 leading-none">{data.duration}</Table.Cell>
+                                        <Table.Cell className="py-0 leading-none">{data.sessionStatus}</Table.Cell>
                                     </Table.Row>
                                 )}
                             </Table.Body>
