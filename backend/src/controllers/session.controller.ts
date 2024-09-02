@@ -53,3 +53,28 @@ export async function createSession(req: Request, res: Response) {
         },500)
     }
 }
+
+
+export async function getSessions(req: Request, res: Response ){
+    const tag = "[session.controller.ts][getSessions]"
+    try{
+        const foundSessions = await Session.find({}).lean()
+        if(!foundSessions){
+            return sendResponse(res,{
+                message:"No session records found",
+                status: "failed"
+            },404)
+        }
+        return sendResponse(res, {
+            message: "sessions fetched successfully",
+            data: foundSessions,
+            status: "success"
+        })
+    }catch(e:any){
+        console.log(`${tag} Error: ${e}`)
+        sendResponse(res, {
+            message: "Internal Server Error",
+            status: "error"
+        }, 500)
+    }
+}
