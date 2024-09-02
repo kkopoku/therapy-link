@@ -103,15 +103,15 @@ export async function getUsers(req: Request, res: Response) {
     let user = {}
     switch (req.params.userType) {
         case "client":
-            user = await Client.find({}).lean()
+            user = await Client.find({},{password:0}).lean()
             sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         case "therapist":
-            user = await Therapist.find({}).lean()
+            user = await Therapist.find({},{password:0}).lean()
             sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         case "administrator":
-            user = await Administrator.find({}).lean()
+            user = await Administrator.find({},{password:0}).lean()
             sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
             break
         default:
@@ -201,7 +201,7 @@ export async function updateTherapist(req: Request, res: Response){
                 message: "Therapist not found"
             },404)
         }
-    
+
         sendResponse(res, {
             data: updatedTherapist,
             status: "success",
