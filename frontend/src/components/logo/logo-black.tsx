@@ -7,9 +7,9 @@ export default function BlackLogo(){
     const router = useRouter()
 
     return(
-        <div className="">
+        <div>
             <button onClick={()=>router.push("/")}>
-                <Image width={40} height={40} alt="logo" src="/logos/logo_only.png"/>
+                <Image width={40} height={40} className="w-auto h-auto" alt="logo" src="/logos/logo_only.png"/>
             </button>
         </div>
     )
