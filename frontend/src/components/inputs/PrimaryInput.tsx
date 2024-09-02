@@ -7,9 +7,10 @@ interface InputFieldProps {
   type?: string;
   placeholder?: string;
   disabled?: boolean;
+  required?: boolean;
 }
 
-const PrimaryInput: React.FC<InputFieldProps> = ({ label, value, onChange, type="text", placeholder = null, disabled }) => {
+const PrimaryInput: React.FC<InputFieldProps> = ({ label, value, onChange, type="text", placeholder = null, disabled, required }) => {
   return (
     <div>
       <label className="text-xs">{label}</label>
@@ -20,6 +21,7 @@ const PrimaryInput: React.FC<InputFieldProps> = ({ label, value, onChange, type=
         onChange={onChange}
         placeholder={placeholder ? placeholder : label}
         disabled={disabled ? disabled : false}
+        required={required ?? false}
       />
     </div>
   );

@@ -8,7 +8,8 @@ export async function getCustomerDetails
     setSecondaryPhone: Function, 
     setPrimaryPhone: Function, 
     setOtherNames: Function, 
-    apiUrl: string
+    apiUrl: string,
+    setLoading: Function
 ) {
     if(session){
         const endpoint = `${apiUrl}/user/${session?.user.id}`;
@@ -30,13 +31,27 @@ export async function getCustomerDetails
         setSecondaryPhone(response.secondaryPhone);
         setPrimaryPhone(response.primaryPhone);
         setOtherNames(response.otherNames);
+        setLoading(false)
     }
 }
 
 
-export function updateUserDetails(){
+export function updateUserDetails(e:any,firstName:string|null, otherNames:string|null, email: string|null, secondaryPhone: string|null, primaryPhone:string|null){
+// export function updateUserDetails(e:any){
+    e.preventDefault();
+    toast.success("submitted")
+}
+
+export function changePassword(e:any, password:string|null|null, confirmPassword:string|null){
+    e.preventDefault();
+    if (password !== confirmPassword)
+        toast.error("password mismatch")
+    else
+        toast.success("password changed")
 
 }
+
+
 
 
 export function createProfile(){
