@@ -1,126 +1,20 @@
 import User from "../models/user.model"
 import { Request, Response } from "express"
 import Joi from "joi"
-import { createUser } from "../library/user.library"
 import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
-import Administrator from "../models/administrator.model"
 import { objectId, msisdn } from "../library/joi.library"
 
-enum UserType {
-    Administrator = "Administrator",
-    Client = "Client",
-    Therapist = "Therapist"
-}
-
-
-export async function registerUser(req: Request, res: Response) {   
-    const schema = Joi.object({
-        email: Joi.string().email().required(),
-        password: Joi.string().min(8).required(),
-        type: Joi.string().valid(...Object.values(UserType)).required(),
-    }).unknown(true)
-
-    const { error, value } = schema.validate(req.body)
-
-    if (error){
-        return res.status(400).json({
-            message: error.details[0].message,
-            status: "failed"
-        })
-    }
-
-    const { email } = value
+export async function getUsers(req: any, res: Response) {
     try{
-        const foundUser = await User.findOne({ email }).lean().exec()
-        if(foundUser){
-            return sendResponse(res,{
-                message: "User already exists",
-                status: "failed"
-            },400)
-        }
-
-        const user = await createUser(req.body)
-
-    if (user)
-      return res
-        .status(200)
-        .json({ user, message: "You have successfully created your account" })
-    }catch(error){
+        const users = await User.find({},{password:0}).lean()
+        sendResponse(res, { data: users, status: "success", message: "user fetched successfully" })
+    }catch(error:any){
         console.log(error)
-        return res.status(500).json({ message: "Internal Server Error" })
+        sendResponse(res, {message: "Internal Server Error", status: "error"}, 500)
     }
 }
-
-export async function login(req: Request, res: Response): Promise<void | {}> {
-    const schema = Joi.object({
-        email: Joi.string().email().required(),
-        password: Joi.string().min(8).required()
-    })
-
-    const { error, value } = schema.validate(req.body)
-
-    if (error){
-        return res.status(400).json({
-            message: error.details[0].message,
-            status: "failed"
-        })
-    }
-
-    const { email, password } = value
-    try{
-        const foundUser = await User.findOne({ email })
-        if(!foundUser){
-            return res.status(400).json({
-                message: "Invalid credentials",
-                status: "failed"
-            })
-        }
-
-
-        const passwordCheck:boolean = await foundUser.comparePassword(password)
-        if(!passwordCheck){
-            return res.status(400).json({
-                message: "Invalid credentials",
-                status: "failed"
-            })
-        }
-
-        const token = foundUser.createJWT()
-
-        return res
-            .status(200)
-            .json({ user:foundUser, token, message: "You logged in successfully" })
-
-    }catch(error){
-        console.log(error)
-        return res.status(500).json({ message: "Internal Server Error" })
-    }
-}
-
-export async function getUsers(req: Request, res: Response) {
-    let user = {}
-    switch (req.params.userType) {
-        case "client":
-            user = await Client.find({},{password:0}).lean()
-            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
-            break
-        case "therapist":
-            user = await Therapist.find({},{password:0}).lean()
-            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
-            break
-        case "administrator":
-            user = await Administrator.find({},{password:0}).lean()
-            sendResponse(res, { data: user, status: "success", message: "user fetched successfully" })
-            break
-        default:
-            sendResponse(res, { data: user, status: "failed", message: "bad request" }, 400)
-            break
-    }
-}
-
-
 
 export async function updateClient(req: Request, res: Response){
     const schema = Joi.object({
@@ -235,7 +129,6 @@ export async function getUser(req: Request, res: Response){
     try{
         const foundUser = await User.findById(value.id).lean()
         if (!foundUser) return sendResponse(res, {
-            // data: null,
             message: "user not found",
             status: "failed"
         }, 404)
@@ -247,6 +140,46 @@ export async function getUser(req: Request, res: Response){
     }catch(err){
         console.log(`${logtag} Error: ${error}`)
         sendResponse(res, {data: null, message: "Internal Server Error", status: "error"}, 500)
+    }
+}
+
+
+
+export async function getClients(req: any, res: Response){
+    const tag = "[user.controller.ts][getClients]"
+    const { user } = req
+    let foundClients = {}
+
+    try{
+        switch(user.type){
+            case "Therapist":
+                foundClients = await Client.find({therapistId: user.id}).lean()
+                break
+            case "Administrator":
+                foundClients = await Client.find({}).lean()
+                break
+            default:
+                console.log(`${tag} Unusual user type detected: ${user.type}`)
+                return sendResponse(res,{message:"Invalid user type", status:"failed"}, 400)
+        }
+
+        if(!foundClients){
+            return sendResponse(res,{
+                message:"No client records found",
+                status: "failed"
+            },404)
+        }
+        return sendResponse(res, {
+            message: "clients fetched successfully",
+            data: foundClients,
+            status: "success"
+        })
+    }catch(error:any){
+        console.log(`${tag} Error: ${error}`)
+        return sendResponse(res,{
+            message:"Internal Server Error",
+            status: "error"
+        },500)
     }
 
 }
