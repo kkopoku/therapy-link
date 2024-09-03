@@ -1,5 +1,5 @@
 import { Table } from "flowbite-react"
-import { data } from "./page.functions"
+import { data } from "@/components/dummy"
 
 export default function ClientDashboard(){
     return(
