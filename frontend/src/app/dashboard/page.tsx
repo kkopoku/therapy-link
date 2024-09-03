@@ -11,7 +11,7 @@ import LoadingDashboard from "./Loading"
 
 export default function DashboardPage(){
 
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
     const user = session?.user
 
     return (
