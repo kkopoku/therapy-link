@@ -12,6 +12,10 @@ const clientSchema = new Schema(
       type: String,
       required: false,
     },
+    therapistId:{
+      type: String,
+      required: false
+    }
   },{ discriminatorKey: 'userType'}
 );
 
