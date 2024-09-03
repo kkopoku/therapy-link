@@ -1,21 +1,21 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
-import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
+import React, { useEffect, useState } from "react"
+import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { Table } from "flowbite-react"
-import { data } from "../dashboard/page.functions"   //remove this in future
 import { getSessions, createSession } from "./page.functions"
-import { testToast } from "./page.functions"
-import { Toaster } from "react-hot-toast";
-import { useSession } from "next-auth/react";
-import LoadingTable from "@/components/loading/LoadingTable";
+import { Toaster } from "react-hot-toast"
+import { useSession } from "next-auth/react"
+import LoadingTable from "@/components/loading/LoadingTable"
+import { useRouter } from "next/navigation"
+
 
 export default function SessionsPage(){
 
     const [records, setRecords] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(true)
     const { data: session } = useSession()
-    // const user = session?.user
+    const router = useRouter()
 
     useEffect(()=>{
         getSessions(session, setRecords, setLoading)
@@ -42,15 +42,17 @@ export default function SessionsPage(){
                             </Table.Head>
                             <Table.Body className="divide-y">
                                 {records.map((data:any,idx:number)=>
-                                    <Table.Row key={idx} onClick={testToast} className="bg-white hover:cursor-pointer dark:border-gray-700 dark:bg-gray-800 leading-none">
-                                        <Table.Cell className="">{(new Date(data.startDate)).toLocaleDateString()}</Table.Cell>
-                                        <Table.Cell className="">{(new Date(data.startDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
-                                        <Table.Cell className="">{(new Date(data.endDate)).toLocaleDateString()}</Table.Cell>
-                                        <Table.Cell className="">{(new Date(data.endDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
-                                        <Table.Cell className="">{data.endDate}</Table.Cell>
-                                        <Table.Cell className="">{data.clientId}</Table.Cell>
-                                        <Table.Cell className="">{data.clientId}</Table.Cell>
-                                        <Table.Cell className="">{data.status}</Table.Cell>
+                                    <Table.Row key={idx} onClick={()=>{
+                                        router.push(`/sessions/view/${data._id}`)
+                                    }} className="bg-white hover:cursor-pointer dark:border-gray-700 dark:bg-gray-800 leading-none">
+                                        <Table.Cell>{(new Date(data.startDate)).toLocaleDateString()}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.startDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.endDate)).toLocaleDateString()}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.endDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
+                                        <Table.Cell>{data.endDate}</Table.Cell>
+                                        <Table.Cell>{data.clientId}</Table.Cell>
+                                        <Table.Cell>{data.clientId}</Table.Cell>
+                                        <Table.Cell>{data.status}</Table.Cell>
                                     </Table.Row>
                                 )}
                             </Table.Body>
