@@ -24,7 +24,7 @@ export async function getCustomerDetails
         .then(response => response.json())
         .then((jsonResponse) => {
             response = jsonResponse.data;
-        });
+        }).catch(error=>console.log(error))
 
         setFirstName(response.firstName);
         setEmail(response.email);
