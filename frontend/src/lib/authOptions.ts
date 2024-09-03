@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
 
         const { email, password } = credentials
 
-        const response = await axios.post(`${uri}/api/v1/user/login`, {
+        const response = await axios.post(`${uri}/api/v1/auth/login`, {
           email,
           password
         }).catch(err => {
@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           email: response.data.user.email,
           name: response.data.user.firstName + ' ' + response.data.user.otherNames,
           type: response.data.user.userType,
-          accessToken: response.data.token,
+          token: response.data.token,
         };
 
         return user;
