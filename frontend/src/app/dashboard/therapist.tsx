@@ -34,8 +34,8 @@ export default function TherapistDashboard(){
                             <Table.HeadCell>Status</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {data.map(data => 
-                                <Table.Row key={data.date+data.status} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
+                            {data.map((data,idx) => 
+                                <Table.Row key={idx} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{(new Date(data.date)).toDateString()}</Table.Cell>
                                     <Table.Cell className="py-0 leading-none">{(new Date(data.date)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
                                     <Table.Cell className="py-0 leading-none">{data.therapistName}</Table.Cell>
