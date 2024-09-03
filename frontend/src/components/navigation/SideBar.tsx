@@ -31,15 +31,15 @@ const therapistButtonList:ButtonItem[] = [
     {name: "Dashboard", link:"/dashboard", icon: <RiHome3Fill />},
     {name: "Profile", link:"/profile", icon: <FaUser /> },
     {name: "My Sessions", link:"/sessions", icon: <MdPendingActions /> },
-    {name: "My Clients", link:"/plan", icon: <FaUsersGear /> },
+    {name: "My Clients", link:"/clients", icon: <FaUsersGear /> },
 ]
 
 const administratorButtonList:ButtonItem[] = [
     {name: "Dashboard", link:"/dashboard", icon: <RiHome3Fill />},
     {name: "Profile", link:"/profile", icon: <FaUser /> },
     {name: "Manage Sessions", link:"/sessions", icon: <MdPendingActions /> },
-    {name: "Manage Clients", link:"/plan", icon: <FaUsersGear /> },
-    {name: "Manage Therapists", link:"/plan", icon: <RiMentalHealthLine /> },
+    {name: "Manage Clients", link:"/clients", icon: <FaUsersGear /> },
+    {name: "Manage Therapists", link:"/therapists", icon: <RiMentalHealthLine /> },
 ]
 
 const bottomList:ButtonItem[] = [
