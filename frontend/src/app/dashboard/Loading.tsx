@@ -28,8 +28,8 @@ export default function LoadingDashboard(){
                             <Table.HeadCell><div className="bg-slate-100 rounded-full w-full"/></Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {data.map(data => 
-                                <Table.Row key={data.date+data.status} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
+                            {data.map((data,idx) => 
+                                <Table.Row key={idx} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
                                     <Table.Cell className="whitespace-nowrap"><div className="py-1 bg-slate-300 h-3 rounded-full w-full"/></Table.Cell>
                                     <Table.Cell className="py-0 leading-none"><div className="py-1 bg-slate-300 h-3 rounded-full w-full"/></Table.Cell>
                                     <Table.Cell className="py-0 leading-none"><div className="py-1 bg-slate-300 h-3 rounded-full w-full"/></Table.Cell>
