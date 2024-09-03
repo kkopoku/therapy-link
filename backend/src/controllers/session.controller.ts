@@ -55,7 +55,7 @@ export async function createSession(req: Request, res: Response) {
 }
 
 
-export async function getSessions(req: Request, res: Response ){
+export async function getSessions(req: Request, res: Response){
     const tag = "[session.controller.ts][getSessions]"
     try{
         const foundSessions = await Session.find({}).lean()
@@ -77,4 +77,32 @@ export async function getSessions(req: Request, res: Response ){
             status: "error"
         }, 500)
     }
+}
+
+
+export async function getSessionDetails(req: Request, res: Response ){
+    const schema = Joi.object({
+        id: Joi.custom(objectId).required(),
+    })
+
+    const {error, value} = schema.validate(req.params)
+    if (error) {
+        return res.status(403).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    const foundSession = await Session.findById(value.id).lean()
+    if (!foundSession){
+        return sendResponse(res,{
+            message: "Session not found",
+            status:"failed",
+        }, 404)
+    }
+    return sendResponse(res, {
+        message: "Session fetched successfully",
+        data: foundSession,
+        status: "success"
+    })
 }
