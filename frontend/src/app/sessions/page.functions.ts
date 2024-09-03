@@ -1,5 +1,6 @@
 import toast from "react-hot-toast"
-import { useSession } from "next-auth/react"
+// import { useSession } from "next-auth/react"
+// import 
 
 // constants here
 const baseEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/session`
@@ -30,42 +31,27 @@ export async function getSessions(session:any, setSessions:Function, setLoading:
 }
 
 
+export async function getSessionDetails(session:any, sessionId:string, setSessionDetails:Function, setLoading:Function){
+    if(session){
+        setLoading(true)
+        await fetch(`${baseEndPoint}/${sessionId}`, {
+            method: "GET",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            }
+        }).then(response => response.json())
+        .then(jsonResponse => setSessionDetails(jsonResponse.data))
+        .finally(setLoading(false))
+        .catch((e)=>console.log(e))
+    }
+}
+
+
 export async function createSession(){
   console.log("dummy create session")
 }
 
+export function handleRecordClick(){
 
-// export async function getCustomerDetails
-// (
-//     session: any, 
-//     setFirstName: Function, 
-//     setEmail: Function, 
-//     setSecondaryPhone: Function, 
-//     setPrimaryPhone: Function, 
-//     setOtherNames: Function, 
-//     apiUrl: string,
-//     setLoading: Function
-// ) {
-//     if(session){
-//         const endpoint = `${apiUrl}/user/${session?.user.id}`;
-//         let response: any = {};
-//         await fetch(endpoint, {
-//             method: "GET",
-//             headers: {
-//                 "Access-Control-Allow-Origin": "*",
-//                 "Content-Type": "application/json",
-//             },
-//         })
-//         .then(response => response.json())
-//         .then((jsonResponse) => {
-//             response = jsonResponse.data;
-//         });
-
-//         setFirstName(response.firstName);
-//         setEmail(response.email);
-//         setSecondaryPhone(response.secondaryPhone);
-//         setPrimaryPhone(response.primaryPhone);
-//         setOtherNames(response.otherNames);
-//         setLoading(false)
-//     }
-// }
+}
