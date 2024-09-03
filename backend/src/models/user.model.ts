@@ -61,9 +61,11 @@ userSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 userSchema.methods.createJWT = function (): string {
-  console.log("I want to check here: "+this.userType)
   return jwt.sign(
     {
+      id: this.id,
+      firstName: this.firstName,
+      otherNames: this.otherNames,
       email: this.email,
       password: this.password
     },
