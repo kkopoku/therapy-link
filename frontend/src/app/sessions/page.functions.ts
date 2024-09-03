@@ -1,8 +1,7 @@
-import toast from "react-hot-toast"
-// import { useSession } from "next-auth/react"
-// import 
+"use client"
 
-// constants here
+import toast from "react-hot-toast"
+
 const baseEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/session`
 
 export function testToast(){
@@ -18,6 +17,7 @@ export async function getSessions(session:any, setSessions:Function, setLoading:
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${session.user.token}`
                 }
             }).then(response => response.json())
             .then((jsonResponse:any)=>{
@@ -39,6 +39,7 @@ export async function getSessionDetails(session:any, sessionId:string, setSessio
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.user.token}`
             }
         }).then(response => response.json())
         .then(jsonResponse => setSessionDetails(jsonResponse.data))

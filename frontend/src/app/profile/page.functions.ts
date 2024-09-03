@@ -19,6 +19,7 @@ export async function getCustomerDetails
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.user.token}`
             },
         })
         .then(response => response.json())
