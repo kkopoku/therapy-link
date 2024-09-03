@@ -55,10 +55,27 @@ export async function createSession(req: Request, res: Response) {
 }
 
 
-export async function getSessions(req: Request, res: Response){
+export async function getSessions(req: any, res: Response){
     const tag = "[session.controller.ts][getSessions]"
+    const user = req.user
+    const userType = req.user.type
     try{
-        const foundSessions = await Session.find({}).lean()
+        let foundSessions ={}
+        switch (userType){
+            case "Therapist":
+                foundSessions = await Session.find({therapistId: user.id}).lean()
+                break
+            case "Administrator":
+                foundSessions = await Session.find({}).lean()
+                break
+            case "Client":
+                foundSessions = await Session.find({clientId: user.id}).lean()
+                break
+            default:
+                console.log(`${tag} Unusual user type detected: ${userType}`)
+                return sendResponse(res,{message:"Invalid user type", status:"failed"}, 400)
+        }
+
         if(!foundSessions){
             return sendResponse(res,{
                 message:"No session records found",
