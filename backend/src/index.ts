@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express'
 import { connectDB } from "./database/connection"
 import userRouter from './routes/user.route'
+import authRouter from './routes/auth.route'
 import sessionRouter from "./routes/session.route"
 import dotenv from "dotenv"
 import cors from "cors"
+import authorize from './middlewares/auth.middleware'
 
 dotenv.config({ path: '../.env' });
 
@@ -12,7 +14,7 @@ const port = process.env.PORT
 const prefix = "/api/v1"
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
@@ -20,8 +22,9 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 
-app.use(`${prefix}/user`, userRouter);
-app.use(`${prefix}/session`, sessionRouter);
+app.use(`${prefix}/auth`, authRouter)
+app.use(`${prefix}/user`, authorize, userRouter)
+app.use(`${prefix}/session`, authorize, sessionRouter)
 
 const run = async () => {
   try {
