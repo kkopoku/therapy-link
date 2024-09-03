@@ -3,12 +3,13 @@
 import React from "react"
 import SideBar from "../navigation/SideBar"
 import BottomNavigation from "../navigation/BottomNavigation"
+import { signOut } from "next-auth/react"
 
 interface LayoutProps {
     children?: React.ReactNode
     pageName: string
-    navFunctionName: string
-    navFunction(): void
+    navFunctionName?: string
+    navFunction?(): void
 }
 
 const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunctionName, navFunction}) => {
@@ -23,7 +24,7 @@ const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunc
                         <p className="text-lg text-primaryGreen font-semibold">{pageName}</p>
                         <button className="px-2 py-1 hover:bg-secondaryGreen hover:text-white text-sm text-center border-2 
                         border-primaryGreen hover:scale-105 transition-all rounded-lg"
-                            onClick={()=>navFunction()}>{navFunctionName}
+                            onClick={()=>navFunction ? navFunction() : signOut()}>{navFunction ? navFunctionName : "Sign Out"}
                         </button>
                     </div>
                     {children}
