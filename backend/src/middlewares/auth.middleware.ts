@@ -50,7 +50,8 @@ export default async function authorize(req:any, res:Response, next:NextFunction
                 id: user._id,
                 firstName: user.firstName,
                 otherNames: user.otherNames,
-                email: user.email
+                email: user.email,
+                type: user.userType
             }
             next()
         }
