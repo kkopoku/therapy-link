@@ -63,3 +63,14 @@ export default async function authorize(req:any, res:Response, next:NextFunction
         },401) 
     }
 }
+
+
+export function adminAuth(req:any, res:Response, next:NextFunction){
+    if (req.user.type !== "Administrator"){
+        return sendResponse(res, {
+            message: "Unauthorized request",
+            status: "failed"
+        }, 401)
+    }
+    next()
+}
