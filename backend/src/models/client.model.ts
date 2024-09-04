@@ -12,9 +12,10 @@ const clientSchema = new Schema(
       type: String,
       required: false,
     },
-    therapistId:{
+    therapist:{
       type: String,
-      required: false
+      required: false,
+      ref: "Therapist"
     }
   },{ discriminatorKey: 'userType'}
 );

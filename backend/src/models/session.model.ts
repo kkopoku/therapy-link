@@ -6,13 +6,15 @@ const sessionSchema = new Schema(
             type: Number,
             required: true,
         },
-        therapistId: {
+        therapist: {
             type: Schema.Types.ObjectId,
-            required: true
+            required: true,
+            ref: "Therapist"
         },
-        clientId: {
+        client: {
             type: Schema.Types.ObjectId,
-            required: true
+            required: true,
+            ref: "Client"
         },
         startDate: {
             type: Date,

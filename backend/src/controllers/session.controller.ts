@@ -14,8 +14,8 @@ export async function createSession(req: Request, res: Response) {
         startDate: Joi.date().required(),
         endDate: Joi.date().required(),
         duration: Joi.number().required(),
-        therapistId: Joi.string().custom(objectId).required(),
-        clientId: Joi.string().custom(objectId).required(),
+        therapist: Joi.string().custom(objectId).required(),
+        client: Joi.string().custom(objectId).required(),
     })
 
     const { error, value } = schema.validate(req.body)
@@ -34,7 +34,7 @@ export async function createSession(req: Request, res: Response) {
         if (!foundClient)
             throw new Error("Client not found")
 
-        let foundTherapist = await Therapist.findById(value.therapistId).lean().exec()
+        let foundTherapist = await Therapist.findById(value.therapist).lean().exec()
         if (!foundTherapist)
             throw new Error("Therapist not found")
 
@@ -63,10 +63,10 @@ export async function getSessions(req: any, res: Response){
         let foundSessions ={}
         switch (userType){
             case "Therapist":
-                foundSessions = await Session.find({therapistId: user.id}).lean()
+                foundSessions = await Session.find({therapist: user.id}).lean().exec()
                 break
             case "Administrator":
-                foundSessions = await Session.find({}).lean()
+                foundSessions = await Session.find({}).populate("therapist").lean().exec()
                 break
             case "Client":
                 foundSessions = await Session.find({clientId: user.id}).lean()
@@ -110,7 +110,11 @@ export async function getSessionDetails(req: Request, res: Response ){
         })
     }
 
-    const foundSession = await Session.findById(value.id).lean()
+    const foundSession = await Session.findById(value.id)
+        .populate({path:"therapist", select:"firstName otherNames"})
+        .populate({path:"client", select:"firstName otherNames"})
+        .lean().exec()
+
     if (!foundSession){
         return sendResponse(res,{
             message: "Session not found",
