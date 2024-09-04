@@ -24,7 +24,7 @@ const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunc
                         <p className="text-lg text-primaryGreen font-semibold">{pageName}</p>
                         <button className="px-2 py-1 hover:bg-secondaryGreen hover:text-white text-sm text-center border-2 
                         border-primaryGreen hover:scale-105 transition-all rounded-lg"
-                            onClick={()=>navFunction ? navFunction() : signOut()}>{navFunction ? navFunctionName : "Sign Out"}
+                            onClick={()=>navFunction ? navFunction() : signOut({callbackUrl:"/auth/login"})}>{navFunction ? navFunctionName : "Sign Out"}
                         </button>
                     </div>
                     {children}

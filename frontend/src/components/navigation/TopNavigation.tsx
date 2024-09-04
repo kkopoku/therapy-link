@@ -80,7 +80,7 @@ const TopNavigation: React.FC = () => {
                 if (item.link !== "api/auth/signout")
                   router.push(item.link)
                 else
-                  signOut()
+                  signOut({callbackUrl:"/auth/login"})
               }}
             >
               {item.name}
