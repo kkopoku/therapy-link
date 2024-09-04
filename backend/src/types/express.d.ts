@@ -1,4 +1,5 @@
 import "express";
+import { Schema } from "mongoose";
 
 declare module "express-serve-static-core" {
     interface Request {
@@ -7,6 +8,7 @@ declare module "express-serve-static-core" {
             firstName: string;
             lastName: string;
             email: string;
+            id: Schema.Types.ObjectId
         };
     }
 }
