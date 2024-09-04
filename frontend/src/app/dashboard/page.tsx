@@ -15,7 +15,7 @@ export default function DashboardPage(){
     const user = session?.user
 
     return (
-        <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={signOut}>
+        <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})}>
 
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-hidden">
 
