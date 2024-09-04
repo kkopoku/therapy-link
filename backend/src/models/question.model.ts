@@ -18,6 +18,11 @@ const questionSchema = new Schema(
         index: {
             type: Number,
             required: true
+        },
+        variant: {
+            type: String,
+            required: false,
+            default: null
         }
     },
     { timestamps: true }
