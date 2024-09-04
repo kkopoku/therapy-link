@@ -15,7 +15,6 @@ userRouter.get("/getAllUsers", adminAuth, getUsers)
 
 userRouter.patch("/updateClient", updateClient)
 userRouter.patch("/updateTherapist", updateTherapist)
-userRouter.get("/clients", getClients)
 userRouter.get("/:id", getUser)
 
 export default userRouter;
