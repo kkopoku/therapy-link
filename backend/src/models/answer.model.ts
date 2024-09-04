@@ -3,8 +3,9 @@ import mongoose, { Schema } from "mongoose"
 const answerSchema = new Schema(
     {
         questionId: {
-            type: String,
-            required: true
+            type: Schema.ObjectId,
+            required: true,
+            ref: "Question"
         },
         answer: {
             type: Date,
