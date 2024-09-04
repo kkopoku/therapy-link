@@ -10,7 +10,7 @@ export default function PlanPage(){
     const user = session?.user
 
     return (
-        <AuthenticatedLayout pageName="Plan" navFunctionName="sign out" navFunction={signOut}>
+        <AuthenticatedLayout pageName="Plan" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})}>
             <div className="flex min-h-screen w-full">
             </div>
         </AuthenticatedLayout>
