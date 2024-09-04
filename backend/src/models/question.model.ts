@@ -2,23 +2,27 @@ import mongoose, { Schema } from "mongoose"
 
 const questionSchema = new Schema(
     {
-        question: {
+        title: {
             type: String,
             required: true
         },
-        answer: {
-            type: Date,
-            required: true
+        possibleAnswers: {
+            type: Array,
+            default: []
         },
-        answerType: {
+        for: {
             type: String,
             required: true,
-            enum: ["Single", "Multiple"],
+            enum: ["Therapist", "Client"],
+        },
+        index: {
+            type: Number,
+            required: true
         }
     },
     { timestamps: true }
 );
 
-const Question = mongoose.model("Session", questionSchema)
+const Question = mongoose.model("Question", questionSchema)
 
 export default Question
