@@ -11,8 +11,8 @@ import PrimaryInput from "@/components/inputs/PrimaryInput";
 interface SessionDetails {
     _id: string;
     duration: number;
-    therapistId: string;
-    clientId: string;
+    therapist: any;
+    client: any;
     startDate: string;
     endDate: string;
     status: string;
@@ -62,8 +62,8 @@ export default function ViewSessionPage() {
                                 <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Session ID" value={`${sessionDetails?._id}`} disabled/></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Duration (Minutes)" value={`${sessionDetails ? sessionDetails.duration/60 : "N/A"}`} disabled /></div>
-                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Therapist Name" value={`${sessionDetails?.therapistId ?? "N/A"}`} disabled /></div>
-                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Client Name" value={`${sessionDetails?.clientId ?? "N/A"}`} disabled /></div>
+                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Therapist Name" value={`${sessionDetails?.therapist.firstName ?? "N/A"}`} disabled /></div>
+                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Client Name" value={`${sessionDetails?.client.firstName ?? "N/A"}`} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Start Date" value={new Date(sessionDetails?.startDate ?? "").toLocaleDateString() ?? "N/A"} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="End Date" value={new Date(sessionDetails?.endDate ?? "").toLocaleDateString() ?? "N/A"} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Status" value={`${sessionDetails?.status ?? "N/A"}`} disabled /></div>
