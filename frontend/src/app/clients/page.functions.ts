@@ -5,7 +5,7 @@ const endpoint = process.env.NEXT_PUBLIC_API_URL
 
 export async function getClients(session:any, setRecords:Function, setLoading:Function){
     if(session){
-        const url = `${endpoint}/user/clients`;
+        const url = `${endpoint}/client`;
         await fetch(url, {
             method: "GET",
             headers: {
