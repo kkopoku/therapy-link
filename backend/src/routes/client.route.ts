@@ -1,8 +1,9 @@
 import express from "express";
-import { getClientDetails } from "../controllers/client.controller"
+import { getClientDetails, getClients } from "../controllers/client.controller"
 
 const clientRouter = express.Router();
 
 clientRouter.get("/:id", getClientDetails)
+clientRouter.get("/", getClients)
 
 export default clientRouter;
