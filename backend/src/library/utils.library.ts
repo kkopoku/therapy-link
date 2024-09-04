@@ -1,7 +1,7 @@
 import { glob } from 'glob';
 import path from 'path';
 import { Response } from 'express';
-import { ApiResponse } from '../types/response.types';
+import { ApiResponse } from '../types/api.types';
 
 export async function loadModels() {
   const models: { [key: string]: any } = {};
