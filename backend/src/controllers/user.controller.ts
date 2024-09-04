@@ -27,6 +27,7 @@ export async function updateClient(req: Request, res: Response){
         secondaryPhone: Joi.string(),
         momoNumber: Joi.string().custom(msisdn),
         momoNetwork: Joi.string().valid("MTN","Telecel","AirtelTigo"),
+        therapistId: Joi.custom(objectId)
     })
 
     const { error, value } = schema.validate(req.body)
@@ -37,6 +38,11 @@ export async function updateClient(req: Request, res: Response){
             message: error.details[0].message,
             status: "failed"
         })
+    }
+
+    if(value.therapistId){
+        const foundTherapist = await Therapist.findById(value.therapistId)
+        if (!foundTherapist) return sendResponse(res, {message:"Therapist not found", status:"failed"}, 400)
     }
 
     try{
