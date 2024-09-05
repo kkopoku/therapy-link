@@ -9,7 +9,6 @@ import { objectId } from "../library/joi.library"
 export async function createSession(req: Request, res: Response) {
     let logtag = "[session.controller.ts][createSession]"
 
-    // validate request body
     const schema = Joi.object({
         startDate: Joi.date().required(),
         endDate: Joi.date().required(),
@@ -28,7 +27,6 @@ export async function createSession(req: Request, res: Response) {
     }
 
     try {
-        // check user and client
         let foundClient = await Client.findById(value.clientId).lean().exec()
         console.log(foundClient)
         if (!foundClient)
