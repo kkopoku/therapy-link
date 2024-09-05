@@ -19,7 +19,12 @@ export async function getSessions(session:any, setSessions:Function, setLoading:
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${session.user.token}`
                 }
-            }).then(response => response.json())
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+                return response.json()
+            })
             .then((jsonResponse:any)=>{
                 setSessions(jsonResponse.data)
             }).finally(()=>setLoading(false))
@@ -41,7 +46,12 @@ export async function getSessionDetails(session:any, sessionId:string, setSessio
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${session.user.token}`
             }
-        }).then(response => response.json())
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
         .then(jsonResponse => setSessionDetails(jsonResponse.data))
         .finally(setLoading(false))
         .catch((e)=>console.log(e))

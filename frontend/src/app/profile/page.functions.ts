@@ -22,7 +22,12 @@ export async function getCustomerDetails
                 "Authorization": `Bearer ${session.user.token}`
             },
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
         .then((jsonResponse) => {
             response = jsonResponse.data;
         }).catch(error=>console.log(error))
