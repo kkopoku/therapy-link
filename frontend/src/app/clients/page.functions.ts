@@ -14,11 +14,17 @@ export async function getClients(session:any, setRecords:Function, setLoading:Fu
                 "Authorization": `Bearer ${session.user.token}`
             },
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
         .then((jsonResponse) => {
+            console.log(JSON.stringify(getClients))
             setRecords(jsonResponse.data)
             setLoading(false)
-        }).catch(error=>console.log(error))
+        }).catch(error=>{console.log(error)})
     }
 }
 
@@ -34,7 +40,12 @@ export async function getClientDetails(session:Session, clientId:string, setReco
                 "Authorization": `Bearer ${session.user.token}`
             },
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
         .then((jsonResponse) => {
             setRecords(jsonResponse.data)
             setLoading(false)
