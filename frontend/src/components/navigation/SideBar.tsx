@@ -70,7 +70,7 @@ export default function SideBar(){
 
     return(
         <div className={`flex w-[230px] min-h-screen py-3 pl-2 transition-all`}>
-            <div className="flex flex-col w-full border border-slate-200 shadow-sm rounded-xl justify-between px-1">
+            <div className="flex flex-col w-full border border-slate-200 shadow-sm rounded-xl bg-white justify-between px-1">
 
                 <div className='flex flex-col items-center gap-y-2'>
                     <div className='flex w-full h-16 items-center pl-2 justify-start rounded-lg'>
