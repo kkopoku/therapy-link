@@ -7,7 +7,7 @@ import { Response, NextFunction } from "express"
 
 export default async function authorize(req:any, res:Response, next:NextFunction){
 
-    const logtag = "[authorization.ts][authorize]"
+    const logtag = "[auth.middleware.ts][authorize]"
     const schema = Joi.object({
         authorization: Joi.string().required(),
     }).unknown(true)
