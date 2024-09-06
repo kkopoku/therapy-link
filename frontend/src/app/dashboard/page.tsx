@@ -1,18 +1,25 @@
 "use client"
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { useSession, signOut } from "next-auth/react"
 import ClientDashboard from "./Client";
-import TherapistDashboard from "./Therapist"
+import { TherapistDashboard } from "./Therapist"
 import AdministratorDashboard from "./Administrator"
 import LoadingDashboard from "./Loading"
+import { getDashboardInfo } from "./page.functions";
 
 
 export default function DashboardPage(){
 
+    const [records, setRecords] = useState<any>([])
+    const [loading, setLoading] = useState<boolean>(true)
     const { data: session } = useSession()
     const user = session?.user
+
+    useEffect(()=>{
+      getDashboardInfo(session, setRecords, setLoading)
+    },[session])
 
     return (
         <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})}>
@@ -21,13 +28,13 @@ export default function DashboardPage(){
 
               <div className="text-2xl font-light"> Hello, {user?.name} 👋🏽</div>
 
-              {!session ? 
+              {(loading && records.length == 0) ? 
                 <>
                   <LoadingDashboard />
                 </> 
                 :
                 <>
-                  {user?.type === "Therapist" && <TherapistDashboard />}
+                  {user?.type === "Therapist" && <TherapistDashboard records={records} loading={loading}/>}
                   {user?.type === "Administrator" && <AdministratorDashboard />}
                   {user?.type === "Client" && <ClientDashboard />}
                 </>
