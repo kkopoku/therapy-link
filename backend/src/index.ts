@@ -4,6 +4,7 @@ import userRouter from './routes/user.route'
 import authRouter from './routes/auth.route'
 import clientRouter from './routes/client.route'
 import sessionRouter from "./routes/session.route"
+import dashboardRouter from './routes/dashboard.route'
 import dotenv from "dotenv"
 import cors from "cors"
 import authorize from './middlewares/auth.middleware'
@@ -27,6 +28,7 @@ app.use(`${prefix}/auth`, authRouter)
 app.use(`${prefix}/user`, authorize, userRouter)
 app.use(`${prefix}/session`, authorize, sessionRouter)
 app.use(`${prefix}/client`, authorize, clientRouter)
+app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 
 const run = async () => {
   try {
