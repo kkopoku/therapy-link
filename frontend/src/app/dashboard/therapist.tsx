@@ -1,53 +1,77 @@
 "use client"
 
 import { Table } from "flowbite-react"
-import { data } from "@/components/dummy"
+import React from "react"
+import { useRouter } from "next/navigation"
+import LoadingTable from "@/components/loading/LoadingTable"
+import LoadingDashboard from "./Loading"
 
-export default function TherapistDashboard(){
+interface Record{
+    user: object
+    sessions: Array<string>
+}
+
+interface TherapistDashboardProps{
+    records: Record;
+    loading: boolean;
+}
+
+
+export const TherapistDashboard: React.FC<TherapistDashboardProps> = ({ records, loading}) => {
+
+    const router = useRouter()
+
     return(
-        <div className="flex flex-col gap-y-5 overflow-scroll">
-            <div className="flex flex-col text-xs items-center"> 
-                <div className="grid grid-cols-3 w-full gap-6">
-                    <div className="flex flex-col col-span-1 w-full h-24 bg-green-100 rounded-3xl border-dashed border border-secondaryGreen p-3">
-                        <p>There is no linked TP in this MF</p>
-                        <p className="text-xl">N/A</p>
-                    </div>
-                    <div className="col-span-1 w-full h-24 bg-slate-100 rounded-3xl border-dashed border border-secondaryGreen">
 
+        <>
+            {!loading && records.sessions ? 
+                <div className="flex flex-col gap-y-5 overflow-scroll">
+                <div className="flex flex-col text-xs items-center"> 
+                    <div className="grid grid-cols-3 w-full gap-6">
+                        <div className="flex flex-col col-span-1 w-full h-24 max-h-24 bg-green-100 rounded-3xl border-dashed border border-secondaryGreen p-3">
+                            <p>There is no linked TP in this MF</p>
+                            <p className="text-xl">N/A</p>
+                        </div>
+                        <div className="col-span-1 w-full h-24 max-h-24 bg-slate-100 rounded-3xl border-dashed border border-secondaryGreen">
+    
+                        </div>
+                        <div className="col-span-1 w-full h-24 max-h-24 bg-blue-100 rounded-3xl border-dashed border border-secondaryGreen">
+    
+                        </div>
                     </div>
-                    <div className="col-span-1 w-full h-24 bg-blue-100 rounded-3xl border-dashed border border-secondaryGreen">
-
+                </div> 
+    
+                <div className="flex flex-col w-full flex-grow overflow-hidden">
+                    <label>{("Upcoming Therapy Sessions").toUpperCase()}</label>
+                    <div className="max-h-full rounded-xl border border-primaryGreen border-dashed overflow-y-scroll shadow-md">
+                        <Table hoverable>
+                            <Table.Head >
+                                <Table.HeadCell>Start Date</Table.HeadCell>
+                                <Table.HeadCell>Start Time</Table.HeadCell>
+                                <Table.HeadCell>End Date</Table.HeadCell>
+                                <Table.HeadCell>End Time</Table.HeadCell>
+                                <Table.HeadCell>Duration</Table.HeadCell>
+                                <Table.HeadCell>Status</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="divide-y">
+                                {records.sessions.map((data:any,idx:number) => 
+                                    <Table.Row key={idx} className="bg-white hover:cursor-pointer"
+                                        onClick={()=> router.push(`/sessions/view/${data._id}`)}>
+                                        <Table.Cell>{(new Date(data.startDate)).toDateString()}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.startDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.startDate)).toDateString()}</Table.Cell>
+                                        <Table.Cell>{(new Date(data.startDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
+                                        <Table.Cell>{data.duration/(60)}</Table.Cell>
+                                        <Table.Cell>{data.status}</Table.Cell>
+                                    </Table.Row>
+                                )}
+                            </Table.Body>
+                        </Table>
                     </div>
                 </div>
             </div>
-
-            <div className="flex flex-col w-full flex-grow overflow-hidden">
-                <label>{("Upcoming Therapy Sessions").toUpperCase()}</label>
-                <div className="max-h-fit rounded-xl border border-primaryGreen border-dashed overflow-y-scroll shadow-md">
-                    <Table hoverable>
-                        <Table.Head >
-                            <Table.HeadCell>Date</Table.HeadCell>
-                            <Table.HeadCell>Time</Table.HeadCell>
-                            <Table.HeadCell>Therapist Name</Table.HeadCell>
-                            <Table.HeadCell>Session Type</Table.HeadCell>
-                            <Table.HeadCell>Duration</Table.HeadCell>
-                            <Table.HeadCell>Status</Table.HeadCell>
-                        </Table.Head>
-                        <Table.Body className="divide-y">
-                            {data.map((data,idx) => 
-                                <Table.Row key={idx} className="bg-white dark:border-gray-700 dark:bg-gray-800 py-0 leading-none">
-                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{(new Date(data.date)).toDateString()}</Table.Cell>
-                                    <Table.Cell className="py-0 leading-none">{(new Date(data.date)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
-                                    <Table.Cell className="py-0 leading-none">{data.therapistName}</Table.Cell>
-                                    <Table.Cell className="py-0 leading-none">{data.sessionType}</Table.Cell>
-                                    <Table.Cell className="py-0 leading-none">{data.duration}</Table.Cell>
-                                    <Table.Cell className="py-0 leading-none">{data.sessionStatus}</Table.Cell>
-                                </Table.Row>
-                            )}
-                        </Table.Body>
-                    </Table>
-                </div>
-            </div>
-        </div>
+            : <LoadingDashboard />}
+        </>
+        
     )
 }
