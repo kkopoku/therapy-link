@@ -3,23 +3,24 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export interface IUser extends Document {
-  firstName: string;
-  otherNames: string;
-  email: string;
-  emailVerified: boolean;
-  password: string;
-  primaryPhone: string;
-  userType: 'Administrator' | 'Client' | 'Therapist';
-  secondaryPhone?: string;
+  firstName: string
+  otherNames: string
+  email: string
+  emailVerified: boolean
+  password: string
+  primaryPhone: string
+  userType: 'Administrator' | 'Client' | 'Therapist'
+  secondaryPhone?: string
+  avatar?: Schema.Types.ObjectId
 }
 
 interface IUserMethods{
-  check(): string;
-  createJWT(): string;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  check(): string
+  createJWT(): string
+  comparePassword(candidatePassword: string): Promise<boolean>
 }
 
-export type UserModel = Model<IUser, {}, IUserMethods>;
+export type UserModel = Model<IUser, {}, IUserMethods>
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
@@ -31,6 +32,11 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     primaryPhone: { type: String, required: false },
     secondaryPhone: { type: String, required: false},
     userType: { type: String, required: true, enum: ['Therapist', 'Client', 'Administrator'] },
+    avatar: {
+      type: Schema.Types.ObjectId,
+      required: false,
+      ref: "File"
+    }
   },
   { discriminatorKey: 'userType', timestamps: true }
 );
