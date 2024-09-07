@@ -33,6 +33,11 @@ const sessionSchema = new Schema(
             required: true,
             enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
             default: "Pending"
+        },
+        transaction: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: "Transaction"
         }
     },
     { timestamps: true }
