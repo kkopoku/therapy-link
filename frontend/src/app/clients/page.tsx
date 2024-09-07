@@ -22,7 +22,7 @@ export default function SessionsPage(){
     },[session])
 
     return(
-        <AuthenticatedLayout pageName="Clients">
+        <AuthenticatedLayout pageName="Clients" sideBarFocus="My Clients">
             <Toaster />
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-scroll">
 

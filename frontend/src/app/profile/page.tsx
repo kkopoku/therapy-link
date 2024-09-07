@@ -39,7 +39,7 @@ export default function ProfilePage(){
 
 
     return(
-        <AuthenticatedLayout pageName="Profile" navFunctionName="Create Profile" navFunction={createProfile}>
+        <AuthenticatedLayout pageName="Profile" navFunctionName="Create Profile" navFunction={createProfile} sideBarFocus="Profile">
             <Toaster />
             <div className="w-full flex flex-col flex-grow">
 

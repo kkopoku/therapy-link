@@ -22,7 +22,7 @@ export default function DashboardPage(){
     },[session])
 
     return (
-        <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})}>
+        <AuthenticatedLayout pageName="Dashboard" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})} sideBarFocus="Dashboard">
 
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-hidden">
 

@@ -22,7 +22,7 @@ export default function SessionsPage(){
     },[session])
 
     return(
-        <AuthenticatedLayout pageName="Sessions" navFunctionName="Create Session" navFunction={createSession}>
+        <AuthenticatedLayout pageName="Sessions" navFunctionName="Create Session" navFunction={createSession} sideBarFocus="My Sessions">
             <Toaster />
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-scroll">
 
