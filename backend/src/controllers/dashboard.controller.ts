@@ -33,7 +33,11 @@ export async function getDashboardInfo(req: Request, res: Response){
             status: "success", 
             data: {
                 user: userInfo,
-                sessions
+                sessions,
+                completedSessions: 15,
+                totalRevenue: 20040,
+                upcomingSessions: 30,
+                rejectedSessions: 2
             }
         })
     }catch(error:any){
