@@ -20,6 +20,10 @@ const sessionSchema = new Schema(
             type: Date,
             required: true
         },
+        price: {
+            type: Schema.Types.Decimal128,
+            required: true
+        },
         endDate: {
             type: Date,
             required: true
