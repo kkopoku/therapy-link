@@ -1,15 +1,16 @@
 "use client"
 
 import React from 'react'
-import { RiHome3Fill } from "react-icons/ri";
-import { FaUser } from "react-icons/fa";
-import { MdPendingActions } from "react-icons/md";
-import { useSession } from 'next-auth/react';
-import { IoDiamond } from "react-icons/io5";
-import { useRouter } from 'next/navigation';
-import { RiMentalHealthLine } from "react-icons/ri";
-import BlackLogo from '../logo/logo-black';
-import { FaUsersGear } from "react-icons/fa6";
+import { RiHome3Fill } from "react-icons/ri"
+import { FaUser } from "react-icons/fa"
+import { MdPendingActions } from "react-icons/md"
+import { useSession } from 'next-auth/react'
+import { IoDiamond } from "react-icons/io5"
+import { useRouter } from 'next/navigation'
+import { RiMentalHealthLine } from "react-icons/ri"
+import BlackLogo from '../logo/logo-black'
+import { FaUsersGear } from "react-icons/fa6"
+import { FaMoneyBillWave } from "react-icons/fa"
 
 
 interface ButtonItem{
@@ -32,6 +33,7 @@ const therapistButtonList:ButtonItem[] = [
     {name: "Profile", link:"/profile", icon: <FaUser /> },
     {name: "My Sessions", link:"/sessions", icon: <MdPendingActions /> },
     {name: "My Clients", link:"/clients", icon: <FaUsersGear /> },
+    {name: "Payments", link:"/payments", icon: <FaMoneyBillWave /> },
 ]
 
 const administratorButtonList:ButtonItem[] = [
@@ -49,8 +51,12 @@ const bottomList:ButtonItem[] = [
     {name: "What's New? ", link:"" },
 ]
 
+interface sideBarProps{
+    focused?: string
+}
 
-export default function SideBar(){
+
+export default function SideBar({focused}:sideBarProps){
 
     const { data: session } = useSession()
     const router = useRouter()
@@ -78,8 +84,10 @@ export default function SideBar(){
                     </div>
                     <div className='flex w-full flex-col items-center font-extralight text-sm gap-y-1'>
                         {session && getButtonList().map(button => 
-                            <button className='flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-slate-50 hover:bg-secondaryGreen hover:scale-95 hover:text-white' 
-                                key={button.name} onClick={()=>router.push(button.link)}> 
+                            <button className={`flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-slate-50 hover:bg-secondaryGreen hover:scale-95 hover:text-white ${focused == button.name ? "bg-green-200" : ""}`}
+                                key={button.name} onClick={()=>{
+                                        router.push(button.link)
+                                    }}> 
                                 <span className='pr-2 hover:text-white text-md'>{button.icon}</span> 
                                 {button.name}
                             </button>

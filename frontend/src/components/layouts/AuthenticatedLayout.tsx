@@ -10,14 +10,15 @@ interface LayoutProps {
     pageName: string
     navFunctionName?: string
     navFunction?(): void
+    sideBarFocus?: string
 }
 
-const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunctionName, navFunction}) => {
+const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunctionName, navFunction, sideBarFocus}) => {
     return(
         <div>
             <main className="flex flex-row min-h-screen w-screen items-center bg-white font-sans text-black transition-all">
                 <div className="flex items-center w-fit">
-                    <SideBar />
+                    <SideBar focused={sideBarFocus} />
                 </div>
                 <div className="flex flex-col flex-grow h-screen overflow-x-auto pb-3 px-10 w-full items-center">
                     <div className="flex flex-row justify-between py-5 w-full">
