@@ -66,15 +66,10 @@ export async function getDashboardData(id:Schema.Types.ObjectId) {
     for (let i=0; i<sessionsPerMonth.length; i++){
         seen.add(sessionsPerMonth[i].month)
         seenMap.set(sessionsPerMonth[i].month, sessionsPerMonth[i].sessionCount)
-        console.log(sessionsPerMonth[i].month)
-        console.log(sessionsPerMonth[i].sessionCount)
     }
-
-    console.log(seenMap)
 
     for(let i=1; i<=12; i++){
         if (seenMap.has(i)){
-            console.log("got here, i = "+i)
            let value = seenMap.get(i)
            let item = {
             month: months[i-1],
@@ -93,7 +88,11 @@ export async function getDashboardData(id:Schema.Types.ObjectId) {
     return {
         sessionsPerMonth: result,
         user: userInfo,
-        sessions
+        sessions,
+        totalRevenue: 2040,
+        completedSessions: 15,
+        upcomingSessions: 30,
+        rejectedSessions: 2
     }
 
 }
