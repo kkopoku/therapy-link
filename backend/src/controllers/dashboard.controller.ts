@@ -41,7 +41,7 @@ export async function getDashboardInfo(req: Request, res: Response){
             //     user: userInfo,
             //     sessions,
             //     completedSessions: 15,
-            //     totalRevenue: 20040,
+                // totalRevenue: 20040,
             //     upcomingSessions: 30,
             //     rejectedSessions: 2
             // }
