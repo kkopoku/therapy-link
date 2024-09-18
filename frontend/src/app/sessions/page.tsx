@@ -22,7 +22,7 @@ export default function SessionsPage(){
     },[session])
 
     return(
-        <AuthenticatedLayout pageName="Sessions" navFunctionName="Create Session" navFunction={createSession} sideBarFocus="My Sessions">
+        <AuthenticatedLayout pageName="Sessions" navFunctionName="Create Session" navFunction={()=>router.push("sessions/book")} sideBarFocus="My Sessions">
             <Toaster />
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-scroll">
 
@@ -36,7 +36,6 @@ export default function SessionsPage(){
                                 <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">End Date</Table.HeadCell>
                                 <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">End Time</Table.HeadCell>
                                 <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">Therapist Name</Table.HeadCell>
-                                <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">Session Type</Table.HeadCell>
                                 <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">Duration</Table.HeadCell>
                                 <Table.HeadCell className="bg-primaryGreen py-2 font-normal sticky top-0">Status</Table.HeadCell>
                             </Table.Head>
@@ -50,8 +49,7 @@ export default function SessionsPage(){
                                         <Table.Cell>{(new Date(data.endDate)).toLocaleDateString()}</Table.Cell>
                                         <Table.Cell>{(new Date(data.endDate)).toLocaleTimeString("en-US",{ hour12: false})}</Table.Cell>
                                         <Table.Cell>{data.endDate}</Table.Cell>
-                                        <Table.Cell>{data.clientId}</Table.Cell>
-                                        <Table.Cell>{data.clientId}</Table.Cell>
+                                        <Table.Cell>{data.duration}</Table.Cell>
                                         <Table.Cell>{data.status}</Table.Cell>
                                     </Table.Row>
                                 )}
