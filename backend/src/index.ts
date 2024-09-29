@@ -30,16 +30,18 @@ app.use(`${prefix}/session`, authorize, sessionRouter)
 app.use(`${prefix}/client`, authorize, clientRouter)
 app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 
-const run = async () => {
-  try {
-    await connectDB()
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`)
-    })
-  } catch (error) {
-    console.error('Failed to connect to the database', error)
-  }
-}
+// const run = async () => {
+//   try {
+//     await connectDB()
+//     app.listen(port, () => {
+//       console.log(`Server is running on http://localhost:${port}`)
+//     })
+//   } catch (error) {
+//     console.error('Failed to connect to the database', error)
+//   }
+// }
 
 
-run()
+// run()
+
+export default app
