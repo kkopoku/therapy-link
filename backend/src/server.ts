@@ -1,14 +1,24 @@
 import app from ".";
-import http from "http";
+import https from "https";
+// import http from "http";
 import { Server } from "socket.io";
 import { connectDB } from "./database/connection";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
+import fs from 'fs';
+// import path from 'path';
 
 dotenv.config({ path: '../.env' });
 
 const PORT = process.env.PORT || 7002;
-const server = http.createServer(app);
+
+// const server = http.createServer(app);
+
+const server = https.createServer({
+  key: fs.readFileSync("../server.key"),
+  cert: fs.readFileSync("../server.cert"),
+},app);
+
 const io = new Server(server, {
   cors: {
     origin: "*",
