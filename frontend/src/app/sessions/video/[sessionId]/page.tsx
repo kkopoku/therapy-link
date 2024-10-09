@@ -1,63 +1,84 @@
 "use client";
 
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
-import { useEffect, useRef, useState } from "react";
-import { io, Socket } from "socket.io-client"
-import { useParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { io, Socket } from "socket.io-client";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { MdCallEnd } from "react-icons/md";
+import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { CiVideoOff, CiVideoOn } from "react-icons/ci";
 
 export default function VideoPage() {
-
   const userVideo = useRef<HTMLVideoElement>(null);
   const partnerVideo = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<RTCPeerConnection | null>(null);
   const socketRef = useRef<Socket | null>(null);
   const otherUser = useRef<string | null>(null);
+  const [otherUserState, setOtherUserState] = useState<string | null>("");
+  const [myUserState, setMyUserState] = useState(false);
   const userStream = useRef<MediaStream | null>(null);
   const uri = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
-  const { sessionId } = useParams()
+  const { sessionId } = useParams();
 
- 
   useEffect(() => {
+    try {
+      // return;
+      navigator.mediaDevices
+        .getUserMedia({ audio: true, video: true })
+        .then((stream) => {
+          if (userVideo.current) {
+            userVideo.current.srcObject = stream;
+          }
 
-    navigator.mediaDevices
-    .getUserMedia({ audio: true, video: true })
-    .then((stream) => {
-      if (userVideo.current) {
-        userVideo.current.srcObject = stream;
-      }
+          userStream.current = stream;
+          setMyUserState(true);
 
-      userStream.current = stream;
+          socketRef.current = io(`${uri}`);
 
-      socketRef.current = io(`${uri}`);
+          socketRef.current.emit("join room", sessionId);
+          console.log("Joining room:", sessionId);
 
-      socketRef.current.emit("join room", sessionId);
-      console.log("Joining room:", sessionId);
+          socketRef.current.on("other user", (userID) => {
+            console.log("Other user joined:", userID);
+            callUser(userID);
+            otherUser.current = userID; //otherUser is the otherUser socketId, kapish ? good
+            setOtherUserState(userID);
+          });
 
-      socketRef.current.on("other user", (userID) => {
-        console.log("Other user joined:", userID);
-        callUser(userID);
-        otherUser.current = userID;
-      });
+          socketRef.current.on("user joined", (userID) => {
+            console.log("User joined:", userID);
+            otherUser.current = userID;
+            setOtherUserState(userID);
+          });
 
-      socketRef.current.on("user joined", (userID) => {
-        console.log("User joined:", userID);
-        otherUser.current = userID;
-      });
+          socketRef.current.on("offer", handleReceiveCall);
 
-      socketRef.current.on("offer", handleRecieveCall);
+          socketRef.current.on("answer", handleAnswer);
 
-      socketRef.current.on("answer", handleAnswer);
+          socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
+        })
+        .catch((e) => console.log(e));
+    } catch (e: any) {
+      console.log(e);
+    }
 
-      socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Your function or code before refresh
+      console.log("Page is about to be refreshed");
+      socketRef.current?.emit("handleDisconnectCleanUp", sessionId);
 
-      
-    })
-    .catch((e) => console.log(e));
+      // Custom message (optional)
+      event.preventDefault();
+    };
 
-    // return () => {
-    //   if (socket) socket.disconnect();
-    // };
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
+    return () => {
+      console.log("close page");
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      handleCancelCall();
+    };
   }, []);
 
   function callUser(userID: string) {
@@ -113,7 +134,7 @@ export default function VideoPage() {
       .catch((e) => console.log(e));
   }
 
-  function handleRecieveCall(incoming: {
+  function handleReceiveCall(incoming: {
     sdp: RTCSessionDescriptionInit;
     caller: string;
   }) {
@@ -180,10 +201,89 @@ export default function VideoPage() {
     }
   }
 
+  function handleCancelCall() {
+    if (peerRef.current) {
+      console.log("Closing peer connection");
+      peerRef.current.close();
+      peerRef.current = null;
+    }
+
+    if (userStream.current) {
+      console.log("Stopping user media tracks");
+      userStream.current.getTracks().forEach((track) => track.stop());
+      userStream.current = null;
+    }
+
+    if (socketRef.current?.connected) {
+      console.log("Disconnecting socket");
+      socketRef.current.emit("handleDisconnectCleanUp", sessionId, () => {
+        console.log("Cleanup event sent, now disconnecting socket");
+        socketRef.current?.disconnect();
+      });
+    } else {
+      console.log("Socket is already disconnected");
+    }
+  }
+
   return (
-    <div className="flex justify-center items-center bg-white h-screen text-black">
-      <video autoPlay muted ref={userVideo} className="w-full lg:w-1/2"></video>
-      <video autoPlay ref={partnerVideo} className="w-full lg:w-1/2"></video>
-    </div>
+    <AuthenticatedLayout pageName="Video Session">
+      <div className="w-full flex flex-col flex-grow gap-10 justify-between items-center h-screen text-black">
+
+        <div className="flex flex-grow flex-row w-full gap-x-10 justify-center items-center">
+          <div className="basis-1/2 justify-center items-center">
+            <video
+              autoPlay
+              muted
+              ref={userVideo}
+              style={{ transform: "scaleX(-1)" }}
+              className="w-full h-full"
+            />
+          </div>
+
+          {otherUserState ? (
+            <div className=" basis-1/2 justify-center items-center">
+              <video
+                autoPlay
+                ref={partnerVideo}
+                style={{ transform: "scaleX(-1)" }}
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="flex justify-center w-36 h-56 bg-gray-600 items-center" />
+          )}
+        </div>
+
+        {/* <div>
+        <button
+          className="bg-green-600 text-white p-4 rounded-lg"
+          onClick={handleCancelCall}
+        >
+          Disconnect Call
+        </button>
+        {otherUserState}
+      </div> */}
+        <div className="flex w-full justify-center text-white bg-primaryGreen min-h-16 p-2 gap-x-5 rounded-lg">
+          <ControlUnitButton name="End" icon={<MdCallEnd/>} onClick={handleCancelCall}/>
+          <ControlUnitButton name="End" icon={<FaVolumeMute/>} onClick={handleCancelCall}/>
+          <ControlUnitButton name="End" icon={<CiVideoOff/>} onClick={handleCancelCall}/>
+        </div>
+      </div>
+    </AuthenticatedLayout>
   );
+}
+
+
+const ControlUnitButton:React.FC<ControlUnitButtonProps> = ({name, icon, onClick}) => {
+  return(
+    <button className="flex flex-col bg-black justify-center bg-opacity-20 rounded-md hover:bg-opacity-45 w-20 h-15 items-center p-2 transition-all delay-75" onClick={onClick}>
+      <span className="text-xl">{icon}</span>
+    </button>
+  )
+}
+
+interface ControlUnitButtonProps{
+  name?: string
+  icon: React.ReactNode
+  onClick?: () => void 
 }
