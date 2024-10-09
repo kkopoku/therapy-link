@@ -4,8 +4,6 @@ import { Server } from "socket.io";
 import { connectDB } from "./database/connection";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
-import fs from 'fs';
-// import path from 'path';
 
 dotenv.config({ path: '../.env' });
 
