@@ -80,7 +80,7 @@ export default function ViewSessionPage() {
                             <div className="h-full flex-row w-full">
                                 <div className="w-full grid grid-cols-2 gap-5">
                                     <Button className="border-red-600 hover:bg-red-600 border-2 text-red-600 hover:text-white text-sm" >Cancel Session</Button >
-                                    <Button className="bg-primaryGreen text-white hover:bg-secondaryGreen text-sm" onClick={()=>router.replace(`/sessions/video/${sessionDetails?._id}`)}>Start Session</Button >
+                                    <Button className="bg-primaryGreen text-white hover:bg-secondaryGreen text-sm" onClick={()=>router.push(`/sessions/video/${sessionDetails?._id}`)}>Start Session</Button >
                                 </div>
                             </div>
 
