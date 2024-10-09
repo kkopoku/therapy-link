@@ -1,6 +1,5 @@
 import app from ".";
-import https from "https";
-// import http from "http";
+import http from "http";
 import { Server } from "socket.io";
 import { connectDB } from "./database/connection";
 import mongoose from "mongoose";
@@ -12,12 +11,7 @@ dotenv.config({ path: '../.env' });
 
 const PORT = process.env.PORT || 7002;
 
-// const server = http.createServer(app);
-
-const server = https.createServer({
-  key: fs.readFileSync("../server.key"),
-  cert: fs.readFileSync("../server.cert"),
-},app);
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
@@ -29,6 +23,31 @@ const io = new Server(server, {
 const rooms: any = {};
 
 io.on("connection", (socket) => {
+
+  socket.on("testingReload", ()=>{
+    console.log("reload is being tested")
+  })
+
+  socket.on("handleDisconnectCleanUp", (sessionId, callback)=>{
+    console.log("cleanup called ...."+socket.id)
+    console.log("cur arr ...."+sessionId)
+    let index = -1
+    if (rooms[sessionId]){
+      index = rooms[sessionId].indexOf(socket.id)
+    }
+    console.log("index here: "+ index)
+    if (index > -1) {
+      rooms[sessionId].splice(index, 1)
+      console.log("new here: "+rooms[sessionId])
+    }
+
+    if (callback) callback()
+  })
+
+  socket.on("disconnect",()=>{
+    console.log(`socket with id ${socket.id} has been disconnected`)
+  })
+
   socket.on("join room", (roomID) => {
     if (rooms[roomID]) {
       rooms[roomID].push(socket.id);
@@ -36,7 +55,12 @@ io.on("connection", (socket) => {
       rooms[roomID] = [socket.id];
     }
 
+    console.log("I want the rooms: "+JSON.stringify(rooms))
+
     const anotherUser = rooms[roomID].find((id: any) => id !== socket.id);
+    
+    console.log("another user: "+anotherUser)
+    console.log("current user: "+socket.id)
 
     if (anotherUser) {
       socket.emit("other user", anotherUser);
