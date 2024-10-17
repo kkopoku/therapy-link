@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { useSession, signOut } from "next-auth/react"
-import ClientDashboard from "./Client.tsx"
-import { TherapistDashboard } from "./Therapist.tsx"
-import AdministratorDashboard from "./Administrator.tsx"
+import ClientDashboard from "./Client"
+import { TherapistDashboard } from "./Therapist"
+import AdministratorDashboard from "./Administrator"
 import LoadingDashboard from "./Loading"
 import { getDashboardInfo } from "./page.functions";
 
