@@ -7,6 +7,7 @@ import PrimaryButton from "@/components/buttons/PrimaryButton"
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
 import Image from "next/image"
 import BlackLogo from "@/components/logo/logo-black"
+import LoadingSpinner from "@/components/loading/LoadingSpinner"
 
 export default function Page() {
   const [email, setEmail] = useState("")
@@ -95,7 +96,9 @@ export default function Page() {
               </div>
             )}
 
-            <PrimaryButton type="submit">Sign In</PrimaryButton>
+            <PrimaryButton type="submit">Sign In 
+              <div className="w-5"><LoadingSpinner /></div>
+            </PrimaryButton>
             </form>
             
 
