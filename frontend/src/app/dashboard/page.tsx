@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { useSession, signOut } from "next-auth/react"
-import ClientDashboard from "./Client"
-import { TherapistDashboard } from "./Therapist"
-import AdministratorDashboard from "./Administrator"
-import LoadingDashboard from "./Loading"
+import ClientDashboard from "../../components/dashboard/Client"
+import { TherapistDashboard } from "../../components/dashboard/Therapist"
+import AdministratorDashboard from "../../components/dashboard/Administrator"
+import LoadingDashboard from "../../components/dashboard/Loading"
 import { getDashboardInfo } from "./page.functions";
 
 
