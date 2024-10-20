@@ -3,6 +3,7 @@
 const baseEndPoint = `${process.env.NEXT_PUBLIC_API_URL}/dashboard`
 
 export async function getDashboardInfo(session:any, setRecords:Function, setLoading:Function){
+    console.log(`This is the base endpoint: ${baseEndPoint}`)
     if(session){
         setLoading(true)
         await fetch(baseEndPoint, {
