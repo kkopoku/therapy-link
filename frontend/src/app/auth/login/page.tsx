@@ -97,7 +97,7 @@ export default function Page() {
               <PrimaryButton type="submit">
                 <div className="flex items-center justify-center">
                   {loading && <div className="flex items-center text-center justify-center w-10">
-                    <LoadingSpinner borderSize={3} size={20} />
+                    <LoadingSpinner borderSize={2} size={20} />
                   </div>}
                   <div>Sign In</div>
                 </div>
