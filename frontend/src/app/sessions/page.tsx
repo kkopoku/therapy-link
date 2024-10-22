@@ -55,7 +55,6 @@ export default function SessionsPage(){
                                 )}
                             </Table.Body>
                         </Table>
-
                     </div>
                 </div>}
 

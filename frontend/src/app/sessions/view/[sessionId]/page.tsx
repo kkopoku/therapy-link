@@ -49,7 +49,7 @@ export default function ViewSessionPage() {
                         </div>
 
                         <div className="flex flex-col col-span-5 lg:col-span-3 w-full gap-10">
-                            {loading ? (
+                            {(loading || !sessionDetails) ? (
                                 <div className="grid grid-cols-2 gap-x-5 gap-y-3 animate-pulse">
                                     <div className="bg-gray-200 h-12 rounded"></div>
                                     <div className="bg-gray-200 h-12 rounded"></div>
