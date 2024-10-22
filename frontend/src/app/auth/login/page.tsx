@@ -8,12 +8,14 @@ import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import Image from "next/image";
 import BlackLogo from "@/components/logo/logo-black";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,23 +76,32 @@ export default function Page() {
               </div>
 
               <div className="flex flex-col w-full">
-                <label className="w-full text-xs pl-1">
-                  Password <span className="text-red-600">*</span>
-                </label>
-                <input
-                  className="border border-slate-500 rounded-lg px-3 min-h-10 w-full disabled:bg-slate-200"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setError("");
-                  }}
-                  disabled={loading}
-                  required
-                />
-              </div>
+                    <label className="w-full text-xs pl-1">
+                      Password <span className="text-red-600">*</span>
+                    </label>
+                    <div className="relative w-full">
+                      <input
+                        className="border border-slate-500 rounded-lg px-3 min-h-10 w-full pr-10 disabled:bg-slate-200"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-3 flex items-center text-slate-500"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon className="w-5 h-5" />
+                        ) : (
+                          <EyeIcon className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
 
               {error && <div className="text-red-500 text-sm">{error}</div>}
 
