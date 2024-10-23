@@ -107,7 +107,7 @@ export default function Page() {
 
               <PrimaryButton type="submit">
                 <div className="flex items-center justify-center gap-x-2">
-                  {true && <div className="flex items-center text-center justify-center">
+                  {loading && <div className="flex items-center text-center justify-center">
                     <LoadingSpinner />
                   </div>}
                   <div>Sign In</div>
