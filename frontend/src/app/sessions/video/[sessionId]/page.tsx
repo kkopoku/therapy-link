@@ -34,6 +34,7 @@ export default function VideoPage() {
           userStream.current = stream;
           setMyUserState(true);
 
+          console.log(`This is the websocket uri: ${uri}`)
           socketRef.current = io(`${uri}`);
 
           socketRef.current.emit("join room", sessionId);
