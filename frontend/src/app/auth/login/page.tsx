@@ -106,9 +106,9 @@ export default function Page() {
               {error && <div className="text-red-500 text-sm">{error}</div>}
 
               <PrimaryButton type="submit">
-                <div className="flex items-center justify-center">
-                  {loading && <div className="flex items-center text-center justify-center w-10">
-                    <LoadingSpinner size={12} />
+                <div className="flex items-center justify-center gap-x-2">
+                  {loading && <div className="flex items-center text-center justify-center w-5">
+                    <LoadingSpinner size={5} />
                   </div>}
                   <div>Sign In</div>
                 </div>
