@@ -3,13 +3,12 @@ import React from "react";
 interface LoadingSpinnerProps {
     isDark?: string;
     show?: boolean;
-    size: number;
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isDark, show = true, size}) => {
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isDark, show = true}) => {
     return (
         <svg
-            className={`border-2 border-slate-200 border-b-primaryGreen animate-spin rounded-full max-h-[${size}px] ${!show && `hidden`}`}
+            className={`border-2 border-slate-200 border-b-primaryGreen animate-spin rounded-full w-5 ${!show && `hidden`}`}
             viewBox="0 0 24 24"
         />
     );
