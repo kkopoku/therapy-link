@@ -35,9 +35,7 @@ export default function VideoPage() {
           setMyUserState(true);
 
           console.log(`This is the websocket uri: ${uri}`)
-          socketRef.current = io(`${uri}`, {
-            path: "/backend"
-          });
+          socketRef.current = io(`${uri}`);
 
           socketRef.current.emit("join room", sessionId);
           console.log("Joining room:", sessionId);
