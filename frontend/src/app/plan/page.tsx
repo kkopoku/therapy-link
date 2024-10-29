@@ -3,6 +3,8 @@
 import React from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
 import { useSession, signOut } from "next-auth/react";
+import ComingSoon from "@/components/pages/ComingSoon";
+
 
 export default function PlanPage(){
 
@@ -11,8 +13,7 @@ export default function PlanPage(){
 
     return (
         <AuthenticatedLayout pageName="Plan" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})} sideBarFocus="Plan">
-            <div className="flex min-h-screen w-full">
-            </div>
+           <ComingSoon />
         </AuthenticatedLayout>
     )
 }

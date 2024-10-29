@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
 import QuestionCard from "@/components/cards/QuestionCard"
 import Image from "next/image"
+import ComingSoon from "@/components/pages/ComingSoon"
 
 interface Question {
     question: string;
@@ -57,33 +58,8 @@ export default function TherapistJobsPage(){
     }
 
     return(
-        <UnauthenticatedLayout>
-
-            <div className="flex relative h-[80vh] w-full">
-                <div className="bg-primaryGreen bg-opacity-45 z-10 h-full w-full"></div>
-                <Image fill alt="image" src="/landing-page/image1.jpg"/>
-                <div className="flex absolute inset-0 justify-center items-center">
-                    <div className="bg-white rounded-lg max-w-2xl p-1 z-20">
-                        {/* I am gonna put some shit here */}
-                        <QuestionCard
-                            question={question.question}
-                            type={question.type}
-                            options={question.options}
-                            next={nextQuestion}
-                            back={previousQuestion}
-                            setMode={()=>null}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex flex-col h-full w-full py-10 items-center">
-                <div className="font-extralight text-2xl">Private practice with no doors & no overhead</div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 pt-10 w-full">
-                    <div className="col-span-1 bg-blue-200">hi</div>
-                    <div className="col-span-1 bg-blue-200">hi</div>
-                </div>
-            </div>
+        <UnauthenticatedLayout hideBottomNavigation={true}>
+            <ComingSoon />
         </UnauthenticatedLayout>
     )
 }
