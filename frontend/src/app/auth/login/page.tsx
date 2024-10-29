@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import PrimaryButton from "@/components/buttons/PrimaryButton";
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import Image from "next/image";
-import BlackLogo from "@/components/logo/logo-black";
+import BlackLogo from "@/components/logo/LogoBlack";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
