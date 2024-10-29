@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 import { IoDiamond } from "react-icons/io5"
 import { useRouter } from 'next/navigation'
 import { RiMentalHealthLine } from "react-icons/ri"
-import BlackLogo from '../logo/logo-black'
+import BlackLogo from '../logo/LogoBlack'
 import { FaUsersGear } from "react-icons/fa6"
 import { FaMoneyBillWave } from "react-icons/fa"
 
