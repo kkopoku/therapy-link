@@ -16,11 +16,11 @@ const cardItems = [
 export default function Home() {
   return (
     <UnauthenticatedLayout>
-      <div className="flex flex-col bg-[#1A3634] w-full items-center justify-center min-h-96 text-white gap-y-3">
-        <p className="text-5xl text-center font-medium">
+      <div className="flex flex-col bg-[#1A3634] w-full items-center justify-center min-h-96 text-white gap-y-3 px-10">
+        <p className="lg:text-5xl text-4xl text-center font-medium">
           Connecting You To Care
         </p>
-        <p className="text-xl text-center font-extralight">
+        <p className="lg:text-xl text-center font-extralight">
           Access mental health support tailored to your needs and on your
           schedule.
         </p>
@@ -45,9 +45,9 @@ export default function Home() {
         />
       </div>
 
-      <div className="grid grid-cols-4 min-h-96 bg-[#E7D3AD] w-full px-28 py-16 gap-7 ">
-        <div className="col-span-4 w-full">
-          <p className="font-bold">Mental Healthcare, on your time</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 min-h-96 bg-[#E7D3AD] w-full lg:px-28 px-5 py-16 gap-7 ">
+        <div className="lg:col-span-4 col-span-2 w-full">
+          <p className="font-bold text-lg lg:text-2xl">Mental Healthcare, on your time</p>
           <p className="text-gray-700 font-light">
             Access mental health support tailored to your needs and on your
             schedule.
