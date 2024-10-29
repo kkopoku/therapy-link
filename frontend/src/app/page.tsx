@@ -107,25 +107,29 @@ export default function Home() {
         <div className="text-4xl text-center font-medium">
           Simple, Transparent Pricing
         </div>
-        <div className="flex justify-center gap-4">
-          <PricingCard
-            features={["One hour session with a licensed therapist", "Book sessions at flexible times, subject to availability", "Access to a library of self-help articles and guides", ]}
-            packageName="Basic"
-            price="GHS 150/session"
-            onGetStarted={() => console.log("hi")}
-          />
-          <PricingCard
-            features={["Weekly sessions with a licensed therapist", "Video-based sessions for a more personal experience", "Access to premium content, including guided exercises and meditation resources"]}
-            packageName="Pro"
-            price="GHS 500/month"
-            onGetStarted={() => console.log("hi")}
-          />
-          <PricingCard
-            features={["Tailored session frequency based on your unique needs", " Continuity with the same therapist for long-term support","Around-the-clock access to support via text or email","Completely customized based on your use case, with progress tracking and regular adjustments"]}
-            packageName="Custom"
-            price="Custom based on your needs"
-            onGetStarted={() => console.log("hi")}
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-3 justify-items-center gap-4">
+
+            <PricingCard
+              features={["One hour session with a licensed therapist", "Book sessions at flexible times, subject to availability", "Access to a library of self-help articles and guides", ]}
+              packageName="Basic"
+              price="GHS 150/session"
+              onGetStarted={() => console.log("hi")}
+            />
+
+            <PricingCard
+              features={["Weekly sessions with a licensed therapist", "Video-based sessions for a more personal experience", "Access to premium content, including guided exercises and meditation resources"]}
+              packageName="Pro"
+              price="GHS 500/month"
+              onGetStarted={() => console.log("hi")}
+            />
+
+            <PricingCard
+              features={["Tailored session frequency based on your unique needs", " Continuity with the same therapist for long-term support","Around-the-clock access to support via text or email","Completely customized based on your use case, with progress tracking and regular adjustments"]}
+              packageName="Custom"
+              price="Custom based on your needs"
+              onGetStarted={() => console.log("hi")}
+            />
+          
         </div>
       </div>
 
