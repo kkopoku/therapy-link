@@ -138,13 +138,6 @@ export default function Home() {
   );
 }
 
-const PriceCard = () => {
-  return (
-    <div className="bg-white border text-black border-black min-h-12 min-w-40 rounded-xl p-5">
-      Waguan, we need the vagina
-    </div>
-  );
-};
 
 interface PricingCardProps {
   packageName: string;
