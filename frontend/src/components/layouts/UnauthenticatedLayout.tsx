@@ -6,9 +6,10 @@ import BottomNavigation from "../navigation/BottomNavigation"
 
 interface LayoutProps {
     children?: React.ReactNode
+    hideBottomNavigation?: boolean
 }
 
-const UnauthenticatedLayout: React.FC<LayoutProps> = ({children}) => {
+const UnauthenticatedLayout: React.FC<LayoutProps> = ({children, hideBottomNavigation=false}) => {
 
     const [showBottomNav, setShowBottomNav] = useState(false);
     const [showTopNav, setShowTopNav] = useState(false);
@@ -18,6 +19,7 @@ const UnauthenticatedLayout: React.FC<LayoutProps> = ({children}) => {
             setShowBottomNav(window.location.pathname !== '/auth/login');
             setShowTopNav(window.location.pathname !== '/auth/login');
         }
+        if(hideBottomNavigation) setShowBottomNav(false)
     }, []);
 
     return(

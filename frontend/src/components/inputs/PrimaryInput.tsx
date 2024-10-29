@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface InputFieldProps {
-  label: string;
+  label?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
@@ -12,11 +12,11 @@ interface InputFieldProps {
 
 const PrimaryInput: React.FC<InputFieldProps> = ({ label, value, onChange, type="text", placeholder = null, disabled, required }) => {
   return (
-    <div>
-      <label className="text-xs">{label}</label>
+    <div className='w-full'>
+      {label && <label className="text-xs">{label}</label>}
       <input
         type={type}
-        className="px-1 rounded-lg min-h-10 w-full font-light text-sm placeholder:text-xs disabled:bg-slate-100"
+        className="px-1 rounded-lg min-h-10 w-full font-light text-sm placeholder:text-xs text-black disabled:bg-slate-100"
         value={value}
         onChange={onChange}
         placeholder={placeholder ? placeholder : label}
