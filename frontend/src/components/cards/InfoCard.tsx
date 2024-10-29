@@ -13,8 +13,8 @@ const InfoCard: React.FC<InfoCardProps> = ({ icon, title, description }) => {
                 {icon}
             </div>
             <div className="w-full flex flex-col gap-y-2">
-                <p className="text-lg font-bold">{title}</p>
-                <p className="text-sm font-light text-slate-700">{description}</p>
+                <p className="lg:text-lg text-base font-bold">{title}</p>
+                <p className="lg:text-sm text-xs font-light text-slate-700">{description}</p>
             </div>
         </div>
     );
