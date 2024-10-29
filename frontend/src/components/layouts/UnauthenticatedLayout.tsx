@@ -23,7 +23,7 @@ const UnauthenticatedLayout: React.FC<LayoutProps> = ({children, hideBottomNavig
     }, []);
 
     return(
-        <div className="h-screen bg-white">
+        <div>
             <main className="flex min-h-screen flex-col items-center font-sans text-black">
                 {showTopNav && <TopNavigation />}
                 {children}

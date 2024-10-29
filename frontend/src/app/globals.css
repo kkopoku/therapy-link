@@ -17,10 +17,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  background-color: white;
 }
 
 @layer utilities {
@@ -45,4 +44,9 @@ input[type="text"]:focus {
   border: 1px solid black;
   outline-offset: none;
   outline: none;
+}
+
+.safe-area {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
