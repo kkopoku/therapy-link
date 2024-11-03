@@ -46,20 +46,20 @@ export default function BottomNavigation() {
         </div>
 
         <div className="col-span-1 flex flex-col gap-y-3">
-          <p className="text-xl font-semibold text-slate-300">Useful Links</p>
-          <ul className="text-sm font-light text-slate-100 space-y-1">
+          <p className="text-xl text-white font-semibold">Useful Links</p>
+          <ul className="text-sm font-light text-white space-y-1">
             <li><Link href="/contact">Contact Us</Link></li>
             <li><Link href="/support">Support</Link></li>
             <li><Link href="/feedback">Feedback</Link></li>
           </ul>
         </div>
 
-        <div className="col-span-2 flex flex-col gap-y-3 items-center">
-          <p className="text-xl font-semibold text-slate-300">
+        <div className="text-white col-span-2 flex flex-col gap-y-3 items-center">
+          <p className="text-xl font-semibold">
             <Logo theme={"white"}/>
           </p>
-          <p className="text-xl font-semibold text-slate-300">Follow Us</p>
-          <div className="flex space-x-4 text-slate-100">
+          <p className="text-xl font-semibold">Follow Us</p>
+          <div className="flex space-x-4 text-white">
             <Link href="https://www.facebook.com">
               <div className="hover:text-black cursor-pointer">
                 <BsFacebook size={24} />
