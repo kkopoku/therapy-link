@@ -23,7 +23,7 @@ const TopNavigation: React.FC = () => {
 
   const firstButtonList: ButtonItem[] = [
     { name: "Pricing", style: "", link: "/pricing" },
-    { name: "Solutions", style: "", link: "" },
+    // { name: "Solutions", style: "", link: "" },
     { name: "Careers", style: "", link: "/therapist-jobs" },
     { name: "Community", style: "", link: "" },
     { name: "Resources", style: "", link: "" },
@@ -33,32 +33,33 @@ const TopNavigation: React.FC = () => {
   const secondButtonList: ButtonItem[] = status === "authenticated" ? [
     {
       name: "Sign Out",
-      style: "rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
       link: "api/auth/signout",
     },
     {
       name: "Start Assessment",
-      style: "rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
       link: "/auth/client-sign-up",
     },
   ] : [
     {
       name: "Sign In",
-      style: "rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
       link: "/auth/login",
     },
     {
       name: "Start Assessment",
-      style: "rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-[#1A3634] bg-[#314845] hover:bg-[#1A3634] transition-all duration-500",
       link: "/auth/client-sign-up",
     },
   ];
 
-  const firstButtonListStyle = "rounded-md py-1 px-2 bg-slate-100 hover:bg-slate-300 transition-all duration-500";
+  const firstButtonListStyle = "rounded-md py-1 px-2 bg-slate-100 hover:bg-slate-300 transition-all duration-500 lg:h-auto h-10";
 
   return (
-    <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-white px-10 lg:px-32 shadow-md">
+    <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-white px-2 lg:px-5 shadow-md">
       <div className="flex items-center justify-between w-full">
+
         <div className="flex gap-3 w-full lg:w-auto">
           {/* Hamburger icon for small screens */}
           <div className="flex flex-row justify-between lg:hidden w-full" onClick={toggleMenu}>
