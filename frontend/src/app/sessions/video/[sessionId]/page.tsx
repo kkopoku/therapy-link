@@ -232,7 +232,7 @@ export default function VideoPage() {
       <div className="w-full flex flex-col flex-grow gap-10 justify-between items-center h-screen text-black">
 
         <div className="flex flex-grow flex-row w-full gap-x-10 justify-center items-center">
-          {myUserState ? (
+
           <div className="basis-1/2 justify-center items-center">
             <video
               autoPlay
@@ -241,9 +241,7 @@ export default function VideoPage() {
               style={{ transform: "scaleX(-1)" }}
               className="w-full h-full"
             />
-          </div>) : 
-           <LoadingUserComponent />
-          }
+          </div>
 
           {otherUserState ? (
             <div className="basis-1/2 justify-center items-center">
@@ -289,8 +287,8 @@ const ControlUnitButton:React.FC<ControlUnitButtonProps> = ({name, icon, onClick
 
 const LoadingUserComponent = () => {
   return(
-    <div className="flex flex-col gap-5 border border-[#a9a9a9] border-dashed rounded basis-1/2 justify-center items-center w-full h-full bg-slate-100">
-      <LoadingSpinner size={90} border={6}/>
+    <div className="flex flex-col gap-5 basis-1/2 justify-center items-center w-full h-full ">
+      <LoadingSpinner size={70} border={10}/>
       <p>User is joining soon ...</p>
     </div>
   )
