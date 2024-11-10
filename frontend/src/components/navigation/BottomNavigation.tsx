@@ -55,9 +55,9 @@ export default function BottomNavigation() {
         </div>
 
         <div className="text-white col-span-2 flex flex-col gap-y-3 items-center">
-          <p className="text-xl font-semibold">
+          <div className="text-xl font-semibold">
             <Logo theme={"white"}/>
-          </p>
+          </div>
           <p className="text-xl font-semibold">Follow Us</p>
           <div className="flex space-x-4 text-white">
             <Link href="https://www.facebook.com">
