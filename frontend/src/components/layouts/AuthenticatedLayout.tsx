@@ -31,7 +31,7 @@ const AuthenticatedLayout: React.FC<LayoutProps> = ({children, pageName, navFunc
                     {children}
                 </div>
             </main>
-            <BottomNavigation />
+            {/* <BottomNavigation /> */}
         </div>
     )
 }
