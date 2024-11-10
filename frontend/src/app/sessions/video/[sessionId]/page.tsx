@@ -21,10 +21,12 @@ export default function VideoPage() {
   const userStream = useRef<MediaStream | null>(null);
   const uri = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
   const { sessionId } = useParams();
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
+  const router = useRouter()
 
   useEffect(() => {
     try {
-      // return;
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: true })
         .then((stream) => {
@@ -225,7 +227,25 @@ export default function VideoPage() {
     } else {
       console.log("Socket is already disconnected");
     }
+    router.replace("/sessions")
   }
+
+
+  function toggleMicrophone() {
+    userStream.current?.getAudioTracks().forEach((track) => {
+      track.enabled = !track.enabled;
+    });
+    setIsMuted((prev) => !prev);
+  }
+
+
+  function toggleVideo() {
+    userStream.current?.getVideoTracks().forEach((track) => {
+      track.enabled = !track.enabled;
+    });
+    setIsVideoEnabled((prev) => !prev);
+  }
+  
 
   return (
     <AuthenticatedLayout pageName="Video Session">
@@ -257,19 +277,10 @@ export default function VideoPage() {
           )}
         </div>
 
-        {/* <div>
-        <button
-          className="bg-green-600 text-white p-4 rounded-lg"
-          onClick={handleCancelCall}
-        >
-          Disconnect Call
-        </button>
-        {otherUserState}
-      </div> */}
         <div className="flex w-full justify-center text-white bg-primaryGreen min-h-16 p-2 gap-x-5 rounded-lg">
-          <ControlUnitButton name="End" icon={<MdCallEnd/>} onClick={handleCancelCall}/>
-          <ControlUnitButton name="End" icon={<FaVolumeMute/>} onClick={handleCancelCall}/>
-          <ControlUnitButton name="End" icon={<CiVideoOff/>} onClick={handleCancelCall}/>
+          <ControlUnitButton tooltip="End Call" icon={<MdCallEnd/>} onClick={handleCancelCall}/>
+          <ControlUnitButton tooltip={isMuted ? "Unmute" : "Mute"} icon={isMuted ? <FaVolumeMute/> : <FaVolumeUp/>} onClick={toggleMicrophone}/>
+          <ControlUnitButton tooltip={isVideoEnabled ? "Turn on video" : "Turn off video"} icon={isVideoEnabled ? <CiVideoOn/> : <CiVideoOff/>} onClick={toggleVideo}/>
         </div>
       </div>
     </AuthenticatedLayout>
@@ -277,9 +288,12 @@ export default function VideoPage() {
 }
 
 
-const ControlUnitButton:React.FC<ControlUnitButtonProps> = ({name, icon, onClick}) => {
+const ControlUnitButton:React.FC<ControlUnitButtonProps> = ({tooltip="", icon, onClick}) => {
   return(
-    <button className="flex flex-col bg-black justify-center bg-opacity-20 rounded-md hover:bg-opacity-45 w-20 h-15 items-center p-2 transition-all delay-75" onClick={onClick}>
+    <button className="flex flex-col bg-black justify-center bg-opacity-20 rounded-md hover:bg-opacity-45 w-16 h-15 items-center p-2 transition-all delay-75" 
+      onClick={onClick} 
+      title={tooltip}
+    >
       <span className="text-xl">{icon}</span>
     </button>
   )
@@ -295,7 +309,7 @@ const LoadingUserComponent = () => {
 }
 
 interface ControlUnitButtonProps{
-  name?: string
+  tooltip?: string
   icon: React.ReactNode
   onClick?: () => void 
 }
