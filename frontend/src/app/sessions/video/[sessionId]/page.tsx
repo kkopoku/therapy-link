@@ -251,25 +251,25 @@ export default function VideoPage() {
     <AuthenticatedLayout pageName="Video Session">
       <div className="w-full flex flex-col flex-grow gap-10 justify-between items-center h-screen text-black">
 
-        <div className="flex flex-grow flex-row w-full gap-x-10 justify-center items-center">
+        <div className="flex flex-grow flex-row w-full gap-x-5 justify-center items-center">
 
-          <div className="basis-1/2 justify-center items-center">
+          <div className="basis-1/2 relative overflow-hidden h-full w-full justify-center items-center">
             <video
               autoPlay
               muted
               ref={userVideo}
               style={{ transform: "scaleX(-1)" }}
-              className="w-full h-full"
+              className="w-full h-full object-cover"
             />
           </div>
 
           {otherUserState ? (
-            <div className="basis-1/2 justify-center items-center">
+            <div className="basis-1/2 relative overflow-hidden h-full w-full justify-center items-center">
               <video
                 autoPlay
                 ref={partnerVideo}
                 style={{ transform: "scaleX(-1)" }}
-                className="w-full h-full"
+                className="w-full h-full object-cover"
               />
             </div>
           ) : (
