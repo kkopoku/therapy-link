@@ -8,6 +8,7 @@ import { useState } from "react";
 import { MdCallEnd } from "react-icons/md";
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { CiVideoOff, CiVideoOn } from "react-icons/ci";
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
 export default function VideoPage() {
   const userVideo = useRef<HTMLVideoElement>(null);
@@ -231,6 +232,7 @@ export default function VideoPage() {
       <div className="w-full flex flex-col flex-grow gap-10 justify-between items-center h-screen text-black">
 
         <div className="flex flex-grow flex-row w-full gap-x-10 justify-center items-center">
+          {myUserState ? (
           <div className="basis-1/2 justify-center items-center">
             <video
               autoPlay
@@ -239,10 +241,12 @@ export default function VideoPage() {
               style={{ transform: "scaleX(-1)" }}
               className="w-full h-full"
             />
-          </div>
+          </div>) : 
+           <LoadingUserComponent />
+          }
 
           {otherUserState ? (
-            <div className=" basis-1/2 justify-center items-center">
+            <div className="basis-1/2 justify-center items-center">
               <video
                 autoPlay
                 ref={partnerVideo}
@@ -251,7 +255,7 @@ export default function VideoPage() {
               />
             </div>
           ) : (
-            <div className="flex justify-center w-36 h-56 bg-gray-600 items-center" />
+            <LoadingUserComponent />
           )}
         </div>
 
@@ -280,6 +284,15 @@ const ControlUnitButton:React.FC<ControlUnitButtonProps> = ({name, icon, onClick
     <button className="flex flex-col bg-black justify-center bg-opacity-20 rounded-md hover:bg-opacity-45 w-20 h-15 items-center p-2 transition-all delay-75" onClick={onClick}>
       <span className="text-xl">{icon}</span>
     </button>
+  )
+}
+
+const LoadingUserComponent = () => {
+  return(
+    <div className="flex flex-col gap-5 border border-[#a9a9a9] border-dashed rounded basis-1/2 justify-center items-center w-full h-full bg-slate-100">
+      <LoadingSpinner size={90} border={6}/>
+      <p>User is joining soon ...</p>
+    </div>
   )
 }
 
