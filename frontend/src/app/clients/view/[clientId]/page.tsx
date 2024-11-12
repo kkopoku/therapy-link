@@ -24,16 +24,16 @@ interface ClientDetails {
  
 const items = [
     // { key: "_id", label: "id" },
+    { key: "firstName", label: "First Name" },
+    { key: "otherNames", label: "Other Names" },
     { key: "email", label: "Email" },
     { key: "primaryPhone", label: "Primary Phone" },
     { key: "secondaryPhone", label: "Secondary Phone" },
-    { key: "userType", label: "User Type" },
+    // { key: "userType", label: "User Type" },
     { key: "momoNumber", label: "Momo Number" },
     { key: "momoNetwork", label: "Momo Network" },
-    { key: "createdAt", label: "Created At" },
-    { key: "updatedAt", label: "Updated At" },
-    { key: "firstName", label: "First Name" },
-    { key: "otherNames", label: "Other Names" }
+    // { key: "createdAt", label: "Created At" },
+    // { key: "updatedAt", label: "Updated At" },
 ];
 
 export default function ViewClientPage() {
@@ -71,8 +71,8 @@ export default function ViewClientPage() {
                                     <div className="bg-gray-200 h-12 rounded"></div>
                                     <div className="bg-gray-200 h-12 rounded"></div>
                                     <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
+                                    {/* <div className="bg-gray-200 h-12 rounded"></div>
+                                    <div className="bg-gray-200 h-12 rounded"></div> */}
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-2 gap-x-3 gap-y-1">
