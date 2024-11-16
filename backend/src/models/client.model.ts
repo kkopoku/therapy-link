@@ -16,6 +16,11 @@ const clientSchema = new Schema(
       type: Schema.ObjectId,
       required: false,
       ref: "Therapist"
+    },
+    credits:{
+      type: Number,
+      required: true,
+      default: 0
     }
   },{ discriminatorKey: 'userType'}
 );
