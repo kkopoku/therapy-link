@@ -20,10 +20,6 @@ const sessionSchema = new Schema(
             type: Date,
             required: true
         },
-        price: {
-            type: Schema.Types.Decimal128,
-            required: true
-        },
         endDate: {
             type: Date,
             required: true
@@ -33,11 +29,6 @@ const sessionSchema = new Schema(
             required: true,
             enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
             default: "Pending"
-        },
-        transaction: {
-            type: Schema.Types.ObjectId,
-            required: true,
-            ref: "Transaction"
         }
     },
     { timestamps: true }
