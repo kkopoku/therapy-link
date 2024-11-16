@@ -5,16 +5,14 @@ import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
 import { objectId } from "../library/joi.library"
+import { addSeconds } from "date-fns"
 
 export async function createSession(req: Request, res: Response) {
     let logtag = "[session.controller.ts][createSession]"
 
     const schema = Joi.object({
         startDate: Joi.date().required(),
-        endDate: Joi.date().required(),
         duration: Joi.number().required(),
-        therapist: Joi.string().custom(objectId).required(),
-        client: Joi.string().custom(objectId).required(),
     })
 
     const { error, value } = schema.validate(req.body)
@@ -26,22 +24,58 @@ export async function createSession(req: Request, res: Response) {
         })
     }
 
-    try {
-        let foundClient = await Client.findById(value.clientId).lean().exec()
-        console.log(foundClient)
-        if (!foundClient)
-            throw new Error("Client not found")
-
-        let foundTherapist = await Therapist.findById(value.therapist).lean().exec()
-        if (!foundTherapist)
-            throw new Error("Therapist not found")
-
-        let createdSession = await Session.create(value)
+    if(req.user.type !== "Client"){
         return sendResponse(res, {
-            data: createdSession,
+            data: null,
+            status: "error",
+            message: "User type not supported"
+        },400)
+    }
+
+    try {
+        let foundClient:any = await Client.findById(req.user.id).lean().exec()
+        console.log(foundClient)
+
+        if (!foundClient.therapist)
+            throw new Error("No therapist is linked to this client")
+
+        const {startDate, duration} = value
+        const endDate = addSeconds(startDate, duration)
+
+        // check for overlapping sessions on the therapist end
+        const overlappingSession = await Session.findOne({
+            therapist: foundClient.therapist,
+            $or: [
+                { 
+                    startDate: { $lt: endDate }, 
+                    endDate: { $gt: startDate } 
+                }
+            ]
+        }).exec()
+
+        if (overlappingSession) {
+            return sendResponse(res, {
+                data: null,
+                status: "error",
+                message: "Therapist already has a session within the selected time period"
+            }, 400)
+        }
+        
+        let sessionData = {
+            ...value,
+            endDate,
+            client: req.user.id,
+            therapist: foundClient.therapist
+        }
+
+        const newSession = await Session.create(sessionData)
+
+        return sendResponse(res, {
+            data: newSession,
             status: "success",
             message: "session successfully created"
         },201)
+
     } catch (error: any) {
         console.log(`${logtag} Error: ${error}`)
         return sendResponse(res, {
@@ -67,7 +101,10 @@ export async function getSessions(req: any, res: Response){
                 foundSessions = await Session.find({}).populate("therapist").lean().exec()
                 break
             case "Client":
-                foundSessions = await Session.find({clientId: user.id}).lean()
+                foundSessions = await Session.find({client: user.id})
+                .populate('therapist', 'firstname othernames email')
+                .populate('client', 'firstname othernames email')
+                .lean().exec()
                 break
             default:
                 console.log(`${tag} Unusual user type detected: ${userType}`)
@@ -80,6 +117,7 @@ export async function getSessions(req: any, res: Response){
                 status: "failed"
             },404)
         }
+
         return sendResponse(res, {
             message: "sessions fetched successfully",
             data: foundSessions,
@@ -95,7 +133,7 @@ export async function getSessions(req: any, res: Response){
 }
 
 
-export async function getSessionDetails(req: Request, res: Response ){
+export async function getSessionDetails(req: Request, res: Response){
     const schema = Joi.object({
         id: Joi.custom(objectId).required(),
     })
