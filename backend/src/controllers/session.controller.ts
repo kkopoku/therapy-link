@@ -3,9 +3,11 @@ import Joi from "joi"
 import { Request, Response } from "express"
 import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
-import Therapist from "../models/therapist.model"
 import { objectId } from "../library/joi.library"
 import { addSeconds } from "date-fns"
+import CODES from "../constants/request.constants"
+
+const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } = CODES
 
 export async function createSession(req: Request, res: Response) {
     let logtag = "[session.controller.ts][createSession]"
@@ -29,7 +31,7 @@ export async function createSession(req: Request, res: Response) {
             data: null,
             status: "error",
             message: "User type not supported"
-        },400)
+        },BAD_REQUEST)
     }
 
     try {
@@ -58,7 +60,7 @@ export async function createSession(req: Request, res: Response) {
                 data: null,
                 status: "error",
                 message: "Therapist already has a session within the selected time period"
-            }, 400)
+            }, BAD_REQUEST)
         }
         
         let sessionData = {
@@ -74,7 +76,7 @@ export async function createSession(req: Request, res: Response) {
             data: newSession,
             status: "success",
             message: "session successfully created"
-        },201)
+        },CREATED)
 
     } catch (error: any) {
         console.log(`${logtag} Error: ${error}`)
@@ -82,7 +84,7 @@ export async function createSession(req: Request, res: Response) {
             data: null,
             status: "error",
             message: error.message
-        },500)
+        },INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -108,14 +110,14 @@ export async function getSessions(req: any, res: Response){
                 break
             default:
                 console.log(`${tag} Unusual user type detected: ${userType}`)
-                return sendResponse(res,{message:"Invalid user type", status:"failed"}, 400)
+                return sendResponse(res,{message:"Invalid user type", status:"failed"}, BAD_REQUEST)
         }
 
         if(!foundSessions){
             return sendResponse(res,{
                 message:"No session records found",
                 status: "failed"
-            },404)
+            },NOT_FOUND)
         }
 
         return sendResponse(res, {
@@ -155,7 +157,7 @@ export async function getSessionDetails(req: Request, res: Response){
         return sendResponse(res,{
             message: "Session not found",
             status:"failed",
-        }, 404)
+        }, NOT_FOUND)
     }
     return sendResponse(res, {
         message: "Session fetched successfully",
