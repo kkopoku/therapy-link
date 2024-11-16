@@ -13,7 +13,7 @@ const clientSchema = new Schema(
       required: false,
     },
     therapist:{
-      type: String,
+      type: Schema.ObjectId,
       required: false,
       ref: "Therapist"
     }
