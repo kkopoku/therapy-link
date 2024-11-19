@@ -6,7 +6,7 @@ declare module "express-serve-static-core" {
         user: {
             type: "Administrator" | "Client" | "Therapist";
             firstName: string;
-            lastName: string;
+            otherNames: string;
             email: string;
             id: Schema.Types.ObjectId
         };
