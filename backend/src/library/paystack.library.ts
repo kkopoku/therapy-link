@@ -108,7 +108,7 @@ export async function checkPendingCharge(reference:string){
     
         return await response.json()
     }catch(e:any){
-        if(e?.response){
+        if(e?.response?.data){
             console.log(`${logtag} ${JSON.stringify(e.response.data)}`)
             throw new Error("Something went wrong")
         }else{
