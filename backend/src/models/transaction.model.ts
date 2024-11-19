@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose"
 
 const transactionSchema = new Schema({
     amount: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     type: {
@@ -16,7 +16,26 @@ const transactionSchema = new Schema({
     },
     description: {
         type: String,
-        required: true
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ["success","pending","failed"],
+        default: "pending"
+    },
+    reference: {
+        type: String,
+        required: false,
+        default: null
+    },
+    paymentStage: {
+        type: String,
+        required: false,
+        enum: ["pending","timeout","success","send_birthday","send_otp","failed"]
+    },
+    reason: {
+        type: String,
+        required: true,
     }
 },{timestamps: true})
 
