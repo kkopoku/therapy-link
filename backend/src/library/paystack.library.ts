@@ -106,7 +106,8 @@ export async function checkPendingCharge(reference:string){
             throw new Error("Failed to submit OTP");
         }
     
-        return await response.json()
+        const res = await response.json()
+        return res.data
     }catch(e:any){
         if(e?.response?.data){
             console.log(`${logtag} ${JSON.stringify(e.response.data)}`)
@@ -116,5 +117,4 @@ export async function checkPendingCharge(reference:string){
             throw new Error("Something went wrong")
         }
     }
-
 }
