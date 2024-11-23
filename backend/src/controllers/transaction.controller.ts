@@ -3,7 +3,7 @@ import { sendResponse } from "../library/utils.library"
 import Joi from "joi"
 import CODES from "../constants/request.constants"
 import Transaction from "../models/transaction.model"
-import { debit, submitOtp } from "../library/paystack.library"
+import { checkPendingCharge, debit, submitOtp } from "../library/paystack.library"
 import Client from "../models/client.model"
 import { objectId } from "../library/joi.library"
 
@@ -37,7 +37,7 @@ export async function buyCredits(req: Request, res: Response){
     const { number } = value
 
     try{
-        const creditPrice = 150
+        const creditPrice = 0.5
         const data = {
             amount: number * creditPrice,
             type: "debit",
@@ -60,17 +60,17 @@ export async function buyCredits(req: Request, res: Response){
         newTransaction.reference = reference
         newTransaction.paymentStage = status
 
-        const successes = ["success","send_otp"]
+        const successes = ["success","send_otp","pay_offline"]
+        console.log(status)
         if (!successes.includes(status)) {
             newTransaction.status = "failed"
         }
 
         await newTransaction.save()
 
-        console.log(newTransaction)
-
         switch (status) {
             case "success":
+            case "pay_offline":
                 sendResponse(res,{
                     message:"Transaction created successfully, enter pin in prompt/ check your pending approvals to approve the debit",
                     status: "success",
@@ -146,8 +146,9 @@ export async function submitBuyCreditOtp(req: Request, res: Response){
     }
  
     try{
-        const { otp, reference } = value
-        const foundTransaction = await Transaction.findOne({reference})
+        const { otp, id } = value
+        const foundTransaction = await Transaction.findById(id)
+        const { reference }:any = foundTransaction
 
         if(!foundTransaction){
             sendResponse(res, {
@@ -157,25 +158,66 @@ export async function submitBuyCreditOtp(req: Request, res: Response){
             return
         }
 
-        if(foundTransaction.status === "success"){
+        if(foundTransaction.status !== "pending"){
             sendResponse(res, {
-                message: "Transaction already processed successfully",
-                status: "failed"
+                message: "Transaction already processed",
+                status: "failed",
+                data: {
+                    transaction: {
+                        id: foundTransaction._id,
+                        status: foundTransaction.status
+                    }
+                }
             }, BAD_REQUEST)
             return
         }
 
-        const response = await submitOtp(otp, reference)
-        console.log(JSON.stringify(response))
+        const response = await submitOtp(otp, reference).catch((e:any)=>{
+            foundTransaction.status = "failed"
+            foundTransaction.save()
+            throw new Error(e.message)
+        })
 
-        // const { status, message } = response.data
+        const { status, reference:responseRef } = response.data
 
-        sendResponse(res, {
-            message:"OTP submitted successfully, status is Pending",
-            status: "success"
-        }, SUCCESS)
+        foundTransaction.reference = responseRef
+        foundTransaction.paymentStage = status
 
+        const successes = ["success"]
+        if (!successes.includes(status)) {
+            foundTransaction.status = "failed"
+        }
 
+        await foundTransaction.save()
+
+        switch (status) {
+            case "success":
+                sendResponse(res,{
+                    message:"OTP submitted successfully, status is Pending",
+                    status: "success",
+                    data: {
+                        transaction: {
+                            id: foundTransaction._id,
+                            status: foundTransaction.status,
+                            amount: foundTransaction.amount
+                        }
+                    }
+                },SUCCESS)
+                break;
+            default:
+                sendResponse(res,{
+                    message:"Transaction failed. Please try again.",
+                    status: "failed",
+                    data: {
+                        transaction: {
+                            id: foundTransaction._id,
+                            status: foundTransaction.status,
+                            amount: foundTransaction.amount
+                        }
+                    }
+                },INTERNAL_SERVER_ERROR)
+                break;
+        }
     }catch(e:any){
         if(e?.response?.data){
             console.log(`${logtag} ${JSON.stringify(e.response.data)}`)
@@ -191,5 +233,61 @@ export async function submitBuyCreditOtp(req: Request, res: Response){
             },INTERNAL_SERVER_ERROR)
         }
     }
+}
 
+export async function checkTransactionStatus(req: Request, res: Response){
+    
+    const tag = "[transaction.controller.ts][checkTransactionStatus]"
+    const schema = Joi.object({
+        id: Joi.custom(objectId).required(),
+    })
+
+    const {error, value} = schema.validate(req.params)
+    if (error) {
+        return res.status(403).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    const { id } = value
+
+    try{
+        const foundTransaction:any = await Transaction.findById(id)
+        if (!foundTransaction){
+            sendResponse(res, {
+                status: "failed",
+                message: "Transaction not found",
+            },BAD_REQUEST)
+            return
+        }
+        
+        if(foundTransaction.status === "pending"){
+            const { data } = await checkPendingCharge(foundTransaction.reference).catch((e:any)=>{
+                throw new Error("Something went wrong")
+            })
+
+            const finals = ["success","failed"]
+
+            if(finals.includes(data.status)){
+                foundTransaction.status = data.status
+                await foundTransaction.save()
+            }else{
+                console.log(`${tag} [${foundTransaction._id}] Status from paystack: ${data.status}`)
+            }
+        }
+
+        sendResponse(res,{
+            status: "success",
+            message: "transaction check completed",
+            data: foundTransaction
+        })
+        return
+    }catch(e:any){
+        console.log(`${tag} ${e.message}`)
+        sendResponse(res,{
+            status: "error",
+            message: e.message,
+        })
+    }
 }
