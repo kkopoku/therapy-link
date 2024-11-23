@@ -4,6 +4,7 @@ import authRouter from './routes/auth.route'
 import clientRouter from './routes/client.route'
 import sessionRouter from "./routes/session.route"
 import dashboardRouter from './routes/dashboard.route'
+import paystackRouter from './routes/paystack.route'
 import creditRouter from './routes/credit.route'
 import dotenv from "dotenv"
 import cors from "cors"
@@ -29,5 +30,6 @@ app.use(`${prefix}/session`, authorize, sessionRouter)
 app.use(`${prefix}/client`, authorize, clientRouter)
 app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 app.use(`${prefix}/credit`, authorize, creditRouter)
+app.use(`${prefix}/paystack`, paystackRouter)
 
 export default app
