@@ -31,7 +31,6 @@ const transactionSchema = new Schema({
     paymentStage: {
         type: String,
         required: false,
-        enum: ["pending","timeout","success","send_birthday","send_otp","failed"]
     },
     reason: {
         type: String,
