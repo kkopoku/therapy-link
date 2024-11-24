@@ -4,7 +4,7 @@ export async function fulfilTransaction(reference:string, paymentStage:string|nu
     const tag = "[transaction.library.ts][fulfilTransaction]"
 
     try{
-        const transaction:any = await Transaction.find({reference})
+        const transaction = await Transaction.findOne({reference})
         if(!transaction) {
             console.log(`${tag} Transaction not found with reference: ${reference}`)
             return
