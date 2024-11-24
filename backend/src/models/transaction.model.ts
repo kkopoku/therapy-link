@@ -35,6 +35,10 @@ const transactionSchema = new Schema({
     reason: {
         type: String,
         required: true,
+    },
+    extra: {
+        type: Object,
+        required: false,
     }
 },{timestamps: true})
 
