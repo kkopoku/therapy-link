@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 import { sendResponse } from "../library/utils.library"
 import Client from "../models/client.model"
 import { objectId } from "../library/joi.library"
-import { addSeconds } from "date-fns"
+import { addHours } from "date-fns"
 import CODES from "../constants/request.constants"
 
 const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } = CODES
@@ -42,7 +42,16 @@ export async function createSession(req: Request, res: Response) {
             throw new Error("No therapist is linked to this client")
 
         const {startDate, duration} = value
-        const endDate = addSeconds(startDate, duration)
+        
+        if (foundClient.credits < duration){
+            sendResponse(res, {
+                status:"failed",
+                message:"Insufficient credits"
+            }, BAD_REQUEST)
+            return
+        }
+
+        const endDate = addHours(startDate, duration)
 
         // check for overlapping sessions on the therapist end
         const overlappingSession = await Session.findOne({
