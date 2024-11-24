@@ -9,7 +9,7 @@ export async function fulfilTransaction(reference:string, paymentStage:string|nu
             console.log(`${tag} Transaction not found with reference: ${reference}`)
             return
         }
-        const { _id:id, status } = transaction.status
+        const { _id:id, status } = transaction
         console.log(`${tag}[${id}] Changing status from ${status} to success`)
         transaction.status = "success"
         transaction.paymentStage = paymentStage ?? "made payment"
