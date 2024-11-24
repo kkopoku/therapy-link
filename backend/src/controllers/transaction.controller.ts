@@ -38,12 +38,18 @@ export async function buyCredits(req: Request, res: Response){
 
     try{
         const creditPrice = 0.5
+        const totalPrice = number * creditPrice
         const data = {
-            amount: number * creditPrice,
+            amount: totalPrice,
             type: "debit",
             user: req.user.id,
             description: `${number} credit(s) purchased for ${req.user.firstName} ${req.user.otherNames}`,
-            reason: "buy credits"
+            reason: "buy credits",
+            extra: {
+                purpose: "credits",
+                number,
+                amount: `GHS ${totalPrice}`
+            }
         }
         const newTransaction = await Transaction.create(data)
 
