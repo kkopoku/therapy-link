@@ -2,7 +2,6 @@
 
 import React from "react"
 import SideBar from "../navigation/SideBar"
-import BottomNavigation from "../navigation/BottomNavigation"
 import { signOut } from "next-auth/react"
 
 interface LayoutProps {
