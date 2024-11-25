@@ -63,6 +63,24 @@ export async function createSession(){
   console.log("dummy create session")
 }
 
-export function handleRecordClick(){
-
+export async function getCredits(session:any, setLoading:Function){
+    if(session){
+        setLoading(true)
+        await fetch(`${baseEndPoint}/client/credits`, {
+            method: "GET",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.user.token}`
+            }
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
+        .then(response => response.data)
+        .finally(setLoading(false))
+        .catch((e)=>console.log(e))
+    }
 }
