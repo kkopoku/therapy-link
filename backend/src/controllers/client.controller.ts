@@ -3,6 +3,9 @@ import Joi from "joi"
 import { Response, Request } from "express"
 import { objectId } from "../library/joi.library"
 import { sendResponse } from "../library/utils.library"
+import CODES from "../constants/request.constants"
+
+const { BAD_REQUEST, SUCCESS, INTERNAL_SERVER_ERROR } = CODES
 
 export async function getClientDetails(req:Request, res:Response){
     const tag = "[client.controller][getClientDetails]"
@@ -73,6 +76,34 @@ export async function getClients(req:Request, res:Response){
             status: "error"
         },500)
     }
+}
 
+export async function getCredits(req: Request, res: Response){
+    if(req.user.type !== "Client"){
+        sendResponse(res,
+            {
+                message:"user must be a client",
+                status: "failed"
+            }, BAD_REQUEST)
+        return
+    }
 
+    try{
+        const client:any = await Client.findById(req.user.id)  
+        if(client) sendResponse(res,{
+            status: "success",
+            message:"Client credits fetched successfully",
+            data: {
+                client: client.firstName,
+                credits: client.credits
+            }
+        },SUCCESS)
+    }catch(e:any){
+        sendResponse(res,
+            {
+                message:"something went wrong, please try again",
+                status: "error"
+            }, INTERNAL_SERVER_ERROR)
+        return
+    }
 }
