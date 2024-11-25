@@ -16,7 +16,7 @@ export async function getUsers(req: any, res: Response) {
     }
 }
 
-export async function updateClient(req: Request, res: Response){
+export async function updateClient(req: Request, res: Response):Promise<any>{
     const schema = Joi.object({
         id: Joi.string().custom(objectId).required(),
         firstName: Joi.string(),
@@ -59,7 +59,7 @@ export async function updateClient(req: Request, res: Response){
         sendResponse(res, {
             data: updatedClient,
             status: "success",
-            message: "test"
+            message: "user data updated successfully"
         })
     }catch(error:any){
         console.log(error)
@@ -187,5 +187,4 @@ export async function getClients(req: any, res: Response){
             status: "error"
         },500)
     }
-
 }
