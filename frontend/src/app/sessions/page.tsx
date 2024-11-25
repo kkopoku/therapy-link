@@ -21,8 +21,12 @@ export default function SessionsPage(){
         getSessions(session, setRecords, setLoading)
     },[session])
 
+    useEffect(()=>{
+        
+    },[])
+
     return(
-        <AuthenticatedLayout pageName="Sessions" navFunctionName="Create Session" navFunction={()=>router.push("sessions/book")} sideBarFocus="My Sessions">
+        <AuthenticatedLayout pageName="Sessions" navFunctionName="Book Session" navFunction={()=>router.push("sessions/book")} sideBarFocus="My Sessions">
             <Toaster />
             <div className="flex flex-grow flex-col gap-y-5 w-full overflow-scroll">
 
