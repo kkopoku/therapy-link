@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,20 +13,48 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { getCredits, bookSession } from "./page.functions";
+import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
+
 
 export default function BookSessionPage() {
   const [startDate, setStartDate] = useState("");
   const [duration, setDuration] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [credits, setCredits] = useState("");
+  const { data:session } = useSession()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if(session) {
+      const token = `${session?.user?.token}`
+      const credits = getCredits(token, setLoading, setCredits)
+      console.log(credits)
+    }
+  },[session])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    const logtag = "[book][handleSubmit]"
     e.preventDefault();
-    console.log("Booking session:", { startDate, duration });
+    const toastId = toast.loading("Booking ...")
+    setLoading(true)
+    try{
+      if(session){
+        let response = await bookSession(session?.user.token, startDate, duration)
+        console.log(`${logtag} ${JSON.stringify(response)}`)
+        toast.success("Successfully booked", {id:toastId})
+        setCredits((prev)=>`${+prev - +duration}`)
+      }
+    }catch(error:any){
+      console.log(`${logtag} Error: ${error}`)
+      toast.error(error.message, {id:toastId})
+    }
+    setLoading(false)
   };
-
-  const credits = 100
 
   return (
     <AuthenticatedLayout pageName="Book Session">
+      <Toaster />
       <div className="flex flex-row w-full">
         <button className="bg-primaryGreen text-white text-sm font-extralight rounded py-1 px-2">{`Credit(s): ${credits}`}</button>
       </div>
