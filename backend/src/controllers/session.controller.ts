@@ -35,7 +35,7 @@ export async function createSession(req: Request, res: Response) {
     }
 
     try {
-        let foundClient:any = await Client.findById(req.user.id).lean().exec()
+        let foundClient:any = await Client.findById(req.user.id)
         console.log(foundClient)
 
         if (!foundClient.therapist)
@@ -68,7 +68,7 @@ export async function createSession(req: Request, res: Response) {
             return sendResponse(res, {
                 data: null,
                 status: "error",
-                message: "Therapist already has a session within the selected time period"
+                message: "Therapist already booked"
             }, BAD_REQUEST)
         }
         
@@ -78,6 +78,9 @@ export async function createSession(req: Request, res: Response) {
             client: req.user.id,
             therapist: foundClient.therapist
         }
+
+        foundClient.credits -= duration
+        await foundClient.save()
 
         const newSession = await Session.create(sessionData)
 
