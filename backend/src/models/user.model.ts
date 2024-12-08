@@ -14,7 +14,7 @@ export interface IUser extends Document {
   avatar?: Schema.Types.ObjectId
 }
 
-interface IUserMethods{
+interface IUserMethods {
   check(): string
   createJWT(): string
   comparePassword(candidatePassword: string): Promise<boolean>
@@ -24,13 +24,13 @@ export type UserModel = Model<IUser, {}, IUserMethods>
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
-    firstName: { type: String, required: true},
-    otherNames: { type: String, required: true},
+    firstName: { type: String, required: true },
+    otherNames: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    emailVerified: { type: Boolean, required: false},
+    emailVerified: { type: Boolean, required: false },
     password: { type: String, required: true },
     primaryPhone: { type: String, required: false },
-    secondaryPhone: { type: String, required: false},
+    secondaryPhone: { type: String, required: false },
     userType: { type: String, required: true, enum: ['Therapist', 'Client', 'Administrator'] },
     avatar: {
       type: Schema.Types.ObjectId,
@@ -41,15 +41,17 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   { discriminatorKey: 'userType', timestamps: true }
 );
 
-userSchema.pre('save', async function (next) {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (e: any) {
-    next(e);
-  }
-});
+// userSchema.pre('save', async function (next) {
+//   try {
+//     if (this.isModified('password')) {
+//       const salt = await bcrypt.genSalt(10);
+//       this.password = await bcrypt.hash(this.password, salt);
+//     }
+//     next();
+//   } catch (e: any) {
+//     next(e);
+//   }
+// });
 
 userSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
