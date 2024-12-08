@@ -3,8 +3,8 @@ import { getClientDetails, getClients, getCredits } from "../controllers/client.
 
 const clientRouter = express.Router();
 
+clientRouter.get("/credits", getCredits)
 clientRouter.get("/:id", getClientDetails)
 clientRouter.get("/", getClients)
-clientRouter.get("/credits", getCredits)
 
 export default clientRouter;
