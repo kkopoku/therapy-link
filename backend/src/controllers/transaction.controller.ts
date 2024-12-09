@@ -297,3 +297,33 @@ export async function checkTransactionStatus(req: Request, res: Response){
         })
     }
 }
+
+
+export async function getCreditPrice(req: Request, res: Response){
+    const tag = "[transaction.controller.ts][getCreditPrice]"
+    const schema = Joi.object({
+        amount: Joi.number().required(),
+    })
+
+    const {error, value} = schema.validate(req.body)
+    if (error) {
+        return res.status(403).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    const { amount } = value
+    const price = Number(process.env.CREDIT_PRICE)
+
+    const totalPrice = +amount * price
+    
+    sendResponse(res, {
+        data: {
+            currency: "GHS",
+            price: totalPrice
+        },
+        status: "success",
+        message: "price fetched successfully"
+    }, SUCCESS)
+}
