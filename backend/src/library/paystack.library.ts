@@ -107,7 +107,7 @@ export async function checkPendingCharge(reference:string){
         }
     
         const res = await response.json()
-        return res.data
+        return res
     }catch(e:any){
         if(e?.response?.data){
             console.log(`${logtag} ${JSON.stringify(e.response.data)}`)
