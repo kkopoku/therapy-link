@@ -81,3 +81,29 @@ export async function submitOTP(token:string, transactionId:string, otp:string){
         throw new Error ("Something went wrong")
     }
 }
+
+
+export async function checkTransactionStatus(token:string, transactionId:string){
+    try{
+        const response = await fetch(`${baseEndpoint}/credit/checkTransactionStatus/${transactionId}`, {
+            method: "GET",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        let jsonResponse = await response.json()
+        console.log("jsonResponse: ", jsonResponse)
+        if(!response.ok) {
+            console.log(jsonResponse)
+            if(response.status === 404){
+                throw new Error("Transaction not found")
+            }else throw new Error ("Something went wrong")
+        }
+        return jsonResponse
+    }catch(e:any){
+        console.log(e)
+        throw new Error (e)
+    }
+}
