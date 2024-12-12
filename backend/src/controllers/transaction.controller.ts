@@ -6,6 +6,7 @@ import Transaction from "../models/transaction.model"
 import { checkPendingCharge, debit, submitOtp } from "../library/paystack.library"
 import Client from "../models/client.model"
 import { objectId } from "../library/joi.library"
+import { fulfilTransaction } from "../library/transaction.library"
 
 
 const { SUCCESS, UNAUTHORIZED, BAD_REQUEST, INTERNAL_SERVER_ERROR } = CODES
@@ -37,7 +38,7 @@ export async function buyCredits(req: Request, res: Response){
     const { number } = value
 
     try{
-        const creditPrice = 0.5
+        const creditPrice = Number(process.env.CREDIT_PRICE)
         const totalPrice = number * creditPrice
         const data = {
             amount: totalPrice,
@@ -84,7 +85,8 @@ export async function buyCredits(req: Request, res: Response){
                         transaction: {
                             id: newTransaction._id,
                             status: newTransaction.status,
-                            amount: newTransaction.amount
+                            amount: newTransaction.amount,
+                            step: "PIN"
                         }
                     }
                 },SUCCESS)
@@ -97,7 +99,8 @@ export async function buyCredits(req: Request, res: Response){
                         transaction: {
                             id: newTransaction._id,
                             status: newTransaction.status,
-                            amount: newTransaction.amount
+                            amount: newTransaction.amount,
+                            step: "OTP"
                         }
                     }
                 },SUCCESS)
@@ -250,12 +253,11 @@ export async function checkTransactionStatus(req: Request, res: Response){
 
     const {error, value} = schema.validate(req.params)
     if (error) {
-        return res.status(403).json({
+        return res.status(400).json({
             message: error.details[0].message,
             status: "failed"
         })
     }
-
     const { id } = value
 
     try{
@@ -270,6 +272,7 @@ export async function checkTransactionStatus(req: Request, res: Response){
         
         if(foundTransaction.status === "pending"){
             const { data } = await checkPendingCharge(foundTransaction.reference).catch((e:any)=>{
+                console.log(e)
                 throw new Error("Something went wrong")
             })
 
@@ -281,6 +284,12 @@ export async function checkTransactionStatus(req: Request, res: Response){
             }else{
                 console.log(`${tag} [${foundTransaction._id}] Status from paystack: ${data.status}`)
             }
+
+            // increase credits if this is a credit transaction
+            if(foundTransaction.status === "success" && foundTransaction.extra?.purpose === "credits"){
+                await fulfilTransaction(foundTransaction.reference)
+            }
+
         }
 
         sendResponse(res,{
@@ -290,7 +299,7 @@ export async function checkTransactionStatus(req: Request, res: Response){
         })
         return
     }catch(e:any){
-        console.log(`${tag} ${e.message}`)
+        console.log(`${tag} ${e}`)
         sendResponse(res,{
             status: "error",
             message: e.message,
@@ -313,6 +322,9 @@ export async function getCreditPrice(req: Request, res: Response){
         })
     }
 
+    const foundUser:any = await Client.findById(req.user.id)
+    const { momoNetwork, momoNumber } = foundUser
+
     const { amount } = value
     const price = Number(process.env.CREDIT_PRICE)
 
@@ -321,7 +333,9 @@ export async function getCreditPrice(req: Request, res: Response){
     sendResponse(res, {
         data: {
             currency: "GHS",
-            price: totalPrice
+            price: totalPrice,
+            momoNetwork,
+            momoNumber
         },
         status: "success",
         message: "price fetched successfully"
