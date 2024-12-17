@@ -261,7 +261,7 @@ export async function checkTransactionStatus(req: Request, res: Response){
     const { id } = value
 
     try{
-        const foundTransaction:any = await Transaction.findById(id)
+        let foundTransaction:any = await Transaction.findById(id)
         if (!foundTransaction){
             sendResponse(res, {
                 status: "failed",
@@ -279,17 +279,16 @@ export async function checkTransactionStatus(req: Request, res: Response){
             const finals = ["success","failed"]
 
             if(finals.includes(data.status)){
-                foundTransaction.status = data.status
-                await foundTransaction.save()
+                if(data.status === "success" && foundTransaction.extra?.purpose === "credits"){
+                    await fulfilTransaction(foundTransaction.reference)
+                }else{
+                    foundTransaction.status = data.status
+                    await foundTransaction.save()
+                }
             }else{
                 console.log(`${tag} [${foundTransaction._id}] Status from paystack: ${data.status}`)
             }
-
-            // increase credits if this is a credit transaction
-            if(foundTransaction.status === "success" && foundTransaction.extra?.purpose === "credits"){
-                await fulfilTransaction(foundTransaction.reference)
-            }
-
+            foundTransaction = await foundTransaction.constructor.findById(foundTransaction._id);
         }
 
         sendResponse(res,{
