@@ -66,11 +66,13 @@ export default function ViewSessionPage() {
                             ) : (
                                 <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Session ID" value={`${sessionDetails?._id}`} disabled/></div>
-                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Duration (Minutes)" value={`${sessionDetails ? sessionDetails.duration/60 : "N/A"}`} disabled /></div>
+                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Duration (Hours)" value={`${sessionDetails ? sessionDetails.duration : "N/A"}`} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Therapist Name" value={`${sessionDetails?.therapist.firstName ?? "N/A"}`} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Client Name" value={`${sessionDetails?.client.firstName ?? "N/A"}`} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Start Date" value={new Date(sessionDetails?.startDate ?? "").toLocaleDateString() ?? "N/A"} disabled /></div>
+                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Start Time" value={new Date(sessionDetails?.startDate ?? "").toLocaleTimeString() ?? "N/A"} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="End Date" value={new Date(sessionDetails?.endDate ?? "").toLocaleDateString() ?? "N/A"} disabled /></div>
+                                    <div className="lg:col-span-1 col-span-2"><PrimaryInput label="End Time" value={new Date(sessionDetails?.endDate ?? "").toLocaleTimeString() ?? "N/A"} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Status" value={`${sessionDetails?.status ?? "N/A"}`} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Created At" value={new Date(sessionDetails?.createdAt ?? "").toLocaleString() ?? "N/A"} disabled /></div>
                                     <div className="lg:col-span-1 col-span-2"><PrimaryInput label="Updated At" value={new Date(sessionDetails?.updatedAt ?? "").toLocaleString() ?? "N/A"} disabled /></div>
@@ -80,7 +82,12 @@ export default function ViewSessionPage() {
                             <div className="h-full flex-row w-full">
                                 <div className="w-full grid grid-cols-2 gap-5">
                                     <Button className="border-red-600 hover:bg-red-600 border-2 text-red-600 hover:text-white text-sm" >Cancel Session</Button >
-                                    <Button className="bg-primaryGreen text-white hover:bg-secondaryGreen text-sm" onClick={()=>router.push(`/sessions/video/${sessionDetails?._id}`)}>Start Session</Button >
+                                    { (sessionDetails && new Date(sessionDetails.endDate) > new Date()) &&
+                                        <Button className="bg-primaryGreen text-white hover:bg-secondaryGreen text-sm" 
+                                            onClick={()=>router.push(`/sessions/video/${sessionDetails._id}`)}
+                                            >Start Session
+                                        </Button >
+                                    }
                                 </div>
                             </div>
 
