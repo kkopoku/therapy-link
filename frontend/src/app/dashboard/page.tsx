@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout"
 import { useSession, signOut } from "next-auth/react"
-import ClientDashboard from "../../components/dashboard/Client"
+import { ClientDashboard } from "../../components/dashboard/Client"
 import { TherapistDashboard } from "../../components/dashboard/Therapist"
 import AdministratorDashboard from "../../components/dashboard/Administrator"
 import LoadingDashboard from "../../components/dashboard/Loading"
@@ -36,7 +36,7 @@ export default function DashboardPage(){
                 <>
                   {user?.type === "Therapist" && <TherapistDashboard records={records} loading={loading}/>}
                   {user?.type === "Administrator" && <AdministratorDashboard />}
-                  {user?.type === "Client" && <ClientDashboard />}
+                  {user?.type === "Client" && <ClientDashboard records={records} loading={loading}/>}
                 </>
               }
               
