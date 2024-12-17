@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { getCreditsPrice, buyCredits, submitOTP, checkTransactionStatus } from "./page.functions";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { useRouter } from "next/navigation";
 
 
 export default function PlanPage(){
@@ -30,6 +31,7 @@ export default function PlanPage(){
         { name: "Telecel"},
         { name: "AirtelTigo"},
     ]
+    const router = useRouter()
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
@@ -129,10 +131,16 @@ export default function PlanPage(){
         const { status } = response.data
 
         if(status === "success"){
-            toast.success("Your debit is successful")
+            toast.success("Your debit is successful, redirecting ...")
             setPaymentSuccessful(true)
+            await new Promise((resolve:any)=>{
+                setTimeout(()=>{
+                  router.replace("/sessions/book")
+                  resolve()
+                }, 2000)
+            })
         }else{
-            toast.success("Debit not successful yet")
+            toast.error("Debit not successful yet")
         }
 
     }catch(e:any){
