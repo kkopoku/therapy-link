@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AuthenticatedLayout from "@/components/layouts/AuthenticatedLayout";
 import { useSession, signOut } from "next-auth/react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +11,7 @@ import { getCreditsPrice, buyCredits, submitOTP, checkTransactionStatus } from "
 import toast, { Toaster } from "react-hot-toast";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { useRouter } from "next/navigation";
+import { io, Socket } from "socket.io-client";
 
 
 export default function PlanPage(){
@@ -32,6 +33,39 @@ export default function PlanPage(){
         { name: "AirtelTigo"},
     ]
     const router = useRouter()
+    const uri = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
+    const socketRef = useRef<Socket | null>(null);
+    const [socketId, setSocketId] = useState<string|null>(null)
+
+    useEffect(()=>{
+        socketRef.current = io(`${uri}`);
+
+        socketRef.current.on("connect",()=>{
+            console.log("Connection is established to the server")
+            console.log(`Socket ID: ${socketRef.current?.id}`)
+            setSocketId(String(socketRef.current?.id))
+
+            socketRef.current?.emit("connectionEstablished", ({
+                socketId: socketRef.current.id
+            }))
+        })
+
+        socketRef.current.on("transactionUpdated", async(transaction) => {
+            console.log(`transactionUpdated called ... Transaction: ${JSON.stringify(transaction)}`)
+            if (transaction.status === "success" && !paymentSuccessful){
+                toast.success("Your debit is successful, redirecting ...")
+                setPaymentSuccessful(true)
+                await new Promise((resolve:any)=>{
+                    setTimeout(()=>{
+                    router.replace("/sessions/book")
+                    resolve()
+                    }, 2000)
+                })
+            }
+        })
+
+    },[])
+
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
@@ -87,6 +121,15 @@ export default function PlanPage(){
         if (step === "OTP"){
             setStage((stage)=>++stage)
         }else{
+            // emit event here
+            if(socketRef.current){
+                console.log("sending event after otp")
+                const payload = {
+                    socketId: socketId,
+                    transactionId: id
+                }
+                socketRef.current.emit("submittingTransaction", payload)
+            }
             setStage((stage)=>stage+2)
         }
 
@@ -114,6 +157,15 @@ export default function PlanPage(){
     }
 
     setStage((stage)=>++stage)
+    // emit event here
+    if(socketRef.current){
+        console.log("Sending event after transaction details confirmation")
+        const payload = {
+            socketId: socketId,
+            transactionId
+        }
+        socketRef.current.emit("submittingTransaction", payload)
+    }
   }
 
   const handlePaymentCheck = async () => {

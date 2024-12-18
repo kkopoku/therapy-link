@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import { connectDB } from "./database/connection";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
+import { addSocketID } from "./library/transaction.library";
 
 dotenv.config({ path: '../.env' });
 
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 7002;
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -78,6 +79,16 @@ io.on("connection", (socket) => {
   socket.on("ice-candidate", (incoming) => {
     io.to(incoming.target).emit("ice-candidate", incoming.candidate);
   });
+
+  socket.on("submittingTransaction", async (payload:any)=>{
+    const { socketId, transactionId } = payload
+    await addSocketID(transactionId, socketId)
+  })
+
+  socket.on("connectionEstablished", (payload:any)=>{
+    console.log(`Connection established. Socket ID: ${payload.socketId}`)
+  })
+
 });
 
 mongoose.connection.once("open", () => {
