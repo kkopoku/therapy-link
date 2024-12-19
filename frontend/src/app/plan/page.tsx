@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { useRouter } from "next/navigation";
 import { io, Socket } from "socket.io-client";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 
 export default function PlanPage(){
@@ -203,6 +204,7 @@ export default function PlanPage(){
     return (
         <AuthenticatedLayout pageName="Plan" navFunctionName="sign out" navFunction={()=>signOut({callbackUrl:"/auth/login"})} sideBarFocus="Plan">
             <Toaster />
+
             {(stage == 1) && <div className="flex flex-grow w-full items-center">
                 <Card className="w-full max-w-md mx-auto">
                     <CardHeader>
@@ -238,10 +240,14 @@ export default function PlanPage(){
 
             {(stage == 2) && <div className="flex flex-grow w-full items-center">
                 <Card className="w-full max-w-md mx-auto">
-                    <button onClick={()=>{
-                        setStage((stage)=>--stage)
-                    }}>back</button>
                     <CardHeader>
+
+                        <div>
+                            <button className="hover:bg-slate-200 rounded-full p-1 transition-all delay-" onClick={()=>{
+                                setStage((stage)=>--stage)
+                            }}><IoChevronBackOutline/></button>
+                        </div>
+
                         <CardTitle>Purchase Credits</CardTitle>
                         <CardDescription>Enter the amount of credits you want to buy</CardDescription>
                     </CardHeader>
@@ -299,10 +305,12 @@ export default function PlanPage(){
             {(stage === 3) &&
                 <div className="flex flex-grow w-full items-center">
                     <Card className="w-full max-w-md mx-auto">
-                        <button onClick={()=>{
-                            setStage((stage)=>--stage)
-                        }}>back</button>
                         <CardHeader>
+                            <div>
+                                <button className="hover:bg-slate-200 rounded-full p-1 transition-all delay-" onClick={()=>{
+                                    setStage((stage)=>--stage)
+                                }}><IoChevronBackOutline/></button>
+                            </div>
                             <CardTitle>Purchase Credits</CardTitle>
                             <CardDescription>Enter OTP to confirm payment</CardDescription>
                         </CardHeader>
