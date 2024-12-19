@@ -59,7 +59,7 @@ export default function PlanPage(){
                     setTimeout(()=>{
                     router.replace("/sessions/book")
                     resolve()
-                    }, 2000)
+                    }, 3000)
                 })
             }
         })
@@ -189,7 +189,7 @@ export default function PlanPage(){
                 setTimeout(()=>{
                   router.replace("/sessions/book")
                   resolve()
-                }, 2000)
+                }, 3000)
             })
         }else{
             toast.error("Debit not successful yet")
