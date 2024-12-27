@@ -7,6 +7,7 @@ const administratorSchema = new Schema(
     roles:{
       type: Array,
       required: true,
+      default: []
     }
   },{ discriminatorKey: 'userType'}
 )
