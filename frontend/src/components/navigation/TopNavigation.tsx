@@ -48,7 +48,7 @@ const TopNavigation: React.FC = () => {
     },
     {
       name: "Start Assessment",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white4] bg-green-700 border-[#1A363n-900 hover:scale-110 transition-all duration-500",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-[#1A3634] bg-green-700 hover:green-900 hover:scale-110 transition-all duration-500",
       link: "/auth/client-sign-up",
     },
   ];
