@@ -12,7 +12,8 @@ enum UserType {
 }
 
 
-export async function registerUser(req: Request, res: Response) {   
+export async function registerUser(req: Request, res: Response) {
+    const tag = "[auth.controller.ts][registerUser]"
     const schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
