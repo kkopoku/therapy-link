@@ -41,17 +41,17 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   { discriminatorKey: 'userType', timestamps: true }
 );
 
-// userSchema.pre('save', async function (next) {
-//   try {
-//     if (this.isModified('password')) {
-//       const salt = await bcrypt.genSalt(10);
-//       this.password = await bcrypt.hash(this.password, salt);
-//     }
-//     next();
-//   } catch (e: any) {
-//     next(e);
-//   }
-// });
+userSchema.pre('save', async function (next) {
+  try {
+    if (this.isModified('password')) {
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+    }
+    next();
+  } catch (e: any) {
+    next(e);
+  }
+});
 
 userSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
