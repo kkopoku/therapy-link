@@ -43,7 +43,7 @@ const TopNavigation: React.FC = () => {
   ] : [
     {
       name: "Sign In",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-[#E7D3AD] transition-all duration-500 hover:scale-110",
+      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-[#f6ff76] transition-all duration-500 hover:scale-110",
       link: "/auth/login",
     },
     {
@@ -53,10 +53,10 @@ const TopNavigation: React.FC = () => {
     },
   ];
 
-  const firstButtonListStyle = "font-extralight rounded-md py-1 px-2 text-white hover:bg-[#1A1A1D] transition-all duration-500 lg:h-auto h-10 shadow-md bg-[#0a1612] bg-opacity-50 hover:scale-110 min-w-20";
+  const firstButtonListStyle = "font-extralight rounded-md py-1 px-2 text-white hover:bg-[#1A1A1D] transition-all duration-500 lg:h-auto h-10 lg:min-h-8 shadow-md bg-[#0a1612] bg-opacity-50 hover:scale-110 min-w-20";
 
   return (
-    <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-primaryGreen px-2 lg:px-10 shadow-md">
+    <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-[#152521] px-2 lg:px-10">
       <div className="flex items-center justify-between w-full">
 
         <div className="flex gap-3 w-full lg:w-auto">
