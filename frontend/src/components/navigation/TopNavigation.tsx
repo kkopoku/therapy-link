@@ -29,43 +29,49 @@ const TopNavigation: React.FC = () => {
     { name: "Contact", style: "", link: "" },
   ];
 
-  const secondButtonList: ButtonItem[] = status === "authenticated" ? [
-    {
-      name: "Sign Out",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-slate-200 transition-all duration-500",
-      link: "api/auth/signout",
-    },
-    {
-      name: "Start Assessment",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-[#1A3634] bg-black hover:bg-[#1A3634] transition-all duration-500",
-      link: "/auth/client-sign-up",
-    },
-  ] : [
-    {
-      name: "Sign In",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#1A3634] bg-[#f6ff76] transition-all duration-500 hover:scale-110",
-      link: "/auth/login",
-    },
-    {
-      name: "Start Assessment",
-      style: "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-[#1A3634] bg-green-700 hover:green-900 hover:scale-110 transition-all duration-500",
-      link: "/auth/client-sign-up",
-    },
-  ];
+  const secondButtonList: ButtonItem[] =
+    status === "authenticated"
+      ? [
+          {
+            name: "Sign Out",
+            style:
+              "h-10 lg:h-auto rounded-md py-1 px-2 border border-white bg-transparent text-white transition-all duration-500 hover:bg-gray-800",
+            link: "api/auth/signout",
+          },
+          {
+            name: "Start Assessment",
+            style:
+              "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-white bg-transparent hover:bg-gray-800 transition-all duration-500",
+            link: "/auth/client-sign-up",
+          },
+        ]
+      : [
+          {
+            name: "Sign In",
+            style:
+              "h-10 lg:h-auto rounded-md py-1 px-2 border border-[#f6ff76] bg-[#f6ff76] text-black transition-all duration-500 hover:scale-110",
+            link: "/auth/login",
+          },
+          {
+            name: "Start Assessment",
+            style:
+              "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-white bg-transparent hover:bg-gray-800 transition-all duration-500 hover:scale-110",
+            link: "/auth/client-sign-up",
+          },
+        ];
 
-  const firstButtonListStyle = "font-extralight rounded-md py-1 px-2 text-white hover:bg-[#1A1A1D] transition-all duration-500 lg:h-auto h-10 lg:min-h-8 shadow-md bg-[#0a1612] bg-opacity-50 hover:scale-110 min-w-20";
+  const firstButtonListStyle =
+    "font-extralight rounded-md py-1 px-2 text-white hover:text-[#f6ff76] transition-all duration-500 lg:h-auto h-10 lg:min-h-8 hover:scale-110 min-w-20";
 
   return (
     <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-[#152521] px-2 lg:px-10">
       <div className="flex items-center justify-between w-full">
 
-        <div className="flex gap-3 w-full lg:w-auto">
-          {/* Hamburger icon for small screens */}
-          <div className="flex flex-row justify-between lg:hidden w-full" onClick={toggleMenu}>
-            <LogoText />
-            {isMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-          </div>
-          {/* Large screen buttons */}
+        <div className="hidden lg:flex w-[150px]">
+          <LogoText theme="white" />
+        </div>
+
+        <div className="flex-1 flex justify-center">
           <div className="hidden lg:flex flex-row gap-3">
             {firstButtonList.map((item) => (
               <button
@@ -92,6 +98,18 @@ const TopNavigation: React.FC = () => {
               {item.name}
             </button>
           ))}
+        </div>
+
+        <div
+          className="flex flex-row justify-between lg:hidden w-full"
+          onClick={toggleMenu}
+        >
+          <LogoText />
+          {isMenuOpen ? (
+            <AiOutlineClose size={24} />
+          ) : (
+            <AiOutlineMenu size={24} />
+          )}
         </div>
       </div>
 
