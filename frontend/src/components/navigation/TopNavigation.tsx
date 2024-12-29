@@ -55,7 +55,7 @@ const TopNavigation: React.FC = () => {
           {
             name: "Start Assessment",
             style:
-              "h-10 lg:h-auto rounded-md py-1 px-2 border text-white border-white bg-transparent hover:bg-gray-800 transition-all duration-500 hover:scale-110",
+              "h-10 lg:h-auto rounded-md py-1 px-2 border-[0.8px] text-white border-white bg-transparent hover:bg-gray-800 transition-all duration-500 hover:scale-105",
             link: "/auth/client-sign-up",
           },
         ];
