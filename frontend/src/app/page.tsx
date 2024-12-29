@@ -6,7 +6,7 @@ import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import { Button } from "@/components/ui/button";
 import { Calendar, Heart, Shield, Users } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { Check, X, HelpCircle, Info } from 'lucide-react'
+import { Check, X, Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import Logo from "@/components/logo/LogoBlack";
 import { useRef } from "react";
@@ -124,6 +124,18 @@ const iconVariants = {
   }
 }
 
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+}
+
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -137,14 +149,40 @@ const stagger = {
   },
 };
 
+const containerVariantss = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3
+    }
+  }
+}
+
+const itemVariantss = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.04, 0.62, 0.23, 0.98]
+    }
+  }
+}
+
 export default function Home() {
 
   const ref = useRef(null)
+  const profRef = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
+  const inProfsView = useInView(profRef, { once: false, amount: 0.2 })
 
 
   return (
     <UnauthenticatedLayout>
+
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -bottom-1/2 -left-1/2 w-[1000px] h-[1000px] rounded-full bg-gradient-to-tr from-[#E5D3B8]/10 to-transparent blur-3xl" />
       </div>
@@ -224,7 +262,8 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <div className="px-5 py-20 grid grid-cols-1 w-full max-w-5xl justify-items-center lg:grid-cols-2 gap-5">
+      {/* Professionals you could trust element */}
+      {/* <div className="px-5 py-20 grid grid-cols-1 w-full max-w-5xl justify-items-center lg:grid-cols-2 gap-5">
         <Image
           className="w-auto h-auto"
           alt="First Image"
@@ -241,7 +280,79 @@ export default function Home() {
           height={350}
           priority
         />
+      </div> */}
+
+      <div ref={profRef} className="w-full mx-auto px-4 py-16 sm:px-6 lg:px-8 bg-[#F5F2EB]">
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          variants={containerVariantss}
+          initial="hidden"
+          animate={inProfsView ? "visible" : "hidden"}
+        >
+          {/* Text Content */}
+          <div className="space-y-8">
+            <motion.h1
+              className="text-4xl sm:text-5xl font-medium tracking-tight text-gray-900"
+              variants={itemVariantss}
+            >
+              Professional and qualified therapists who you can trust
+            </motion.h1>
+
+            <motion.p
+              className="text-xl text-gray-600"
+              variants={itemVariantss}
+            >
+              Tap into the world's largest network of qualified and experienced therapists who can help you with a range of issues including depression, anxiety, relationships, trauma, grief, and more. With our therapists, you get the same professionalism and quality you would expect from an in-office therapist, but with the ability to communicate when and how you want.
+            </motion.p>
+
+            <motion.div variants={itemVariantss}>
+              <Button
+                className="bg-[#152c2a] hover:bg-primaryGreen text-[#f6ff76] rounded-full px-8 py-6 text-lg font-extralight hover:scale-105 transition-all"
+              >
+                Get matched to a therapist
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Images Grid */}
+          <div className="flex relative h-[500px] w-full justify-center items-center">
+            {/* Center Image */}
+            <motion.div
+              className="absolute left-96 w-[280px] h-[280px] z-20"
+              variants={imageVariants}
+            >
+              <img
+                src="/landing-page/image2.jpg"
+                alt="Therapist portrait"
+                className="w-full h-full object-cover rounded-3xl"
+              />
+            </motion.div>
+
+            {/* Top Left Small Image */}
+            <motion.div
+              className="absolute top-44 left-32 w-[280px] h-[280px] z-30"
+              variants={imageVariants}
+            >
+              <img
+                src="/landing-page/image1.jpg"
+                alt="Therapist portrait"
+                className="w-full h-full object-cover rounded-3xl"
+              />
+            </motion.div>
+
+            {/* Decorative Elements */}
+            <motion.div
+              className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-gray-300"
+              variants={itemVariantss}
+            />
+            <motion.div
+              className="absolute -bottom-6 left-28 w-8 h-8 border-b-2 border-l-2 border-gray-300"
+              variants={itemVariantss}
+            />
+          </div>
+        </motion.div>
       </div>
+
 
       <div className="grid grid-cols-2 lg:grid-cols-4 min-h-96 bg-[#E7D3AD] w-full lg:px-28 px-5 py-16 gap-7 ">
         <div className="lg:col-span-4 col-span-2 w-full">
