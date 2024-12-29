@@ -4,20 +4,19 @@ import { useRouter } from "next/navigation"
 
 interface LogoProps{
     theme?: string
+    size?: number
 }
 
-const Logo:React.FC<LogoProps> = ({theme="black"}) => {
+const Logo:React.FC<LogoProps> = ({theme="black", size=1}) => {
 
     const router = useRouter()
 
     const src = (theme == "black") ? "/logos/logo_black.png" : "/logos/logo_white.png"
 
     return(
-        <div>
-            <button onClick={()=>router.push("/")}>
-                <Image width={40} height={40} className="w-auto h-auto" alt="logo" src={src}/>
-            </button>
-        </div>
+        <button onClick={()=>router.push("/")} className="flex justify-center items-center">
+            <Image width={40*size} height={40*size} className="w-auto h-auto" alt="logo" src={src}/>
+        </button>
     )
 }
 
