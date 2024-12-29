@@ -5,7 +5,11 @@ import { BsInfoCircle } from "react-icons/bs";
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import { Button } from "@/components/ui/button";
 import { Calendar, Heart, Shield, Users } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { Check, X, HelpCircle, Info } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import Logo from "@/components/logo/LogoBlack";
+import { useRef } from "react";
 
 const cardItems = [
   {
@@ -39,6 +43,96 @@ const trustIndicators = [
   },
 ];
 
+const features = [
+  {
+    name: "Provided by a qualified therapist",
+    hasInfo: true,
+    info: "All our therapy sessions are conducted by licensed and experienced professionals, ensuring you receive the highest quality care.",
+    therapyLink: true,
+    inOffice: true
+  },
+  {
+    name: "In-office visits",
+    hasInfo: true,
+    info: "Prefer face-to-face interactions? Schedule in-office visits for a more personal touch.",
+    therapyLink: false,
+    inOffice: true
+  },
+  {
+    name: "Video sessions",
+    hasInfo: true,
+    info: "Connect with your therapist via secure video calls, making therapy accessible wherever you are.",
+    therapyLink: true,
+    inOffice: false
+  },
+  {
+    name: "Easy scheduling",
+    hasInfo: true,
+    info: "Our user-friendly platform allows you to book, reschedule, or cancel appointments with ease.",
+    therapyLink: true,
+    inOffice: false
+  },
+  {
+    name: "Digital worksheets",
+    hasInfo: true,
+    info: "Access therapeutic worksheets to complement your sessions and track your progress over time.",
+    therapyLink: true,
+    inOffice: false
+  },
+  {
+    name: "Smart provider matching",
+    hasInfo: true,
+    info: "We match you with the most suitable therapist based on your needs and preferences.",
+    therapyLink: true,
+    inOffice: false
+  },
+  {
+    name: "Easy to switch providers",
+    hasInfo: true,
+    info: "Not satisfied with your current therapist? Switch to a new provider seamlessly, no questions asked.",
+    therapyLink: true,
+    inOffice: false
+  },
+  {
+    name: "Access therapy from anywhere",
+    hasInfo: true,
+    info: "Whether you're at home or traveling, our platform ensures you can connect with your therapist from anywhere.",
+    therapyLink: true,
+    inOffice: false
+  }
+];
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      when: "beforeChildren",
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+}
+
+const iconVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 200, damping: 10 }
+  }
+}
+
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -53,6 +147,11 @@ const stagger = {
 };
 
 export default function Home() {
+
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: false, amount: 0.2 })
+
+
   return (
     <UnauthenticatedLayout>
       <div className="absolute inset-0 overflow-hidden">
@@ -114,7 +213,7 @@ export default function Home() {
               key={index}
               variants={fadeIn}
               className="flex items-center"
-              >
+            >
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 className="flex h-12 min-w-12 items-center justify-center rounded-full bg-emerald-600/10 
@@ -213,45 +312,114 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex-col w-full bg-[#1A3634] min-h-48 px-10 py-10 items-center justify-center text-white space-y-5">
-        <div className="text-4xl text-center font-medium">
-          Simple, Transparent Pricing
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 justify-items-center gap-4">
-          <PricingCard
-            features={[
-              "One hour session with a licensed therapist",
-              "Book sessions at flexible times, subject to availability",
-              "Access to a library of self-help articles and guides",
-            ]}
-            packageName="Basic"
-            price="GHS 150/session"
-            onGetStarted={() => console.log("hi")}
-          />
+      <div className="flex-col w-full bg-[#152c2a] min-h-48 px-10 py-10 items-center justify-center text-white space-y-5">
+        <motion.div
+          ref={ref}
+          className="flex rounded-lg overflow-hidden justify-center items-center w-full"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+        >
+          <div className="bg-[#2F4F4F] max-w-4xl text-white p-6 text-center rounded-lg shadow-[#272727] shadow-xl">
+            <motion.h2
+              className="text-2xl md:text-3xl mb-8"
+              variants={itemVariants}
+            >
+              <span className="text-[#f6ff76]">TherapyLink</span> vs. traditional in-office therapy
+            </motion.h2>
 
-          <PricingCard
-            features={[
-              "Weekly sessions with a licensed therapist",
-              "Video-based sessions for a more personal experience",
-              "Access to premium content, including guided exercises and meditation resources",
-            ]}
-            packageName="Pro"
-            price="GHS 500/month"
-            onGetStarted={() => console.log("hi")}
-          />
+            <motion.div
+              className="grid grid-cols-[1fr,auto,auto] gap-4"
+              variants={containerVariants}
+            >
+              <div className="text-left font-medium" />
+              <motion.div
+                className="w-32 text-center"
+                variants={itemVariants}
+              >
+                <motion.div
+                  className="flex justify-center mb-4"
+                  variants={iconVariants}
+                >
+                  <div className="w-12 h-12 bg-[#3B5F5F] rounded-full flex items-center justify-center">
+                    <Logo theme="white" size={0.7} />
+                  </div>
+                </motion.div>
+                TherapyLink
+              </motion.div>
+              <motion.div
+                className="w-32 text-center"
+                variants={itemVariants}
+              >
+                <motion.div
+                  className="flex justify-center mb-4"
+                  variants={iconVariants}
+                >
+                  <div className="w-12 h-12 bg-[#3B5F5F] rounded-full flex items-center justify-center">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                </motion.div>
+                In-office
+              </motion.div>
 
-          <PricingCard
-            features={[
-              "Tailored session frequency based on your unique needs",
-              " Continuity with the same therapist for long-term support",
-              "Around-the-clock access to support via text or email",
-              "Completely customized based on your use case, with progress tracking and regular adjustments",
-            ]}
-            packageName="Custom"
-            price="Custom based on your needs"
-            onGetStarted={() => console.log("hi")}
-          />
-        </div>
+              {features.map((feature, index) => (
+                <TooltipProvider key={index}>
+                  <motion.div
+                    className="contents"
+                    variants={itemVariants}
+                  >
+                    <motion.div
+                      className="flex items-center gap-2 py-3 border-t border-[#3B5F5F]"
+                      variants={itemVariants}
+                    >
+                      {feature.name}
+                      {feature.hasInfo && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="w-4 h-4 text-gray-300" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="w-64">{feature.info}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </motion.div>
+
+                    <motion.div
+                      className="flex justify-center items-center py-3 border-t border-[#3B5F5F]"
+                      variants={iconVariants}
+                    >
+                      {feature.therapyLink ? (
+                        <Check className="w-5 h-5 text-green-300" />
+                      ) : (
+                        <X className="w-5 h-5 text-red-400" />
+                      )}
+                    </motion.div>
+
+                    <motion.div
+                      className="flex justify-center items-center py-3 border-t border-[#3B5F5F]"
+                      variants={iconVariants}
+                    >
+                      {feature.inOffice ? (
+                        <Check className="w-5 h-5 text-green-300" />
+                      ) : (
+                        <X className="w-5 h-5 text-red-400" />
+                      )}
+                    </motion.div>
+                  </motion.div>
+                </TooltipProvider>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
 
       <div className="flex min-h-96 z-10 w-full py-10 justify-center items-center"></div>
