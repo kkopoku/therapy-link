@@ -4,7 +4,7 @@ import InfoCard from "@/components/cards/InfoCard";
 import { BsInfoCircle } from "react-icons/bs";
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import { Button } from "@/components/ui/button";
-import { Calendar, Heart, Shield, Users } from "lucide-react";
+import { Calendar, ClipboardList, CreditCard, Heart, MessageSquare, Shield, Users } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { Check, X, Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -93,6 +93,35 @@ const features = [
   }
 ];
 
+const steps = [
+  {
+    icon: ClipboardList,
+    title: "Fill out a questionnaire",
+    description: "Answer a few questions about your preferences and the issues you'd like to tackle in therapy."
+  },
+  {
+    icon: Users,
+    title: "Get matched with a therapist",
+    description: "Based on your answers, we'll match you with a licensed therapist who fits your objectives, preferences, and the type of issues you are dealing with."
+  },
+  {
+    icon: CreditCard,
+    title: "Buy Credits",
+    description: "Purchase credits to book therapy sessions. Each session requires credits, and you can buy as many as you need to fit your schedule and goals."
+  },
+  {
+    icon: MessageSquare,
+    title: "Start communicating",
+    description: "Use our secure platform to have unlimited private conversations with your therapist through video sessions."
+  },
+  {
+    icon: Calendar,
+    title: "Continue growing",
+    description: "Work with your therapist to set goals and build the life you want. Switch therapists any time if needed."
+  }
+]
+
+
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -176,8 +205,10 @@ export default function Home() {
 
   const ref = useRef(null)
   const profRef = useRef(null)
+  const howItWorksRef = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
   const inProfsView = useInView(profRef, { once: false, amount: 0.2 })
+  const inHowItWorks = useInView(howItWorksRef, { once: false, amount: 0.2 })
 
 
   return (
@@ -263,25 +294,6 @@ export default function Home() {
       </div>
 
       {/* Professionals you could trust element */}
-      {/* <div className="px-5 py-20 grid grid-cols-1 w-full max-w-5xl justify-items-center lg:grid-cols-2 gap-5">
-        <Image
-          className="w-auto h-auto"
-          alt="First Image"
-          src="/landing-page/image1.jpg"
-          width={550}
-          height={350}
-          priority
-        />
-        <Image
-          className="w-auto h-auto lg:pt-9"
-          alt="First Image"
-          src="/landing-page/image2.jpg"
-          width={550}
-          height={350}
-          priority
-        />
-      </div> */}
-
       <div ref={profRef} className="w-full mx-auto px-4 py-16 sm:px-6 lg:px-8 bg-[#F5F2EB]">
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
@@ -354,7 +366,7 @@ export default function Home() {
       </div>
 
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 min-h-96 bg-[#E7D3AD] w-full lg:px-28 px-5 py-16 gap-7 ">
+      {/* <div className="grid grid-cols-2 lg:grid-cols-4 min-h-96 bg-[#E7D3AD] w-full lg:px-28 px-5 py-16 gap-7 ">
         <div className="lg:col-span-4 col-span-2 w-full">
           <p className="font-bold text-lg lg:text-2xl">
             Mental Healthcare, on your time
@@ -412,7 +424,58 @@ export default function Home() {
             icon={<BsInfoCircle />}
           />
         </div>
-      </div>
+      </div> */}
+
+      {/* How it works section */}
+      <section ref={howItWorksRef} className="w-full bg-[#E7D3AD] bg-opacity-50 py-20 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inHowItWorks ? "visible" : "hidden"}
+        >
+          <motion.div
+            className="text-center mb-16"
+            variants={itemVariants}
+          >
+            <h2 className="text-4xl sm:text-5xl font-medium text-gray-900 mb-6">
+              How it works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Getting started with therapy is easy and straightforward
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                className="flex flex-col items-center text-center"
+                variants={itemVariants}
+              >
+                <div className="w-20 h-20 rounded-full bg-[#152c2a] text-white flex items-center justify-center mb-6">
+                  <step.icon className="w-9 h-9" />
+                </div>
+                <h3 className="text-xl font-medium text-gray-900 mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-gray-600">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="mt-16 text-center"
+            variants={itemVariants}
+          >
+            <button className="bg-[#152c2a] px-8 py-4 rounded-full text-lg font-extralight text-[#f6ff76] hover:bg-primaryGreen transition-all hover:scale-105">
+              Get Started Today
+            </button>
+          </motion.div>
+        </motion.div>
+      </section>
 
       <div className="flex-col w-full bg-[#152c2a] min-h-48 px-10 py-10 items-center justify-center text-white space-y-5">
         <motion.div
