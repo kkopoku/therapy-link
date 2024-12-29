@@ -1,7 +1,5 @@
 "use client";
 import Image from "next/image";
-import InfoCard from "@/components/cards/InfoCard";
-import { BsInfoCircle } from "react-icons/bs";
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import { Button } from "@/components/ui/button";
 import { Calendar, ClipboardList, CreditCard, Heart, MessageSquare, Shield, Users } from "lucide-react";
@@ -10,6 +8,12 @@ import { Check, X, Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import Logo from "@/components/logo/LogoBlack";
 import { useRef } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const trustIndicators = [
   {
@@ -121,6 +125,40 @@ const steps = [
   }
 ]
 
+const faqs = [
+  {
+    question: "Who are the therapists?",
+    answer: "Our therapists are licensed, trained, experienced, and accredited psychologists (PhD / PsyD), licensed marriage and family therapists (LMFT), licensed clinical social workers (LCSW / LMSW), or licensed professional counselors (LPC). All of them have a Masters Degree or Doctorate Degree in their field. They have been qualified and certified by their state's professional board after successfully completing the necessary education, exams, training and practice."
+  },
+  {
+    question: "Who will be helping me?",
+    answer: "After completing our questionnaire, you will be matched with a qualified therapist who fits your objectives, preferences, and the type of issues you are dealing with. Different therapists have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you."
+  },
+  {
+    question: "Is TherapyLink right for me?",
+    answer: "TherapyLink may be right for you if you're looking to improve the quality of your life. Whenever there is anything that interferes with your happiness or prevents you from achieving your goals, we may be able to help. We also have therapists who specialize in specific issues such as stress, anxiety, relationships, parenting, depression, addictions, eating, sleeping, trauma, anger, family conflicts,grief, religion, self esteem and more."
+  },
+  {
+    question: "How much does it cost?",
+    answer: "The cost of therapy through TherapyLink ranges from $60 to $90 per week (billed every 4 weeks) and it is based on your location, preferences, and therapist availability. You can cancel your membership at any time, for any reason."
+  },
+  {
+    question: "I signed up. How long until I'm matched with a therapist?",
+    answer: "After you sign up, we will match you to an available therapist who fits your preferences and needs. On average, it may take a few hours up to a few days to be matched with a therapist. Your subscription will start once you're matched with a therapist."
+  },
+  {
+    question: "How will I communicate with my therapist?",
+    answer: "You will get a dedicated online therapy room with your therapist where you can message them anytime. Your therapist will respond during their working hours. You can also schedule live sessions including video, phone, or chat sessions."
+  },
+  {
+    question: "Can TherapyLink substitute for traditional face-to-face therapy?",
+    answer: "TherapyLink offers access to licensed therapists through a convenient online platform. While online therapy has been shown to be just as effective as in-person therapy for many issues, there may be situations where traditional face-to-face therapy is more appropriate. Your therapist can help you determine what's best for your specific situation."
+  },
+  {
+    question: "How long can I use TherapyLink?",
+    answer: "You can use TherapyLink for as long as you want. Whether you need it for a few weeks, months, or longer, the choice is yours. Some people come with a specific issue they want to address, while others use it as ongoing support and personal development."
+  }
+]
 
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -206,9 +244,11 @@ export default function Home() {
   const ref = useRef(null)
   const profRef = useRef(null)
   const howItWorksRef = useRef(null)
+  const faqRef = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
   const inProfsView = useInView(profRef, { once: false, amount: 0.2 })
   const inHowItWorks = useInView(howItWorksRef, { once: false, amount: 0.2 })
+  const inFaqView = useInView(faqRef, { once: false, amount: 0.2 })
 
 
   return (
@@ -427,7 +467,7 @@ export default function Home() {
       </div> */}
 
       {/* How it works section */}
-      <section ref={howItWorksRef} className="w-full bg-[#E7D3AD] bg-opacity-50 py-20 px-4 sm:px-6 lg:px-8">
+      <section ref={howItWorksRef} className="w-full bg-[#F5F2EB] bg-opacity-50 py-20 px-4 sm:px-6 lg:px-8">
         <motion.div
           className="max-w-7xl mx-auto"
           variants={containerVariants}
@@ -477,6 +517,8 @@ export default function Home() {
         </motion.div>
       </section>
 
+
+      {/* TherapyLink vs Traditional in-office therapy */}
       <div className="flex-col w-full bg-[#152c2a] min-h-48 px-10 py-10 items-center justify-center text-white space-y-5">
         <motion.div
           ref={ref}
@@ -584,6 +626,50 @@ export default function Home() {
               ))}
             </motion.div>
           </div>
+        </motion.div>
+      </div>
+
+      {/* FAQs */}
+      <div ref={faqRef} className="w-full bg-[#F5F2EB] py-12 px-4">
+        <motion.div
+          className="max-w-3xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inFaqView ? "visible" : "hidden"}
+        >
+          <motion.h2
+            className="text-2xl sm:text-3xl font-medium text-center mb-8"
+            variants={itemVariants}
+          >
+            Frequently asked questions
+          </motion.h2>
+
+          <Accordion type="single" collapsible className="w-full space-y-2">
+            {faqs.map((faq, index) => (
+              <motion.div key={index} variants={itemVariants}>
+                <AccordionItem
+                  value={`item-${index}`}
+                  className="border-b-0 [&[data-state=open]]:bg-white rounded-md px-4"
+                >
+                  <AccordionTrigger className="text-base font-normal hover:no-underline py-3">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-gray-600">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
+            ))}
+          </Accordion>
+
+          <motion.div
+            className="text-center mt-6 text-sm"
+            variants={itemVariants}
+          >
+            <a href="#more-questions" className="text-[#2F4F4F] hover:underline">
+              More questions?
+            </a>
+          </motion.div>
         </motion.div>
       </div>
 
