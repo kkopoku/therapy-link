@@ -128,7 +128,7 @@ const steps = [
 const faqs = [
   {
     question: "Who are the therapists?",
-    answer: "Our therapists are licensed, trained, experienced, and accredited psychologists (PhD / PsyD), licensed marriage and family therapists (LMFT), licensed clinical social workers (LCSW / LMSW), or licensed professional counselors (LPC). All of them have a Masters Degree or Doctorate Degree in their field. They have been qualified and certified by their state's professional board after successfully completing the necessary education, exams, training and practice."
+    answer: `Our therapists are licensed, trained, experienced, and accredited psychologists (PhD / PsyD), licensed marriage and family therapists (LMFT), licensed clinical social workers (LCSW / LMSW), or licensed professional counselors (LPC). All of them have a Masters Degree or Doctorate Degree in their field. They have been qualified and certified by their state's professional board after successfully completing the necessary education, exams, training and practice.`
   },
   {
     question: "Who will be helping me?",
@@ -258,45 +258,46 @@ export default function Home() {
         <div className="absolute -bottom-1/2 -left-1/2 w-[1000px] h-[1000px] rounded-full bg-gradient-to-tr from-[#E5D3B8]/10 to-transparent blur-3xl" />
       </div>
 
+
       {/* Green top element */}
-      <div className="flex flex-row bg-gradient-to-t from-[#152c2a] to-[#152521] w-full justify-center min-h-[700px] h-[700px] text-white gap-y-3 px-10">
+      <div className="flex flex-col lg:flex-row bg-gradient-to-t from-[#152c2a] to-[#152521] w-full justify-center min-h-[700px] h-auto lg:h-[700px] text-white gap-y-3 px-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: "all" }}
           variants={stagger}
-          className="flex flex-col max-w-2xl h-full justify-center basis-1/2"
+          className="flex flex-col max-w-2xl h-full justify-center basis-full lg:basis-1/2"
         >
           <motion.div
-            variants={fadeIn}
-            className="flex flex-col lg:text-[80px] text-4xl font-semibold w-full leading-tight lg:leading-none"
+        variants={fadeIn}
+        className="flex flex-col lg:text-[80px] text-4xl font-semibold w-full leading-tight lg:leading-none"
           >
-            <div>Connecting you</div>
-            <div>
-              to <span className="text-[#f6ff76]">Care</span>
-            </div>
+        <div>Connecting you</div>
+        <div>
+          to <span className="text-[#f6ff76]">Care</span>
+        </div>
           </motion.div>
 
           <motion.div
-            variants={fadeIn}
-            className="lg:text-xl font-extralight w-full"
+        variants={fadeIn}
+        className="lg:text-xl font-extralight w-full"
           >
-            Access mental health support tailored to your needs and on your
-            schedule.
+        Access mental health support tailored to your needs and on your
+        schedule.
           </motion.div>
 
           <motion.div
-            variants={fadeIn}
-            className="mt-10 flex items-center gap-x-6"
+        variants={fadeIn}
+        className="mt-10 flex items-center gap-x-6"
           >
-            <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300">
-              <span className="relative z-10">Book Session</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#f6ff76] to-[#aeb552] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-            </Button>
-            <Button className="relative group bg-transparent text-white border-2 border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300">
-              <span className="relative z-10">How It Works</span>
-              <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-            </Button>
+        <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300">
+          <span className="relative z-10">Book Session</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f6ff76] to-[#aeb552] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+        </Button>
+        <Button className="relative group bg-transparent text-white border border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300">
+          <span className="relative z-10">How It Works</span>
+          <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+        </Button>
           </motion.div>
         </motion.div>
 
@@ -306,32 +307,34 @@ export default function Home() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: "all" }}
-          className="place-self-center justify-self-center justify-items-end gap-y-5 grid grid-cols-2 basis-1/2"
+          className="place-self-center justify-self-center justify-items-end gap-y-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 basis-full lg:basis-1/2"
         >
           {trustIndicators.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={fadeIn}
-              className="flex items-center"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                className="flex h-12 min-w-12 items-center justify-center rounded-full bg-emerald-600/10 
-                               transition-colors group-hover:bg-emerald-600/20 mr-2"
-              >
-                <item.icon className="h-6 w-6 text-emerald-600" />
-              </motion.div>
-              <div className="w-36">
-                <h3 className="text-sm font-semibold text-white">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-sm text-gray-300">{item.description}</p>
-              </div>
-            </motion.div>
+        <motion.div
+          key={index}
+          variants={fadeIn}
+          className="flex items-center"
+        >
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            className="flex h-12 min-w-12 items-center justify-center rounded-full bg-emerald-600/10 
+               transition-colors group-hover:bg-emerald-600/20 mr-2"
+          >
+            <item.icon className="h-6 w-6 text-emerald-600" />
+          </motion.div>
+          <div className="w-36">
+            <h3 className="text-sm font-semibold text-white">
+          {item.title}
+            </h3>
+            <p className="mt-1 text-sm text-gray-300">{item.description}</p>
+          </div>
+        </motion.div>
           ))}
 
         </motion.div>
       </div>
+
+
 
       {/* Professionals you could trust element */}
       <div ref={profRef} className="w-full mx-auto px-4 py-16 sm:px-6 lg:px-8 bg-[#F5F2EB]">
@@ -354,7 +357,7 @@ export default function Home() {
               className="text-xl text-gray-600"
               variants={itemVariantss}
             >
-              Tap into the world's largest network of qualified and experienced therapists who can help you with a range of issues including depression, anxiety, relationships, trauma, grief, and more. With our therapists, you get the same professionalism and quality you would expect from an in-office therapist, but with the ability to communicate when and how you want.
+              Tap into the world&apos;s largest network of qualified and experienced therapists who can help you with a range of issues including depression, anxiety, relationships, trauma, grief, and more. With our therapists, you get the same professionalism and quality you would expect from an in-office therapist, but with the ability to communicate when and how you want.
             </motion.p>
 
             <motion.div variants={itemVariantss}>
@@ -368,27 +371,16 @@ export default function Home() {
 
           {/* Images Grid */}
           <div className="flex relative h-[500px] w-full justify-center items-center">
-            {/* Center Image */}
             <motion.div
-              className="absolute left-96 w-[280px] h-[280px] z-20"
+              className="absolute w-auto h-[320px] z-20 justify-center items-center"
               variants={imageVariants}
             >
-              <img
+              <Image
                 src="/landing-page/image2.jpg"
                 alt="Therapist portrait"
                 className="w-full h-full object-cover rounded-3xl"
-              />
-            </motion.div>
-
-            {/* Top Left Small Image */}
-            <motion.div
-              className="absolute top-44 left-32 w-[280px] h-[280px] z-30"
-              variants={imageVariants}
-            >
-              <img
-                src="/landing-page/image1.jpg"
-                alt="Therapist portrait"
-                className="w-full h-full object-cover rounded-3xl"
+                width={100}
+                height={100}
               />
             </motion.div>
 
@@ -398,7 +390,7 @@ export default function Home() {
               variants={itemVariantss}
             />
             <motion.div
-              className="absolute -bottom-6 left-28 w-8 h-8 border-b-2 border-l-2 border-gray-300"
+              className="absolute -bottom-2 left-0 lg:left-4 w-8 h-8 border-b-2 border-l-2 border-gray-300"
               variants={itemVariantss}
             />
           </div>
@@ -406,68 +398,9 @@ export default function Home() {
       </div>
 
 
-      {/* <div className="grid grid-cols-2 lg:grid-cols-4 min-h-96 bg-[#E7D3AD] w-full lg:px-28 px-5 py-16 gap-7 ">
-        <div className="lg:col-span-4 col-span-2 w-full">
-          <p className="font-bold text-lg lg:text-2xl">
-            Mental Healthcare, on your time
-          </p>
-          <p className="text-gray-700 font-light">
-            Access mental health support tailored to your needs and on your
-            schedule.
-          </p>
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="Direct Access Anytime"
-            description="Book a session whenever you need help. Many of our clinicians are available nights or weekends."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="Personalized Support"
-            description="Connect with a therapist who specializes in your area of concern, whether it’s anxiety, depression, or relationship issues."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="Flexible Payment Options"
-            description="Affordable session rates and multiple payment options make it easy to prioritize your mental health."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="Confidential & Secure"
-            description="Your privacy is our priority. All sessions are confidential and secured for your peace of mind."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="Therapists You Can Trust"
-            description="All therapists are licensed professionals with years of experience in mental health care."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <InfoCard
-            title="On-Demand Support"
-            description="Access additional resources like articles, meditations, and self-help tools anytime, anywhere."
-            icon={<BsInfoCircle />}
-          />
-        </div>
-      </div> */}
 
       {/* How it works section */}
-      <section ref={howItWorksRef} className="w-full bg-[#F5F2EB] bg-opacity-50 py-20 px-4 sm:px-6 lg:px-8">
+      <section ref={howItWorksRef} className="w-full bg-white bg-opacity-50 py-20 px-4 sm:px-6 lg:px-8">
         <motion.div
           className="max-w-7xl mx-auto"
           variants={containerVariants}
