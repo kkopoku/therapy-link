@@ -11,15 +11,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import Logo from "@/components/logo/LogoBlack";
 import { useRef } from "react";
 
-const cardItems = [
-  {
-    title: "Mental Healthcare, on your time",
-    description:
-      "Book a session from your app whenever you need help. Many of our clinicians work nights or weekends.",
-    icon: "",
-  },
-];
-
 const trustIndicators = [
   {
     icon: Shield,
