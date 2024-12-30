@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useRouter } from "next/navigation";
 
 const trustIndicators = [
   {
@@ -259,6 +260,7 @@ const itemVariantss = {
 
 export default function Home() {
 
+  const router = useRouter()
   const ref = useRef(null)
   const profRef = useRef(null)
   const howItWorksRef = useRef(null)
@@ -383,6 +385,7 @@ export default function Home() {
             <motion.div variants={itemVariantss}>
               <Button
                 className="bg-[#152c2a] hover:bg-primaryGreen text-[#f6ff76] rounded-full px-8 py-6 text-lg font-extralight hover:scale-105 transition-all"
+                onClick={()=>router.push("auth/client-sign-up")}
               >
                 Get matched to a therapist
               </Button>
