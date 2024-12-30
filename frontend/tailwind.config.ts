@@ -19,6 +19,7 @@ const config: Config = {
   			primaryGreen: '#1A3634',
   			secondaryGreen: '#234a47',
 			idealGreen: '#152c2a',
+			yellow1: '#f6ff76',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
