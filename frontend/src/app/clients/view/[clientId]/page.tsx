@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { getClientDetails } from "../../page.functions";
 import { Toaster } from "react-hot-toast";
 import PrimaryInput from "@/components/inputs/PrimaryInput";
+import { AdminViewComponent } from "@/components/pages/client/admin-view";
 
 interface ClientDetails {
     _id: string;
@@ -53,38 +54,8 @@ export default function ViewClientPage() {
             <Toaster />
             <div className="w-full flex flex-col flex-grow pt-10">
                 <div className="flex h-full flex-row w-full">
-                    <div className="grid grid-cols-5 w-full gap-x-5">
-                        <div className="flex flex-col col-span-2 font-extralight">
-                            <span>Client Information</span>
-                            <span className="text-xs">Details of the selected client</span>
-                        </div>
-
-                        <div className="flex flex-col col-span-3 w-full">
-                            {loading ? (
-                                <div className="grid grid-cols-2 gap-x-5 gap-y-3 animate-pulse">
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div>
-                                    {/* <div className="bg-gray-200 h-12 rounded"></div>
-                                    <div className="bg-gray-200 h-12 rounded"></div> */}
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                                    {items.map((item, idx)=> 
-                                        <div className="lg:col-span-1 col-span-2" key={idx}>
-                                            <PrimaryInput label={item.label} value={clientDetails ? clientDetails[item.key] : 'N/A'} disabled/>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    {(session && session?.user.type === "Administrator") && <AdminViewComponent loading={loading} clientDetails={clientDetails} items={items} />}
+                    {(session && session?.user.type === "Therapist") && <div>More Things gang</div>}
                 </div>
             </div>
         </AuthenticatedLayout>
