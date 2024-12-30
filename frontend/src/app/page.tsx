@@ -2,7 +2,7 @@
 import Image from "next/image";
 import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
 import { Button } from "@/components/ui/button";
-import { Calendar, ClipboardList, CreditCard, Heart, MessageSquare, Shield, Users } from "lucide-react";
+import { Calendar, ClipboardList, Clock, Coins, CreditCard, Heart, MessageSquare, Shield, Users } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { Check, X, Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -160,6 +160,24 @@ const faqs = [
   }
 ]
 
+const creditFeatures = [
+  {
+    icon: Coins,
+    title: "Pay as you go",
+    description: "Buy credits and use them whenever you need. No subscription required."
+  },
+  {
+    icon: Clock,
+    title: "Credits don't expire",
+    description: "Your purchased credits remain valid until you use them. No rush, no pressure."
+  },
+  {
+    icon: CreditCard,
+    title: "Flexible payments",
+    description: "Top up your credits anytime. Only pay for the therapy you need."
+  }
+]
+
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -245,10 +263,12 @@ export default function Home() {
   const profRef = useRef(null)
   const howItWorksRef = useRef(null)
   const faqRef = useRef(null)
+  const creditsRef = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
   const inProfsView = useInView(profRef, { once: false, amount: 0.2 })
   const inHowItWorks = useInView(howItWorksRef, { once: false, amount: 0.2 })
   const inFaqView = useInView(faqRef, { once: false, amount: 0.2 })
+  const inCreditsView = useInView(creditsRef, { once: false, amount: 0.2 })
 
 
   return (
@@ -269,35 +289,35 @@ export default function Home() {
           className="flex flex-col max-w-2xl h-full justify-center basis-full lg:basis-1/2"
         >
           <motion.div
-        variants={fadeIn}
-        className="flex flex-col lg:text-[80px] text-4xl font-semibold w-full leading-tight lg:leading-none"
+            variants={fadeIn}
+            className="flex flex-col lg:text-[80px] text-4xl font-semibold w-full leading-tight lg:leading-none"
           >
-        <div>Connecting you</div>
-        <div>
-          to <span className="text-[#f6ff76]">Care</span>
-        </div>
+            <div>Connecting you</div>
+            <div>
+              to <span className="text-[#f6ff76]">Care</span>
+            </div>
           </motion.div>
 
           <motion.div
-        variants={fadeIn}
-        className="lg:text-xl font-extralight w-full"
+            variants={fadeIn}
+            className="lg:text-xl font-extralight w-full"
           >
-        Access mental health support tailored to your needs and on your
-        schedule.
+            Access mental health support tailored to your needs and on your
+            schedule.
           </motion.div>
 
           <motion.div
-        variants={fadeIn}
-        className="mt-10 flex items-center gap-x-6"
+            variants={fadeIn}
+            className="mt-10 flex items-center gap-x-6"
           >
-        <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300">
-          <span className="relative z-10">Book Session</span>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f6ff76] to-[#aeb552] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-        </Button>
-        <Button className="relative group bg-transparent text-white border border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300">
-          <span className="relative z-10">How It Works</span>
-          <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-        </Button>
+            <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300">
+              <span className="relative z-10">Book Session</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#f6ff76] to-[#aeb552] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            </Button>
+            <Button className="relative group bg-transparent text-white border border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300">
+              <span className="relative z-10">How It Works</span>
+              <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            </Button>
           </motion.div>
         </motion.div>
 
@@ -310,25 +330,25 @@ export default function Home() {
           className="place-self-center justify-self-center justify-items-end gap-y-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 basis-full lg:basis-1/2"
         >
           {trustIndicators.map((item, index) => (
-        <motion.div
-          key={index}
-          variants={fadeIn}
-          className="flex items-center"
-        >
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="flex h-12 min-w-12 items-center justify-center rounded-full bg-emerald-600/10 
+            <motion.div
+              key={index}
+              variants={fadeIn}
+              className="flex items-center"
+            >
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                className="flex h-12 min-w-12 items-center justify-center rounded-full bg-emerald-600/10 
                transition-colors group-hover:bg-emerald-600/20 mr-2"
-          >
-            <item.icon className="h-6 w-6 text-emerald-600" />
-          </motion.div>
-          <div className="w-36">
-            <h3 className="text-sm font-semibold text-white">
-          {item.title}
-            </h3>
-            <p className="mt-1 text-sm text-gray-300">{item.description}</p>
-          </div>
-        </motion.div>
+              >
+                <item.icon className="h-6 w-6 text-emerald-600" />
+              </motion.div>
+              <div className="w-36">
+                <h3 className="text-sm font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-sm text-gray-300">{item.description}</p>
+              </div>
+            </motion.div>
           ))}
 
         </motion.div>
@@ -379,8 +399,8 @@ export default function Home() {
                 src="/landing-page/image2.jpg"
                 alt="Therapist portrait"
                 className="w-full h-full object-cover rounded-3xl"
-                width={100}
-                height={100}
+                width={560}
+                height={560}
               />
             </motion.div>
 
@@ -562,6 +582,78 @@ export default function Home() {
         </motion.div>
       </div>
 
+
+      {/* Credits section */}
+      <section ref={creditsRef} className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="flex flex-col gap-y-10 max-w-5xl mx-auto"
+          variants={containerVariantss}
+          initial="hidden"
+          animate={inCreditsView ? "visible" : "hidden"}
+        >
+
+          <motion.div
+            className="text-center"
+            variants={itemVariants}
+          >
+            <h2 className="text-3xl sm:text-4xl font-medium text-gray-900">
+              Simple and Flexible Credit System
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Get the therapy you need, when you need it, with our easy-to-use credit system
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-8 mb-12"
+            variants={containerVariantss}
+          >
+            {creditFeatures.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="flex flex-col items-center text-center"
+                variants={itemVariantss}
+              >
+                <div className="w-16 h-16 rounded-full bg-[#2F4F4F] text-white flex items-center justify-center mb-4">
+                  <feature.icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-medium text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="bg-idealGreen rounded-lg p-8 text-center shadow-lg"
+            variants={itemVariantss}
+          >
+            <h3 className="text-2xl font-medium text-white mb-4">
+              Credit Value
+            </h3>
+            <p className="text-xl text-white mb-6">
+              <strong>1 Credit = 200 GHS = 1 Hour</strong> of therapy session
+            </p>
+            <Button
+              className="bg-[#2F4F4F] text-white px-8 py-4 rounded-full text-lg hover:scale-105 hover:bg-[#3B5F5F] transition-all"
+            >
+              Purchase Credits
+            </Button>
+          </motion.div>
+
+          <motion.p
+            className="text-center mt-8 text-gray-600"
+            variants={itemVariantss}
+          >
+            Start your therapy journey today with our flexible credit system.
+            Buy credits now and use them whenever you're ready.
+          </motion.p>
+        </motion.div>
+      </section>
+
       {/* FAQs */}
       <div ref={faqRef} className="w-full bg-[#F5F2EB] py-12 px-4">
         <motion.div
@@ -606,7 +698,6 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <div className="flex min-h-96 z-10 w-full py-10 justify-center items-center"></div>
     </UnauthenticatedLayout>
   );
 }
