@@ -21,9 +21,9 @@ export default function Page() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  useEffect(()=>{
-    if(session) router.replace("/dashboard");
-  },[session])
+  // useEffect(()=>{
+  //   if(session) router.replace("/dashboard");
+  // },[session])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +44,20 @@ export default function Page() {
     setLoading(false);
   };
 
-  return (
+  if(session) {
+    router.replace("/dashboard");
+    return (
+    <div className="flex items-center justify-center w-full min-h-screen h-full">
+      <Image
+        src="/gifs/loading.gif"
+        alt="Loading"
+        width={120}
+        height={120}
+      />
+    </div>
+    )
+  }
+  else return (
     <UnauthenticatedLayout>
       <div className="grid flex-grow grid-cols-1 lg:grid-cols-3 items-center justify-center w-full h-full">
         <div className="flex flex-col col-span-1 flex-grow h-full w-full bg-white items-center justify-center">
