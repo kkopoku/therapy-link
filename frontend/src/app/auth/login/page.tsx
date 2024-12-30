@@ -9,6 +9,8 @@ import Image from "next/image";
 import BlackLogo from "@/components/logo/LogoBlack";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -17,6 +19,11 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(()=>{
+    if(session) router.replace("/dashboard");
+  },[session])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
