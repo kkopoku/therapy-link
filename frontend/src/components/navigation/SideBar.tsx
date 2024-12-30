@@ -86,29 +86,31 @@ export default function SideBar({ focused }: sideBarProps) {
   };
 
   return (
-    <div className={`flex w-[230px] min-h-screen py-1 pl-1 transition-all`}>
-      <div className="flex flex-col w-full border border-black shadow-sm rounded-xl bg-primaryGreen justify-between px-1">
+    <div className={`flex w-[230px] min-h-screen transition-all`}>
+      <div className="flex flex-col w-full border border-black shadow-sm bg-primaryGreen justify-between px-3">
         <div className="flex flex-col items-center gap-y-2">
           <div className="flex w-full h-16 items-center pl-2 justify-start rounded-lg">
-            <BlackLogo theme="white" />
+            <BlackLogo theme="white" /> <span className="ml-3 text-xl text-white">Therapy<span className="text-yellow1">Link</span></span>
           </div>
           <div className="flex w-full flex-col items-center font-extralight text-sm gap-y-1">
             {session &&
               getButtonList().map((button) => (
+              <div key={button.name} className="w-full">
                 <button
-                  className={`flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-primaryGreen border border-slate-200 hover:bg-secondaryGreen hover:scale-95 text-slate-200 ${
-                    focused == button.name ? "bg-green-200" : ""
-                  }`}
-                  key={button.name}
-                  onClick={() => {
-                    router.push(button.link);
-                  }}
+                className={`flex items-center pl-2 text-left transition-all duration-500 rounded-lg py-2 w-full bg-primaryGreen hover:text-yellow1 hover:scale-95 text-slate-200 ${
+                  focused == button.name ? "bg-green-200" : ""
+                }`}
+                onClick={() => {
+                  router.push(button.link);
+                }}
                 >
-                  <span className="pr-2 hover:text-slate-200 text-md">
-                    {button.icon}
-                  </span>
-                  {button.name}
+                <span className="pr-2 hover:text-slate-200 text-md">
+                  {button.icon}
+                </span>
+                {button.name}
                 </button>
+                <div className="border-[0.5px] border-slate-200 w-full"></div>
+              </div>
               ))}
             {!session &&
               clientButtonList.map((button) => (
