@@ -641,7 +641,7 @@ export default function Home() {
               Credit Value
             </h3>
             <p className="text-xl text-white mb-6">
-              <strong>1 Credit = 200 GHS = 1 Hour</strong> of therapy session
+              <strong>1 Credit = 250 GHS = 1 Hour</strong> of therapy session
             </p>
             <Button
               className="bg-[#2F4F4F] text-white px-8 py-4 rounded-full text-lg hover:scale-105 hover:bg-[#3B5F5F] transition-all"
