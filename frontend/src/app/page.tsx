@@ -263,7 +263,7 @@ export default function Home() {
   const router = useRouter()
   const ref = useRef(null)
   const profRef = useRef(null)
-  const howItWorksRef = useRef(null)
+  const howItWorksRef = useRef<HTMLDivElement>(null)
   const faqRef = useRef(null)
   const creditsRef = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
@@ -312,11 +312,14 @@ export default function Home() {
             variants={fadeIn}
             className="mt-10 flex items-center gap-x-6"
           >
-            <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300">
+            <Button className="relative group bg-[#f6ff76] text-[#1C332D] hover:bg-[#f6ff76] px-8 py-6 text-lg overflow-hidden hover:scale-105 transition-all duration-300" onClick={()=>router.push("/auth/login")}>
               <span className="relative z-10">Book Session</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#f6ff76] to-[#aeb552] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
             </Button>
-            <Button className="relative group bg-transparent text-white border border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300">
+            <Button 
+              className="relative group bg-transparent text-white border border-white hover:bg-white/5 px-8 py-6 text-lg hover:scale-105 transition-all duration-300"
+              onClick={() => howItWorksRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <span className="relative z-10">How It Works</span>
               <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
             </Button>
@@ -652,7 +655,7 @@ export default function Home() {
             variants={itemVariantss}
           >
             Start your therapy journey today with our flexible credit system.
-            Buy credits now and use them whenever you're ready.
+            Buy credits now and use them whenever you&apos;re ready.
           </motion.p>
         </motion.div>
       </section>
