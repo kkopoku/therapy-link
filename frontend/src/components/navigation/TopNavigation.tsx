@@ -66,10 +66,10 @@ const TopNavigation: React.FC = () => {
   return (
     <div className="relative top-0 flex flex-row z-50 w-full items-center justify-between text-sm py-5 bg-[#152521] px-2 lg:px-10">
       <div className="flex items-center justify-between w-full">
-
-        <div className="hidden lg:flex w-[150px]">
-          <LogoText theme="white" />
-        </div>
+      <div className="hidden lg:flex w-[150px] items-center">
+        <LogoText theme="white" />
+        <span className="ml-2 text-xl text-white">Therapy<span className="text-[#f6ff76]">Link</span></span>
+      </div>
 
         <div className="flex-1 flex justify-center">
           <div className="hidden lg:flex flex-row gap-3">
