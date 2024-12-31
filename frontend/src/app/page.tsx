@@ -185,7 +185,7 @@ const containerVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.3,
       when: "beforeChildren",
       staggerChildren: 0.1
     }
@@ -230,7 +230,7 @@ const fadeIn = {
 const stagger = {
   visible: {
     transition: {
-      staggerChildren: 0.5,
+      staggerChildren: 0.3,
     },
   },
 };
