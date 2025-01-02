@@ -141,7 +141,7 @@ export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, c
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle>Assigned Therapist</CardTitle>
-                                        <CardDescription>Manage client's therapist assignment</CardDescription>
+                                        <CardDescription>Manage client&apos;s therapist assignment</CardDescription>
                                     </div>
                                     <Dialog>
                                         <DialogTrigger asChild>
