@@ -125,7 +125,7 @@ export default function Page() {
 
               {error && <div className="text-red-500 text-sm">{error}</div>}
 
-              <PrimaryButton type="submit">
+              <PrimaryButton type="submit" disabled={loading}>
                 <div className="flex items-center justify-center gap-x-2">
                   {loading && <div className="flex items-center text-center justify-center">
                     <LoadingSpinner />
