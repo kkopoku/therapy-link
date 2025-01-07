@@ -32,6 +32,6 @@ app.use(`${prefix}/client`, authorize, clientRouter)
 app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 app.use(`${prefix}/credit`, authorize, creditRouter)
 app.use(`${prefix}/paystack`, paystackRouter)
-app.use(`${prefix}/therapist`, therapistRouter)
+app.use(`${prefix}/therapist`, authorize, therapistRouter)
 
 export default app
