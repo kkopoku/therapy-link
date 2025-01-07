@@ -6,6 +6,7 @@ import sessionRouter from "./routes/session.route"
 import dashboardRouter from './routes/dashboard.route'
 import paystackRouter from './routes/paystack.route'
 import creditRouter from './routes/credit.route'
+import therapistRouter from './routes/therapist.route'
 import dotenv from "dotenv"
 import cors from "cors"
 import authorize from './middlewares/auth.middleware'
@@ -31,5 +32,6 @@ app.use(`${prefix}/client`, authorize, clientRouter)
 app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 app.use(`${prefix}/credit`, authorize, creditRouter)
 app.use(`${prefix}/paystack`, paystackRouter)
+app.use(`${prefix}/therapist`, therapistRouter)
 
 export default app
