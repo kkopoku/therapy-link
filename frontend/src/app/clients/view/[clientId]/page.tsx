@@ -54,7 +54,7 @@ export default function ViewClientPage() {
             <Toaster />
             <div className="w-full flex flex-col flex-grow pt-10">
                 <div className="flex h-full flex-row w-full">
-                    {(session && session?.user.type === "Administrator") && <AdminViewComponent loading={loading} clientDetails={clientDetails} items={items} />}
+                    {(session && session?.user.type === "Administrator") && <AdminViewComponent loading={loading} clientDetails={clientDetails} items={items} session={session} />}
                     {(session && session?.user.type === "Therapist") && <div>More Things gang</div>}
                 </div>
             </div>
