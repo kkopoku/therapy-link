@@ -28,6 +28,10 @@ export async function getClientDetails(req:Request, res:Response){
         switch(userType){
             case "Administrator":
                 foundClient = await Client.findById(value.id)
+                    .populate({
+                        path:"therapist", 
+                        select: "firstName otherNames email primaryPhone"
+                    }).exec()
                 break
             case "Therapist":
                 foundClient = await Client.findById(value.id)
@@ -57,7 +61,6 @@ export async function getClients(req:Request, res:Response){
         let foundClients = []
         switch(userType){
             case "Administrator":
-                console.log("came through here")
                 foundClients = await Client.find({})
                     .populate({path:"therapist", select: "name email primaryPhone"}).lean().exec()
                 break
