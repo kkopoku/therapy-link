@@ -53,7 +53,9 @@ async function createTherapist(data:any){
             email: data.email,
             bio: data.bio,
             password: data.password,
-            userType: "Therapist"
+            userType: "Therapist",
+            specialty: data.specialty,
+            availability: data.availability
         })
         return therapist
     }catch(e){
