@@ -11,6 +11,14 @@ const therapistSchema = new Schema(
       type: String,
       required: false,
     },
+    specialty:{
+      type: String,
+      required: false,
+    },
+    availability:{
+      type: String,
+      required: false,
+    },
     bio:{
       type: String,
       required: false,
