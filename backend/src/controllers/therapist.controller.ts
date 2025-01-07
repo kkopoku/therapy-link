@@ -9,8 +9,7 @@ export async function getTherapists (req: Request, res: Response){
         let foundTherapists = []
         switch(userType){
             case "Administrator":
-                foundTherapists = await Therapist.find({})
-                    .populate({path:"therapist", select: "name email primaryPhone"}).lean().exec()
+                foundTherapists = await Therapist.find({}).lean().exec()
                 break
             default:
                 console.log(`${tag} Unusual user type detected: ${userType}`)
