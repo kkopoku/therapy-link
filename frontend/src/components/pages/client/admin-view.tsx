@@ -15,60 +15,57 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose
 } from "@/components/ui/dialog"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
 } from "@/components/ui/avatar"
-import { LogOut, Search, UserPlus, Check, X } from 'lucide-react'
-import { useRef, useState } from "react";
+import { UserPlus, Check, X, Info } from 'lucide-react'
+import { useEffect, useRef, useState } from "react";
 import { useInView, motion } from "framer-motion";
+import { AiFillEdit } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 interface AdminViewComponentProps {
     items: { key: string, label: string }[];
     clientDetails: any;
     loading: boolean;
+    session?: any;
 }
 
-// Mock therapist data
-const therapists = [
-    {
-        id: '1',
-        name: 'Dr. Emily Smith',
-        specialty: 'Anxiety & Depression',
-        availability: 'Mon, Wed, Fri',
-        image: '/placeholder.svg'
-    },
-    {
-        id: '2',
-        name: 'Dr. Michael Chen',
-        specialty: 'Relationship Counseling',
-        availability: 'Tue, Thu, Sat',
-        image: '/placeholder.svg'
-    },
-    {
-        id: '3',
-        name: 'Dr. Sarah Johnson',
-        specialty: 'Trauma & PTSD',
-        availability: 'Mon, Thu, Fri',
-        image: '/placeholder.svg'
-    }
-]
+interface Therapist {
+    _id: string;
+    firstName: string;
+    otherNames: string;
+    email?: string;
+    primaryPhone?: string;
+    availability?: string;
+    specialty?: string;
+}
 
-export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, clientDetails, loading }) => {
+interface AssignTherapistDialogProps {
+    therapists: Therapist[];
+    selectedTherapist: Therapist | null;
+    setSelectedTherapist: Function;
+    handleConfirmTherapist: () => void;
+}
+
+const API = `${process.env.NEXT_PUBLIC_API_URL}`
+
+export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, clientDetails, loading, session }) => {
 
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true })
-    const [selectedTherapist, setSelectedTherapist] = useState<string | null>(null)
+    const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(null)
+    const [currentTherapist, setCurrentTherapist] = useState<Therapist | null>(null)
+    const [therapistList, setTherapistList] = useState<Therapist[]>([])
+    const [assignTherapistDialogOpen, setAssignTherapistDialogOpen] = useState(false)
+
+    useEffect(()=>{
+        setCurrentTherapist(clientDetails?.therapist)
+    },[clientDetails])
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -90,7 +87,63 @@ export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, c
         }
     }
 
+    const triggerFetchTherapist = async () => {
+        if (!session) return
+        try {
+            const response = await fetch(`${API}/therapist`, {
+                method: "GET",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${session.user.token}`
+                }
+            })
+            let { data } = await response.json()
 
+            if (!response.ok) {
+                console.log(data)
+                toast.error("Something went wrong")
+                return
+            }
+            setTherapistList(data)
+            setAssignTherapistDialogOpen(true)
+        } catch (e: any) {
+            console.log(e)
+            toast.error("Something went wrong")
+        }
+    }
+
+    const handleConfirmTherapist = async () => {
+        if (!session) return
+        if (selectedTherapist?._id === clientDetails?.therapist?._id) {
+            toast("Therapist already assigned", { icon: <Info /> })
+            return
+        }
+        try {
+            const response = await fetch(`${API}/client/update`, {
+                method: "PUT",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${session.user.token}`
+                },
+                body: JSON.stringify({ id: clientDetails._id, therapist: selectedTherapist?._id })
+            })
+            let { data } = await response.json()
+
+            if (!response.ok) {
+                console.log(data)
+                toast.error("Something went wrong")
+                return
+            }
+            toast.success("Therapist assigned successfully")
+            setAssignTherapistDialogOpen(false)
+            setCurrentTherapist(selectedTherapist)
+        } catch (e: any) {
+            console.log(e)
+            toast.error("Something went wrong")
+        }
+    }
 
     return (
         <div className="flex flex-col w-full gap-y-10">
@@ -136,108 +189,57 @@ export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, c
                 <div className="flex flex-col col-span-3 w-full">
                     {/* Therapist Matching Card */}
                     <motion.div variants={itemVariants}>
-                        <Card>
+                        <Card className="border-slate-400">
                             <CardHeader>
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle>Assigned Therapist</CardTitle>
                                         <CardDescription>Manage client&apos;s therapist assignment</CardDescription>
                                     </div>
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button className="gap-2">
+                                    <Dialog open={assignTherapistDialogOpen} onOpenChange={setAssignTherapistDialogOpen}>
+                                        {(!clientDetails?.therapist) &&
+                                            <Button className="gap-2 hover:bg-secondaryGreen bg-primaryGreen" onClick={triggerFetchTherapist}>
                                                 <UserPlus className="h-4 w-4" />
                                                 Assign Therapist
                                             </Button>
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[500px]">
-
-                                            <DialogHeader>
-                                                <DialogTitle>Assign a Therapist</DialogTitle>
-                                                <DialogDescription>
-                                                    Select a therapist to assign to this client
-                                                </DialogDescription>
-                                            </DialogHeader>
-
-                                            <div className="space-y-4 py-4">
-
-                                                <div className="flex items-center gap-2">
-                                                    <Input
-                                                        placeholder="Search therapists..."
-                                                        className="flex-1"
-                                                    />
-                                                    <Select>
-                                                        <SelectTrigger className="w-[180px]">
-                                                            <SelectValue placeholder="Specialty" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="anxiety">Anxiety & Depression</SelectItem>
-                                                            <SelectItem value="relationships">Relationship Counseling</SelectItem>
-                                                            <SelectItem value="trauma">Trauma & PTSD</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-
-                                                <div className="space-y-2">
-                                                    {therapists.map((therapist) => (
-                                                        <div
-                                                            key={therapist.id}
-                                                            className={`p-4 rounded-lg border transition-colors cursor-pointer ${selectedTherapist === therapist.id
-                                                                ? 'border-[#2F4F4F] bg-[#2F4F4F]/5'
-                                                                : 'hover:border-gray-300'
-                                                                }`}
-                                                            onClick={() => setSelectedTherapist(therapist.id)}
-                                                        >
-                                                            <div className="flex items-center gap-4">
-                                                                <Avatar>
-                                                                    <AvatarImage src={therapist.image} />
-                                                                    <AvatarFallback>
-                                                                        {therapist.name.split(' ').map(n => n[0]).join('')}
-                                                                    </AvatarFallback>
-                                                                </Avatar>
-                                                                <div className="flex-1">
-                                                                    <h4 className="font-medium">{therapist.name}</h4>
-                                                                    <p className="text-sm text-gray-500">{therapist.specialty}</p>
-                                                                </div>
-                                                                <Badge variant="outline">{therapist.availability}</Badge>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-
-                                            </div>
-
-                                        </DialogContent>
+                                        }
+                                        <AssignTherapistDialog selectedTherapist={selectedTherapist} therapists={therapistList} setSelectedTherapist={setSelectedTherapist} handleConfirmTherapist={() => handleConfirmTherapist()} />
                                     </Dialog>
                                 </div>
                             </CardHeader>
                             <CardContent>
-                                {selectedTherapist ? (
+                                {currentTherapist ? (
                                     <div className="flex items-center gap-4 p-4 bg-[#2F4F4F]/5 rounded-lg">
                                         <Avatar>
-                                            <AvatarImage src={therapists.find(t => t.id === selectedTherapist)?.image} />
-                                            <AvatarFallback>
-                                                {therapists.find(t => t.id === selectedTherapist)?.name.split(' ').map(n => n[0]).join('')}
+                                            <AvatarFallback className="bg-slate-300">
+                                                {currentTherapist?.firstName[0]}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="flex-1">
                                             <h4 className="font-medium">
-                                                {therapists.find(t => t.id === selectedTherapist)?.name}
+                                                {currentTherapist?.firstName}
                                             </h4>
                                             <p className="text-sm text-gray-500">
-                                                {therapists.find(t => t.id === selectedTherapist)?.specialty}
+                                                {currentTherapist?.otherNames}
                                             </p>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <Button size="sm" variant="outline" className="gap-1" onClick={()=>console.log("remove clicked")}>
-                                                <X className="h-4 w-4" />
-                                                Remove
+                                        {(typeof currentTherapist !== "object") ?
+                                            <div className="flex gap-2">
+                                                <Button size="sm" variant="outline" className="gap-1" onClick={() => setSelectedTherapist(null)}>
+                                                    <X className="h-4 w-4" />
+                                                    Cancel
+                                                </Button>
+                                                <Button size="sm" className="gap-1">
+                                                    <Check className="h-4 w-4" />
+                                                    Confirm
+                                                </Button>
+                                            </div>
+                                            :
+                                            <Button size="sm" className="gap-1" onClick={triggerFetchTherapist}>
+                                                <AiFillEdit className="h-4 w-4" />
+                                                Change
                                             </Button>
-                                            <Button size="sm" className="gap-1">
-                                                <Check className="h-4 w-4" />
-                                                Confirm
-                                            </Button>
-                                        </div>
+                                        }
                                     </div>
                                 ) : (
                                     <div className="text-center py-8 text-gray-500">
@@ -253,3 +255,80 @@ export const AdminViewComponent: React.FC<AdminViewComponentProps> = ({ items, c
 
     );
 }
+
+
+const AssignTherapistDialog: React.FC<AssignTherapistDialogProps> = ({ therapists, selectedTherapist, setSelectedTherapist, handleConfirmTherapist }) => {
+
+    const [search, setSearch] = useState("")
+    const [filteredTherapistList, setFilteredTherapistList] = useState<Therapist[]>([])
+
+    useEffect(() => {
+        setFilteredTherapistList(therapists)
+    },[therapists])
+
+    const handleSearch = (e: any) => {
+        setSearch(e.target.value)
+        if (e.target.value === "") {
+            setFilteredTherapistList(therapists)
+        } else {
+            setFilteredTherapistList(therapists.filter((therapist) => therapist.firstName.toLowerCase().includes(e.target.value.toLowerCase())))
+        }
+    }
+
+    return (
+        <DialogContent className="sm:max-w-[550px] sm:min-h-[300px]">
+            <DialogHeader>
+                <DialogTitle>Assign a Therapist</DialogTitle>
+                <DialogDescription>
+                    Select a therapist to assign to this client
+                </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                    <Input
+                        placeholder="Search therapists..."
+                        className="flex-1"
+                        onChange={handleSearch}
+                        value={search}
+                    />
+                </div>
+
+                {therapists?.length > 0 ? <div className="space-y-2 overflow-scroll max-h-64 md:max-h-96">
+                    {filteredTherapistList.map((therapist) => (
+                        <div
+                            key={therapist._id}
+                            className={`px-2 py-1 max-h-14 rounded-lg border transition-colors cursor-pointer ${selectedTherapist?._id === therapist._id
+                                ? 'border-[#2F4F4F] bg-[#2F4F4F]/5'
+                                : 'hover:border-gray-300'
+                                }`}
+                            onClick={() => {
+                                console.log("currentT", therapist)
+                                console.log("selectedT", selectedTherapist)
+                                setSelectedTherapist(therapist)
+                            }}
+                        >
+                            <div className="flex items-center gap-4">
+                                <Avatar>
+                                    <AvatarFallback className="text-xs">
+                                        {therapist.firstName[0]}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1">
+                                    <h4 className="font-medium">{therapist.firstName}</h4>
+                                    <p className="text-sm text-gray-500">{therapist.specialty}</p>
+                                </div>
+                                <Badge variant="outline">{therapist.availability}</Badge>
+                            </div>
+                        </div>
+                    ))}
+                </div> :
+                    <div className="text-center py-8 text-gray-500">No Therapists Available</div>}
+            </div>
+            <Button onClick={handleConfirmTherapist}>
+                <Check className="h-4 w-4" />
+                Confirm
+            </Button>
+        </DialogContent>
+    );
+};
