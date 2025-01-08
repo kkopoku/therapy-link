@@ -1,7 +1,8 @@
 import Client from "../models/client.model"
+import Therapist from "../models/therapist.model"
 import Joi from "joi"
 import { Response, Request } from "express"
-import { objectId } from "../library/joi.library"
+import { objectId, msisdn } from "../library/joi.library"
 import { sendResponse } from "../library/utils.library"
 import CODES from "../constants/request.constants"
 
@@ -109,4 +110,55 @@ export async function getCredits(req: Request, res: Response){
             }, INTERNAL_SERVER_ERROR)
         return
     }
+}
+
+export async function updateClient(req: Request, res: Response):Promise<any>{
+    const schema = Joi.object({
+        id: Joi.string().custom(objectId).required(),
+        firstName: Joi.string(),
+        otherNames:Joi.string(),
+        email: Joi.string(),
+        password: Joi.string().min(8),
+        primaryPhone: Joi.string(),
+        secondaryPhone: Joi.string(),
+        momoNumber: Joi.string().custom(msisdn),
+        momoNetwork: Joi.string().valid("MTN","Telecel","AirtelTigo"),
+        therapist: Joi.custom(objectId)
+    })
+
+    const { error, value } = schema.validate(req.body)
+
+    if (error){
+        console.log(error)
+        return res.status(400).json({
+            message: error.details[0].message,
+            status: "failed"
+        })
+    }
+
+    if(value.therapist){
+        const foundTherapist = await Therapist.findById(value.therapist)
+        if (!foundTherapist) return sendResponse(res, {message:"Therapist not found", status:"failed"}, 400)
+    }
+
+    try{
+        const updatedClient = await Client.findByIdAndUpdate(value.id, value, {new:true})
+        if(!updatedClient){
+            return sendResponse(res, {
+                data: null,
+                status: "failed",
+                message: "Client not found"
+            }, 400)
+        }
+    
+        sendResponse(res, {
+            data: updatedClient,
+            status: "success",
+            message: "user data updated successfully"
+        })
+    }catch(error:any){
+        console.log(error)
+        sendResponse(res, {data: null, message: "Internal Server Error", status: "failed"})
+    }
+    
 }
