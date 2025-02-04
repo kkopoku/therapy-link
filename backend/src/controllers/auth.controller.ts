@@ -3,6 +3,8 @@ import { Request, Response } from "express"
 import Joi from "joi"
 import { createUser } from "../library/user.library"
 import { sendResponse } from "../library/utils.library"
+import path from "path";
+import { S3Client, PutObjectCommand, ObjectCannedACL } from "@aws-sdk/client-s3";
 
 
 enum UserType {
@@ -98,3 +100,46 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
     }
 }
 
+
+export async function registrationInitiate(req: Request, res: Response) {
+    const tag = "[therapist.controller.ts][registrationInitiate]";
+    const { DO_SPACES_BUCKET, DO_SPACES_KEY, DO_SPACES_REGION, DO_SPACES_ENDPOINT, DO_SPACES_SECRET } = process.env;
+
+    if (!req.file) {
+        return res.status(400).json({ status: "error", message: "No file uploaded" });
+    }
+
+    const s3 = new S3Client({
+        region: String(DO_SPACES_REGION),
+        endpoint: String(DO_SPACES_ENDPOINT),
+        credentials: {
+            accessKeyId: String(DO_SPACES_KEY),
+            secretAccessKey: String(DO_SPACES_SECRET),
+        },
+    });
+
+    try {
+        const fileName = `uploads/${Date.now()}-${path.extname(req.file.originalname)}`;
+
+        const uploadParams = {
+            Bucket: String(DO_SPACES_BUCKET),
+            Key: fileName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+
+        await s3.send(new PutObjectCommand(uploadParams));
+
+        const fileUrl = `https://${DO_SPACES_BUCKET}.${DO_SPACES_REGION}.digitaloceanspaces.com/${fileName}`;
+
+        return res.json({
+            status: "success",
+            message: "File uploaded successfully",
+            fileUrl: fileUrl,
+        });
+
+    } catch (error) {
+        console.error("Upload error:", error);
+        return res.status(500).json({ status: "error", message: "Failed to upload file" });
+    }
+}
