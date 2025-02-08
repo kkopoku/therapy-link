@@ -38,6 +38,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "repl": "npx ts-node src/repl.ts"
+    "repl": "npx ts-node src/repl.ts",
+    "seed": "ts-node src/database/seeders/seeders.ts"
   }
 }
