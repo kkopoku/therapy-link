@@ -22,6 +22,12 @@ const therapistSchema = new Schema(
     bio:{
       type: String,
       required: false,
+    },
+    onboardingStatus: {
+      type: String,
+      required: false,
+      enum: ["Application In Review", "Onboarding Completed", "Onboarding Rejected"],
+      default: "Application In Review"
     }
   },{ discriminatorKey: 'userType' }
 );

@@ -3,8 +3,9 @@ import { Request, Response } from "express"
 import Joi from "joi"
 import { createUser } from "../library/user.library"
 import { sendResponse } from "../library/utils.library"
-import path from "path";
-import { S3Client, PutObjectCommand, ObjectCannedACL } from "@aws-sdk/client-s3";
+import eventEmitter from "../config/events.config"
+import crypto from "crypto"
+import Answer from "../models/answer.model"
 
 
 enum UserType {
@@ -101,45 +102,82 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
 }
 
 
-export async function registrationInitiate(req: Request, res: Response) {
-    const tag = "[therapist.controller.ts][registrationInitiate]";
-    const { DO_SPACES_BUCKET, DO_SPACES_KEY, DO_SPACES_REGION, DO_SPACES_ENDPOINT, DO_SPACES_SECRET } = process.env;
+
+export async function therapistRegister(req: Request, res: Response) {
+    const tag = "[therapist.controller.ts][therapistRegister]";
+
+    console.log(`${tag} Therapist application request received: ${JSON.stringify(req.body)}`)
 
     if (!req.file) {
-        return res.status(400).json({ status: "error", message: "No file uploaded" });
+        return res.status(400).json({ status: "error", message: "No resume uploaded" });
+    }
+    eventEmitter.emit("uploadResume", {file:req.file});
+
+    // attach random password
+    req.body.password = crypto.randomBytes(8).toString("base64").slice(0,8);
+    req.body.type = "Therapist";
+
+    const schema = Joi.object({
+        firstName: Joi.string().required(),
+        otherNames: Joi.string(),
+        email: Joi.string().email().required(),
+        qualifications: Joi.string(),
+        specialties: Joi.string(),
+        bio: Joi.string(),
+        password: Joi.string().required(),
+        type: Joi.string().required(),
+        answers: Joi.string(),
+    })
+
+    const { error, value } = schema.validate(req.body)
+
+    if (error) {
+        return res.status(400).json({ status: "error", message: error.details[0].message });
     }
 
-    const s3 = new S3Client({
-        region: String(DO_SPACES_REGION),
-        endpoint: String(DO_SPACES_ENDPOINT),
-        credentials: {
-            accessKeyId: String(DO_SPACES_KEY),
-            secretAccessKey: String(DO_SPACES_SECRET),
-        },
-    });
+    const { email, answers } = value;
 
-    try {
-        const fileName = `uploads/${Date.now()}-${path.extname(req.file.originalname)}`;
+    try{
+        const foundUser = await User.findOne({ email }).lean().exec()
+        if(foundUser){
+            sendResponse(res,{
+                message: "User already exists",
+                status: "failed"
+            },400);
+            return;
+        }
 
-        const uploadParams = {
-            Bucket: String(DO_SPACES_BUCKET),
-            Key: fileName,
-            Body: req.file.buffer,
-            ContentType: req.file.mimetype,
-        };
+        let createdTherapist = await createUser(value);
 
-        await s3.send(new PutObjectCommand(uploadParams));
+        const jsonAnswers = JSON.parse(answers)
 
-        const fileUrl = `https://${DO_SPACES_BUCKET}.${DO_SPACES_REGION}.digitaloceanspaces.com/${fileName}`;
+        for (const id in jsonAnswers){
+            const sAnswer = Array.isArray(jsonAnswers[id]) ? jsonAnswers[id].join("") : jsonAnswers[id]
+            await Answer.create({ questionId: id, answer: sAnswer, owner: createdTherapist._id})
+        }
 
-        return res.json({
+        eventEmitter.emit("sendTherapistApplied", {recipients:email});
+
+        if (!createdTherapist){
+            sendResponse(res,{
+                message: "Failed to create therapist",
+                status: "failed"
+            }, 500)
+            return;
+        }
+        sendResponse(res, {
+            message: "Therapist request submitted successfully",
             status: "success",
-            message: "File uploaded successfully",
-            fileUrl: fileUrl,
-        });
-
-    } catch (error) {
-        console.error("Upload error:", error);
-        return res.status(500).json({ status: "error", message: "Failed to upload file" });
+            data: createdTherapist
+        }, 201)
+    }catch(error:any){
+        console.log(`${tag} Error: `, error);
+        sendResponse(res, {
+            message: "Something went wrong",
+            status: "error"
+        }, 500)
+        return;
     }
+    
+    
 }

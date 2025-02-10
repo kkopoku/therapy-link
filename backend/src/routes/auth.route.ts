@@ -2,7 +2,7 @@ import express from "express";
 import { 
     registerUser, 
     login,
-    registrationInitiate
+    therapistRegister
 } from "../controllers/auth.controller";
 import upload from "../config/multer.config";
 
@@ -10,7 +10,7 @@ const authRouter = express.Router();
 
 authRouter.post("/create", registerUser);
 authRouter.post("/login", login);
-authRouter.post("/registrationInitiate", upload.single("file"), registrationInitiate);
+authRouter.post("/therapist-apply", upload.single("file"), therapistRegister);
 
 
 export default authRouter;
