@@ -8,13 +8,13 @@ const answerSchema = new Schema(
             ref: "Question"
         },
         answer: {
-            type: Date,
+            type: String,
             required: true
         },
-        answerType: {
-            type: String,
+        owner: {
+            type: Schema.Types.ObjectId,
             required: true,
-            enum: ["Single", "Multiple"],
+            ref: "User"
         }
     },
     { timestamps: true }

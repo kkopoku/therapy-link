@@ -24,6 +24,10 @@ const questionSchema = new Schema(
             type: Number,
             unique: true,
             required: true
+        },
+        tag: {
+            type: String,
+            required: false
         }
     },
     { timestamps: true }
