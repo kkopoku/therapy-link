@@ -10,6 +10,8 @@ import therapistRouter from './routes/therapist.route'
 import dotenv from "dotenv"
 import cors from "cors"
 import authorize from './middlewares/auth.middleware'
+import questionRouter from './routes/question.route'
+import "./events/index.events"
 
 dotenv.config({ path: '../.env' });
 
@@ -33,5 +35,6 @@ app.use(`${prefix}/dashboard`, authorize, dashboardRouter)
 app.use(`${prefix}/credit`, authorize, creditRouter)
 app.use(`${prefix}/paystack`, paystackRouter)
 app.use(`${prefix}/therapist`, authorize, therapistRouter)
+app.use(`${prefix}/question`, questionRouter);
 
 export default app
