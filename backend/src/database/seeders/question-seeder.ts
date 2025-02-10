@@ -94,16 +94,25 @@ const questions = [
     category: "therapist-registration",
   },
   {
-    question: "Enter your full name",
+    question: "Enter your first name",
     type: "text",
     index: "13",
     category: "therapist-registration",
+    tag: "firstName"
+  },
+  {
+    question: "Enter your other names",
+    type: "text",
+    index: "14",
+    category: "therapist-registration",
+    tag: "otherNames"
   },
   {
     question: "Finally, Enter your text address",
     type: "text",
-    index: "14",
+    index: "15",
     category: "therapist-registration",
+    tag: "email"
   },
 ];
 
