@@ -108,7 +108,7 @@ const questions = [
     tag: "otherNames"
   },
   {
-    question: "Finally, Enter your text address",
+    question: "Finally, Enter your email address",
     type: "text",
     index: "15",
     category: "therapist-registration",
