@@ -56,7 +56,7 @@ export default function VerifyAccountPage() {
         <div className="flex flex-col flex-grow items-center justify-center h-full space-y-6 text-center">
           <h1 className="text-3xl font-bold text-red-500">Verification Failed</h1>
           <p className="text-lg text-gray-600 max-w-md">
-            We couldn't verify your account. Please try again or contact support if the problem persists.
+            We couldn&apos;t verify your account. Please try again or contact support if the problem persists.
           </p>
           <Button onClick={() => router.push("/")} className="mt-4">
             Go to Home
