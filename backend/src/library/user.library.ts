@@ -1,6 +1,7 @@
 import Administrator from "../models/administrator.model"
 import Client from "../models/client.model"
 import Therapist from "../models/therapist.model"
+import Joi from "joi"
 
 
 /**
@@ -24,20 +25,51 @@ export async function createUser(data:any):Promise<any>{
 
 
 async function createClient(data:any){
+
+    const myData = {
+        firstName: data.firstName,
+        otherNames: data.otherNames,
+        primaryPhone: data.primaryPhone,
+        momoNetwork: data.momoNetwork,
+        momoNumber: data.momoNumber,
+        email: data.email,
+        password: data.password,
+        type: data.type
+    }
+
+     const schema = Joi.object({
+        firstName: Joi.string().required(),
+        otherNames: Joi.string().required(),
+        primaryPhone: Joi.string().required(),
+        momoNetwork: Joi.string().optional(),
+        momoNumber: Joi.string().optional(),
+        type: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required()
+      });
+    
+      const { error, value } = schema.validate(myData);
+    
+      if (error) {
+       throw new Error(error.details[0].message)
+      }
+
+      const { firstName, otherNames, primaryPhone, momoNetwork, momoNumber, email, password, type } = value
+    
     try{
         const client = await Client.create({
-            firstName: data.firstName,
-            otherNames: data.otherNames,
-            primaryPhone: data.primaryPhone,
-            momoNetwork: data.momoNetwork,
-            momoNumber: data.momoNumber,
-            email: data.email,
-            password: data.password,
-            userType: "Client"
+            firstName: firstName,
+            otherNames: otherNames,
+            primaryPhone: primaryPhone,
+            momoNetwork: momoNetwork,
+            momoNumber: momoNumber,
+            email: email,
+            password: password,
+            userType: type
         })
         return client
-    }catch(e){
-        return false
+    }catch(e:any){
+        throw new Error(e.message)
     }
 }
 
