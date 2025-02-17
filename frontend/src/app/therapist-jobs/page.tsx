@@ -51,10 +51,6 @@ export default function TherapistJobsPage() {
         toast.error("Please provide an answer before proceeding.");
         return;
       }
-
-      console.log("ID: ",question._id)
-      console.log("Question: ",question.question)
-      console.log("Answer: ",answers[question._id])
       setQuestionIndex(questionIndex + 1);
     } else {
       setStage("summary");
@@ -143,29 +139,19 @@ export default function TherapistJobsPage() {
 
           {!loading && (
             <>
+            
               {stage == "questions" && (
-                <div className="flex flex-col w-full h-full md:min-h-[300px]">
                   <TherapistQuestionCard
+                    onNext={nextQuestion}
+                    onPrevious={previousQuestion}
+                    isFirstQuestion={questionIndex == 0}
+                    isLastQuestion={questionIndex == questions.length-1}
                     question={question?.question}
                     type={question?.type}
                     options={question?.options}
                     onAnswer={handleAnswer}
                     answer={answers[question?._id]}
                   />
-                  <div className="flex flex-grow flex-row justify-between h-full w-full items-end">
-                    <Button
-                      onClick={previousQuestion}
-                      disabled={questionIndex === 0}
-                    >
-                      Previous
-                    </Button>
-                    <Button onClick={nextQuestion}>
-                      {questionIndex === questions?.length - 1
-                        ? "Review"
-                        : "Next"}
-                    </Button>
-                  </div>
-                </div>
               )}
 
               {stage == "summary" && (
@@ -188,7 +174,7 @@ export default function TherapistJobsPage() {
                     ))}
                   </div>
 
-                  <div className="flex justify-between mt-4 w-full">
+                  <div className="flex justify-between mt-4 w-full gap-x-5">
                   <Button
                       onClick={() => setStage("questions")}
                       className="w-full"
@@ -217,7 +203,7 @@ export default function TherapistJobsPage() {
                     />
                   </div>
 
-                  <div className="flex flex-grow flex-row justify-between h-full w-full items-end">
+                  <div className="flex flex-grow justify-between w-full items-end">
                     <Button onClick={() => setStage("summary")}>Back</Button>
                     <Button
                       onClick={() => {

@@ -10,12 +10,17 @@ export async function submitApplication(formData: FormData) {
       body: formData,
     })
 
+    const data = await response.json();
+
     if(!response.ok){
         console.log(`HTTP error! status: ${response.status}`)
+
+        if(response.status == 400 && data.message == "User already exists"){
+          throw new Error(data.message)
+        }
         throw new Error(`Application submission failed`);
     }
 
-    const data = await response.json();
     return data;
   } catch (error:any) {
     console.error("Upload failed:", error);
