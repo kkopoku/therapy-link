@@ -12,6 +12,7 @@ import cors from "cors"
 import authorize from './middlewares/auth.middleware'
 import questionRouter from './routes/question.route'
 import "./events/index.events"
+import otpRouter from './routes/otp.route'
 
 dotenv.config({ path: '../.env' });
 
@@ -36,5 +37,6 @@ app.use(`${prefix}/credit`, authorize, creditRouter)
 app.use(`${prefix}/paystack`, paystackRouter)
 app.use(`${prefix}/therapist`, authorize, therapistRouter)
 app.use(`${prefix}/question`, questionRouter);
+app.use(`${prefix}/otp`, otpRouter);
 
 export default app
