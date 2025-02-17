@@ -21,10 +21,6 @@ export default function Page() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  // useEffect(()=>{
-  //   if(session) router.replace("/dashboard");
-  // },[session])
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
