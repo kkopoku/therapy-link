@@ -9,7 +9,7 @@ const questionSchema = new Schema(
         type: {
             type: String,
             required: true,
-            enum: ["option", "multiselect", "text"]
+            enum: ["option", "multiselect", "text", "date"]
         },
         options: {
             type: Array,
@@ -18,12 +18,11 @@ const questionSchema = new Schema(
         category: {
             type: String,
             required: true,
-            enum: ["therapist-registration", "Client"],
+            enum: ["therapist-registration", "client-registration-couple","client-registration-individual"],
         },
         index: {
             type: Number,
-            unique: true,
-            required: true
+            unique: false
         },
         tag: {
             type: String,
