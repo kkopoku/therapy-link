@@ -1,65 +1,240 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout"
-import QuestionCard from "@/components/cards/QuestionCard"
-import Image from "next/image"
-import ComingSoon from "@/components/pages/ComingSoon"
+import { useState, useEffect } from "react";
+import UnauthenticatedLayout from "@/components/layouts/UnauthenticatedLayout";
+import TherapistQuestionCard from "@/components/cards/TherapistQuestionCard";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import toast, { Toaster } from "react-hot-toast";
+import { getQuestions, submitApplication } from "./page.functions";
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
 interface Question {
-    question: string;
-    type: string;
-    options: Array<string>;
-    id: string;
-    category: string;
+  question: string;
+  type: string;
+  options?: Array<string>;
+  _id: string;
+  category: string;
+  tag?: string;
 }
 
-const questions: Array<Question> = [
-    {
-      question: "How old are you?",
-      type: "option",
-      options: ["18-25", "26-35", "35-45", "50+"],
-      id: "1",
-      category: "client-registration",
-    },
-    {
-      question: "Are you Ghanaian?",
-      type: "option",
-      options: ["yes", "no"],
-      id: "2",
-      category: "client-registration",
-    },
-]
+export default function TherapistJobsPage() {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<{ [key: string]: string | string[] }>(
+    {}
+  );
+  const [stage, setStage] = useState("questions");
+  const [resume, setResume] = useState<File | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  const question = questions
+    ? questions[questionIndex]
+    : {
+        _id: "",
+        question: "",
+        type: "",
+        index: "",
+        category: "",
+        options: [],
+      };
+  const progress = ((questionIndex + 1) / questions?.length) * 100;
 
-export default function TherapistJobsPage(){
+  function handleAnswer(answer: string | string[]) {
+    setAnswers({ ...answers, [question._id]: answer });
+  }
 
-    const [questionIndex, setQuestionIndex] = useState(0);
-    const [question, setQuestion] = useState(questions[questionIndex]);
-    const [showSignUp, setShowSignUp] = useState(false);
-
-    function nextQuestion() {
-        if (questions.length - 1 === parseInt(question.id)) {
-            setShowSignUp(true);
-        }
-        if (questionIndex < questions.length - 1) {
-            let next = questionIndex + 1;
-            setQuestionIndex(next);
-            setQuestion(questions[next]);
-        }
+  function nextQuestion() {
+    if (questionIndex < questions?.length - 1) {
+      if (!answers[question._id] || (Array.isArray(answers[question._id]) && answers[question._id].length === 0)) {
+        toast.error("Please provide an answer before proceeding.");
+        return;
+      }
+      setQuestionIndex(questionIndex + 1);
+    } else {
+      setStage("summary");
     }
-        
-    function previousQuestion() {
-        if (questionIndex > 0) {
-            let prev = questionIndex - 1;
-            setQuestionIndex(prev);
-            setQuestion(questions[prev]);
-        }
-    }
+  }
 
-    return(
-        <UnauthenticatedLayout hideBottomNavigation={true}>
-            <ComingSoon />
-        </UnauthenticatedLayout>
-    )
+  function previousQuestion() {
+    if (questionIndex > 0) {
+      setQuestionIndex(questionIndex - 1);
+    }
+  }
+
+  function handleResumeUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file && file.size <= 1048576) {
+      setResume(file);
+    } else {
+      alert("File size should be 1MB or less.");
+    }
+  }
+
+  async function submit() {
+    try {
+
+      if (!resume) {
+        toast.error("Please upload a resume before submitting.");
+        return;
+      }
+
+      const formData = new FormData();
+
+      Object.entries(answers).forEach(([key, value]) => {
+        // Find the corresponding question
+        const question = questions.find(q => q._id === key);
+        console.log("FOund Question: ",question);
+
+        if(question?.tag){
+          const sValue = Array.isArray(value) ? Array(value).join("") : value
+          formData.append(question.tag, sValue)
+        }
+      
+      });
+      
+      formData.append("answers", JSON.stringify(answers));
+      formData.append("file", resume!);
+
+      console.log(formData);
+      
+      setLoading(true)
+      const data = await submitApplication(formData)
+      toast.success(data?.message);
+      setStage("submitted");
+    } catch (error: any) {
+      toast.error(error.message);
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setLoading(true);
+        const questions = await getQuestions();
+        setQuestions(questions);
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  return (
+    <UnauthenticatedLayout hideBottomNavigation={true}>
+      <Toaster />
+      <div className="flex flex-grow items-center bg-[#152521] justify-center flex-col w-full mx-auto p-4 h-full">
+        <div className="bg-white p-5 rounded-xl w-[500px]">
+          <div className="w-full">
+            <h1 className="text-2xl mb-2 text-center">Therapist Application</h1>
+            <Progress value={progress} className="" />
+          </div>
+
+          {!loading && (
+            <>
+            
+              {stage == "questions" && (
+                  <TherapistQuestionCard
+                    onNext={nextQuestion}
+                    onPrevious={previousQuestion}
+                    isFirstQuestion={questionIndex == 0}
+                    isLastQuestion={questionIndex == questions.length-1}
+                    question={question?.question}
+                    type={question?.type}
+                    options={question?.options}
+                    onAnswer={handleAnswer}
+                    answer={answers[question?._id]}
+                  />
+              )}
+
+              {stage == "summary" && (
+                <div className="bg-white p-6 rounded-lg">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Application Summary
+                  </h2>
+
+                  <div className="max-h-96 overflow-scroll">
+                    {questions.map((q: Question) => (
+                      <div key={q._id} className="mb-2">
+                        <p className="font-medium">{q?.question}</p>
+                        <p className="text-gray-600">
+                          {Array.isArray(answers[q._id])
+                            ? (answers[q?._id] as Array<string>).join(", ") ??
+                              "No Answer"
+                            : answers[q?._id] ?? "No Answer"}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-between mt-4 w-full gap-x-5">
+                  <Button
+                      onClick={() => setStage("questions")}
+                      className="w-full"
+                    >
+                      back
+                    </Button>
+                    <Button
+                      onClick={() => setStage("resume")}
+                      className="w-full"
+                    >
+                      Continue
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {stage === "resume" && (
+                <div className="flex flex-col items-center md:min-h-[300px] mt-5">
+                  <div className="w-full">
+                    <Input
+                      className="px-0 py-0 text-black"
+                      id="resume"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleResumeUpload}
+                    />
+                  </div>
+
+                  <div className="flex flex-grow justify-between w-full items-end">
+                    <Button onClick={() => setStage("summary")}>Back</Button>
+                    <Button
+                      onClick={() => {
+                        submit();
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {stage == "submitted" && (
+                <div className="flex flex-col items-center md:min-h-[300px] mt-5">
+                  <p className="text-xl font-semibold mb-4">
+                    Application Submitted
+                  </p>
+                  <p>
+                    Thank you for submitting your application. We will review it
+                    and get back to you shortly.
+                  </p>
+                </div>
+              )}
+            </>
+          )}
+
+          {loading && <div className="flex justify-center py-5">
+            <LoadingSpinner show border={5} size={40} />
+          </div>}
+        </div>
+      </div>
+    </UnauthenticatedLayout>
+  );
 }

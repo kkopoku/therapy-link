@@ -1,25 +1,29 @@
 import mongoose, { Schema } from "mongoose";
 
-
-const fileSchema = new Schema(
+const OTPSchema = new Schema(
   {
-    name: {
+    otp: {
       type: String,
       required: true,
     },
-    type:{
+    purpose:{
       type: String,
-      required: true
+      required: true,
+      enum: ["client-registration"]
     },
     owner: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "User"
+    },
+    used: {
+        type: Boolean,
+        default: false
     }
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("File", fileSchema);
+const OTP = mongoose.model("OTP", OTPSchema);
 
-export default User;
+export default OTP;

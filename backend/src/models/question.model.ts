@@ -2,27 +2,31 @@ import mongoose, { Schema } from "mongoose"
 
 const questionSchema = new Schema(
     {
-        title: {
+        question: {
             type: String,
             required: true
         },
-        possibleAnswers: {
+        type: {
+            type: String,
+            required: true,
+            enum: ["option", "multiselect", "text", "date"]
+        },
+        options: {
             type: Array,
             default: []
         },
-        for: {
+        category: {
             type: String,
             required: true,
-            enum: ["Therapist", "Client"],
+            enum: ["therapist-registration", "client-registration-couple","client-registration-individual"],
         },
         index: {
             type: Number,
-            required: true
+            unique: false
         },
-        variant: {
+        tag: {
             type: String,
-            required: false,
-            default: null
+            required: false
         }
     },
     { timestamps: true }
