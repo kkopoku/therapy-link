@@ -118,7 +118,7 @@ export async function login(req: Request, res: Response): Promise<void | {}> {
       });
     }
 
-    if(foundUser.userType == "Client" && !foundUser.emailConfirmed){
+    if(!foundUser.emailVerified){
       sendResponse(res, {
         message: "Email not confirmed. Please check your email for the confirmation link.",
         status: "failed"
