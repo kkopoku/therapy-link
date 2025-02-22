@@ -37,7 +37,7 @@ export async function verifyOTP(req: Request, res: Response) {
         }
 
         const user:any = await Client.findOne(foundOTP.owner)
-        user.emailConfirmed = true
+        user.emailVerified = true
         await user.save()
 
         sendResponse(res, { message: "OTP verified successfully", status: "success" });
