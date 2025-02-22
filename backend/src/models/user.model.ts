@@ -27,7 +27,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     firstName: { type: String, required: true },
     otherNames: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    emailVerified: { type: Boolean, required: false },
+    emailVerified: { type: Boolean, default: false, required: false },
     password: { type: String, required: true },
     primaryPhone: { type: String, required: false },
     secondaryPhone: { type: String, required: false },

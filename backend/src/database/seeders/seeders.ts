@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import questionSeeder from "./question-seeder";
+import userSeeder from "./user-seeder";
 
 dotenv.config({ path: "../.env" });
 
@@ -12,6 +13,7 @@ async function seedDatabase() {
     await mongoose.connect(process.env.MONGO_URI!);
 
     await questionSeeder();
+    await userSeeder()
 
 
   } catch (error: any) {
