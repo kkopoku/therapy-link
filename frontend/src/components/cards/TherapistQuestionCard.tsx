@@ -50,7 +50,7 @@ export default function TherapistQuestionCard({
         )
       case "option":
         return (
-          <RadioGroup onValueChange={onAnswer} value={answer as string}>
+          <RadioGroup onValueChange={onAnswer} value={answer as string ?? ". == ."}>
             {options?.map((option) => (
               <div key={option} className="flex items-center space-x-2">
                 <RadioGroupItem value={option} id={option} />
