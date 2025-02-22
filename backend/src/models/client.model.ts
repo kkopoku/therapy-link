@@ -21,11 +21,6 @@ const clientSchema = new Schema(
       type: Number,
       required: true,
       default: 0
-    },
-    emailConfirmed: {
-      type: Boolean,
-      required: true,
-      default: false
     }
   },{ discriminatorKey: 'userType'}
 );
