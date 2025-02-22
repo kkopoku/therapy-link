@@ -9,7 +9,7 @@ export async function sendClientRegisteredEmail(recipient: string, otp:string) {
   console.log(`${tag} Sending email to: ${recipient}`);
 
   const subject = "Welcome to Therapy Link Center – Verify Your Account";
-  const verificationLink = `${process.env.NEXT_CLIENT_URL}/verify-account/${otp}}`;
+  const verificationLink = `${process.env.NEXT_CLIENT_URL}/verify-account/${otp}`;
 
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
