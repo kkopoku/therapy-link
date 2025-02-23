@@ -1,31 +1,30 @@
-import Administrator from "../models/administrator.model"
-import Client from "../models/client.model"
-import Therapist from "../models/therapist.model"
-import Joi from "joi"
-
+import Administrator from "../models/administrator.model";
+import Client from "../models/client.model";
+import Therapist from "../models/therapist.model";
+import Joi from "joi";
+import { logger } from "../config/logger.config";
 
 /**
  * @param {any} data request body parameters
- * 
+ *
  * @throws {Error}
  * @returns {Promise<any>}
  */
-export async function createUser(data:any):Promise<any>{
-    switch(data.type){
+export async function createUser(data: any): Promise<any> {
+    logger.info(`Creating user of type: ${data.type}`);
+    switch (data.type) {
         case "Client":
-            return await createClient(data)
+            return await createClient(data);
 
         case "Therapist":
-            return await createTherapist(data)
-            
+            return await createTherapist(data);
+
         case "Administrator":
-            return await createAdministrator(data)
+            return await createAdministrator(data);
     }
 }
 
-
-async function createClient(data:any){
-
+async function createClient(data: any) {
     const myData = {
         firstName: data.firstName,
         otherNames: data.otherNames,
@@ -35,9 +34,9 @@ async function createClient(data:any){
         email: data.email,
         password: data.password,
         type: data.type
-    }
+    };
 
-     const schema = Joi.object({
+    const schema = Joi.object({
         firstName: Joi.string().required(),
         otherNames: Joi.string().required(),
         primaryPhone: Joi.string().required(),
@@ -46,36 +45,38 @@ async function createClient(data:any){
         type: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required()
-      });
-    
-      const { error, value } = schema.validate(myData);
-    
-      if (error) {
-       throw new Error(error.details[0].message)
-      }
+    });
 
-      const { firstName, otherNames, primaryPhone, momoNetwork, momoNumber, email, password, type } = value
-    
-    try{
+    const { error, value } = schema.validate(myData);
+
+    if (error) {
+        logger.error(`Client validation failed: ${error.details[0].message}`);
+        throw new Error(error.details[0].message);
+    }
+
+    const { firstName, otherNames, primaryPhone, momoNetwork, momoNumber, email, password, type } = value;
+
+    try {
         const client = await Client.create({
-            firstName: firstName,
-            otherNames: otherNames,
-            primaryPhone: primaryPhone,
-            momoNetwork: momoNetwork,
-            momoNumber: momoNumber,
-            email: email,
-            password: password,
+            firstName,
+            otherNames,
+            primaryPhone,
+            momoNetwork,
+            momoNumber,
+            email,
+            password,
             userType: type
-        })
-        return client
-    }catch(e:any){
-        throw new Error(e.message)
+        });
+        logger.info(`Client created successfully: ${client._id}`);
+        return client;
+    } catch (e: any) {
+        logger.error(`Error creating client: ${e.message}`);
+        throw new Error(e.message);
     }
 }
 
-
-async function createTherapist(data:any){
-    try{
+async function createTherapist(data: any) {
+    try {
         const therapist = await Therapist.create({
             firstName: data.firstName,
             otherNames: data.otherNames,
@@ -88,16 +89,17 @@ async function createTherapist(data:any){
             userType: "Therapist",
             specialty: data.specialty,
             availability: data.availability
-        })
-        return therapist
-    }catch(e){
-        return false
+        });
+        logger.info(`Therapist created successfully: ${therapist._id}`);
+        return therapist;
+    } catch (e: any) {
+        logger.error(`Error creating therapist: ${e.message}`);
+        return false;
     }
 }
 
-
-async function createAdministrator(data:any){
-    try{
+async function createAdministrator(data: any) {
+    try {
         const administrator = await Administrator.create({
             email: data.email,
             password: data.password,
@@ -105,9 +107,11 @@ async function createAdministrator(data:any){
             firstName: data.firstName,
             otherNames: data.otherNames,
             userType: "Administrator"
-        })
-        return administrator
-    }catch(e){
-        return false
+        });
+        logger.info(`Administrator created successfully: ${administrator._id}`);
+        return administrator;
+    } catch (e: any) {
+        logger.error(`Error creating administrator: ${e.message}`);
+        return false;
     }
 }
