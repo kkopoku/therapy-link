@@ -1,8 +1,13 @@
 import { sendEmail } from "../library/email";
+import { logger } from "../config/logger.config";
+import dotenv from "dotenv";
+
+
+dotenv.config({ path: "../.env" });
 
 export async function sendNewTherapistNotificationEmail(recipients: string) {
   const tag = "[therapist.email.ts][sendNewTherapistNotificationEmail]";
-  console.log(`${tag} Sending email to: ${recipients}`);
+  logger.info(`${tag} Sending email to: ${recipients}`);
   const subject = "New Therapist Application Received";
   const html = `
         <html>
@@ -52,7 +57,7 @@ export async function sendNewTherapistNotificationEmail(recipients: string) {
                     <p>Dear Admin,</p>
                     <p>A new therapist has submitted an application on the platform and is awaiting review.</p>
                     <p>Please log in to the admin dashboard to process the application.</p>
-                    <a href="[Admin_Dashboard_URL]" class="button">Review Application</a>
+                    <a href="${process.env.NEXT_CLIENT_URL}/dashboard" class="button">Review Application</a>
                     <p>Best regards,</p>
                     <p><strong>Therapy Link Center Team</strong></p>
                     <p class="footer">This is an automated message. Please do not reply to this email.</p>
