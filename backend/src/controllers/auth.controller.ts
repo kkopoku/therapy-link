@@ -150,3 +150,68 @@ export async function therapistRegister(req: Request, res: Response) {
     sendResponse(res, { message: "Something went wrong", status: "error" }, 500);
   }
 }
+
+export async function login(req: Request, res: Response): Promise<void | {}> {
+  const tag = "[auth.controller.ts][login]";
+  logger.info(`${tag} Login attempt`, JSON.stringify({ email: req.body.email }));
+
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required(),
+  });
+
+  const { error, value } = schema.validate(req.body);
+
+  if (error) {
+    logger.warn(`${tag} Validation error ${error.details[0].message}`);
+    return res.status(400).json({
+      message: error.details[0].message,
+      status: "failed",
+    });
+  }
+
+  const { email, password } = value;
+  try {
+    logger.info(`${tag} Searching for user ${email}`);
+    const foundUser: any = await User.findOne({ email });
+
+    if (!foundUser) {
+      logger.warn(`${tag} User not found ${email}`);
+      return res.status(400).json({
+        message: "Invalid credentials",
+        status: "failed",
+      });
+    }
+
+    if (!foundUser.emailVerified) {
+      logger.warn(`${tag} Unverified email attempt ${email}`);
+      sendResponse(res, {
+        message: "Email not confirmed. Please check your email for the confirmation link.",
+        status: "failed"
+      }, 400);
+      return;
+    }
+
+    logger.info(`${tag} Comparing passwords ${email}`);
+    const passwordCheck: boolean = await foundUser.comparePassword(password);
+    if (!passwordCheck) {
+      logger.warn(`${tag} Invalid password attempt ${email}`);
+      return res.status(400).json({
+        message: "Invalid credentials",
+        status: "failed",
+      });
+    }
+
+    const token = foundUser.createJWT();
+    logger.info(`${tag} User logged in successfully ${email}`);
+
+    return res.status(200).json({
+      user: foundUser,
+      token,
+      message: "You logged in successfully",
+    });
+  } catch (error:any) {
+    logger.error(`${tag} Login error`, JSON.stringify({ error: error.message, stack: error.stack }));
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
