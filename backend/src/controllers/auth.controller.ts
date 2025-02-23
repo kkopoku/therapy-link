@@ -8,6 +8,7 @@ import crypto from "crypto";
 import Answer from "../models/answer.model";
 import { sendClientRegisteredEmail } from "../emails/client-registered.email";
 import { createOTP } from "../library/otp.library";
+import Administrator from "../models/administrator.model";
 
 enum UserType {
   Administrator = "Administrator",
@@ -215,6 +216,12 @@ export async function therapistRegister(req: Request, res: Response) {
     }
 
     eventEmitter.emit("sendTherapistApplied", { recipients: email, therapistName: firstName });
+
+
+    const admins = await Administrator.find({},"email").lean()
+    const adminEmails = admins.map((admin:any) => admin.email).join(", ")
+
+    eventEmitter.emit("sendNewTherapistNotification", { recipients: adminEmails});
 
     if (!createdTherapist) {
       sendResponse(
