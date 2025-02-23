@@ -183,7 +183,7 @@ export async function therapistRegister(req: Request, res: Response) {
       .json({ status: "error", message: error.details[0].message });
   }
 
-  const { email, answers } = value;
+  const { email, firstName, answers } = value;
 
   try {
     const foundUser = await User.findOne({ email }).lean().exec();
@@ -214,7 +214,7 @@ export async function therapistRegister(req: Request, res: Response) {
       });
     }
 
-    eventEmitter.emit("sendTherapistApplied", { recipients: email });
+    eventEmitter.emit("sendTherapistApplied", { recipients: email, therapistName: firstName });
 
     if (!createdTherapist) {
       sendResponse(

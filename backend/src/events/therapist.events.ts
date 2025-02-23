@@ -3,7 +3,7 @@ import { sendTherapistAppliedEmail } from '../emails/therapist-applied.email';
 import { uploadFile } from '../library/digitalocean.library';
 
 eventEmitter.on('sendTherapistApplied', async (data:any) => {
-    await sendTherapistAppliedEmail(data.recipients)
+    await sendTherapistAppliedEmail(data.recipients, data.firstName)
 });
 
 
