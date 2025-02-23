@@ -1,5 +1,8 @@
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "../.env" });
 
 const isProduction = process.env.NODE_ENV === "production";
 
