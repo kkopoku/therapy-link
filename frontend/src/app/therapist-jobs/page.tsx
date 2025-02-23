@@ -6,9 +6,9 @@ import TherapistQuestionCard from "@/components/cards/TherapistQuestionCard";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
-import toast, { Toaster } from "react-hot-toast";
 import { getQuestions, submitApplication } from "./page.functions";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { toast } from "sonner";
 
 interface Question {
   question: string;
@@ -129,7 +129,6 @@ export default function TherapistJobsPage() {
 
   return (
     <UnauthenticatedLayout hideBottomNavigation={true}>
-      <Toaster />
       <div className="flex flex-grow items-center bg-[#152521] justify-center flex-col w-full mx-auto p-4 h-full">
         <div className="bg-white p-5 rounded-xl w-[500px]">
           <div className="w-full">
