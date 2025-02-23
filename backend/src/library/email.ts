@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { logger } from "../config/logger.config";
 
 dotenv.config({ path: "../.env" });
 
@@ -10,7 +11,8 @@ export async function sendEmail(
   subject: string
 ) {
 
-  console.log("logging the email:", process.env.EMAIL_USERNAME)
+  const tag = "[email.ts][sendEmail]";
+  logger.info(`${tag} logging the email:`, process.env.EMAIL_USERNAME)
 
   let transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
@@ -29,8 +31,8 @@ export async function sendEmail(
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Message sent: %s", info.messageId);
+    logger.info(`${tag} Message sent: %s`, info.messageId);
   } catch (error) {
-    console.error("Error sending email:", error);
+    logger.error(`${tag} Error sending email:`, error);
   }
 }
