@@ -2,9 +2,11 @@ import eventEmitter from '../config/events.config';
 import { sendTherapistAppliedEmail } from '../emails/therapist-applied.email';
 import { uploadFile } from '../library/digitalocean.library';
 import { sendNewTherapistNotificationEmail } from '../emails/new-therapist.email';
+import { logger } from '../config/logger.config';
 
+const tag = "[therapist.events.ts]"
 eventEmitter.on('sendTherapistApplied', async (data:any) => {
-    await sendTherapistAppliedEmail(data.recipients, data.firstName)
+    await sendTherapistAppliedEmail(data.recipients, data.therapistName)
 });
 
 
@@ -14,6 +16,6 @@ eventEmitter.on("sendNewTherapistNotification", async (data:any) => {
 
 
 eventEmitter.on('uploadResume', async (data:any) => {
-    console.log("upload resume called in therapist.events.ts")
+    logger.info(`${tag} [uploadResume] event called, processing upload resume`)
     await uploadFile(data.file)
 })
