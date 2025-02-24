@@ -88,7 +88,8 @@ async function createTherapist(data: any) {
             password: data.password,
             userType: "Therapist",
             specialty: data.specialty,
-            availability: data.availability
+            availability: data.availability,
+            gender: data.gender
         });
         logger.info(`Therapist created successfully: ${therapist._id}`);
         return therapist;
