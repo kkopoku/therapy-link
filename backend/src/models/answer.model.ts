@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose"
 
 const answerSchema = new Schema(
     {
-        questionId: {
+        question: {
             type: Schema.ObjectId,
             required: true,
             ref: "Question"
