@@ -1,9 +1,10 @@
 import express from "express";
-import { getTherapists, updateTherapist } from "../controllers/therapist.controller"
+import { getSingleTherapist, getTherapists, updateTherapist } from "../controllers/therapist.controller"
 
 const therapistRouter = express.Router();
 
 therapistRouter.get("/", getTherapists)
 therapistRouter.put("/update", updateTherapist)
+therapistRouter.get("/:id", getSingleTherapist)
 
 export default therapistRouter;
