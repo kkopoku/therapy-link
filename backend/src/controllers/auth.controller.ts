@@ -56,8 +56,8 @@ export async function registerUser(req: Request, res: Response) {
       try {
         const formatted = JSON.parse(value.answers);
         for (const id in formatted) {
-          const sAnswer = Array.isArray(formatted[id]) ? formatted[id].join("") : formatted[id];
-          await Answer.create({ questionId: id, answer: sAnswer, owner: user._id });
+          const sAnswer = Array.isArray(formatted[id]) ? formatted[id].join(", ") : formatted[id];
+          await Answer.create({ question: id, answer: sAnswer, owner: user._id });
         }
         logger.info(`${tag} Answers saved successfully for user: ${user._id}`);
       } catch (error: any) {
@@ -109,6 +109,9 @@ export async function therapistRegister(req: Request, res: Response) {
     password: Joi.string().required(),
     type: Joi.string().required(),
     answers: Joi.string(),
+    gender: Joi.string().required(),
+    specialty: Joi.string().required(),
+    availability: Joi.string().required(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -130,8 +133,8 @@ export async function therapistRegister(req: Request, res: Response) {
     if (value.answers) {
       const jsonAnswers = JSON.parse(value.answers);
       for (const id in jsonAnswers) {
-        const sAnswer = Array.isArray(jsonAnswers[id]) ? jsonAnswers[id].join("") : jsonAnswers[id];
-        await Answer.create({ questionId: id, answer: sAnswer, owner: createdTherapist._id });
+        const sAnswer = Array.isArray(jsonAnswers[id]) ? jsonAnswers[id].join(", ") : jsonAnswers[id];
+        await Answer.create({ question: id, answer: sAnswer, owner: createdTherapist._id });
       }
       logger.info(`${tag} Answers saved successfully for therapist: ${createdTherapist._id}`);
     }
