@@ -11,7 +11,8 @@ export interface IUser extends Document {
   primaryPhone: string
   userType: 'Administrator' | 'Client' | 'Therapist'
   secondaryPhone?: string
-  avatar?: Schema.Types.ObjectId
+  avatar?: Schema.Types.ObjectId,
+  gender?: "Male" | "Female"
 }
 
 interface IUserMethods {
@@ -36,6 +37,11 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: Schema.Types.ObjectId,
       required: false,
       ref: "File"
+    },
+    gender: {
+      type: String,
+      required: false,
+      enum: ['Male', 'Female']
     }
   },
   { discriminatorKey: 'userType', timestamps: true }
