@@ -18,7 +18,7 @@ const questions = [
     question: "Where do you currently spend most of your time?",
     type: "option",
     options: [
-      "Other online platforms like BetterHelp",
+      "Other online platforms like Therapy Link Center",
       "Clinic or hospital",
       "Private practice",
       "Community mental health agency",
@@ -65,6 +65,7 @@ const questions = [
     ],
     index: "8",
     category: "therapist-registration",
+    tag: "specialty"
   },
   {
     question: "What languages do you speak fluently? (Select all that apply)",
@@ -81,39 +82,55 @@ const questions = [
     category: "therapist-registration",
   },
   {
+    question: "Whats your availability for online therapy sessions?",
+    type: "multiselect",
+    options: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    index: "11",
+    category: "therapist-registration",
+    tag: "availability"
+  },
+  {
     question: "Are you licensed Therapist",
     type: "option",
     options: ["Yes", "No"],
-    index: "11",
+    index: "12",
     category: "therapist-registration",
   },
   {
     question: "Which Country/ State were you licensed?",
     type: "text",
-    index: "12",
+    index: "13",
     category: "therapist-registration",
   },
   {
     question: "Enter your first name",
     type: "text",
-    index: "13",
+    index: "14",
     category: "therapist-registration",
     tag: "firstName"
   },
   {
     question: "Enter your other names",
     type: "text",
-    index: "14",
+    index: "15",
     category: "therapist-registration",
     tag: "otherNames"
   },
   {
+    question: "What gender do you identify as?",
+    type: "option",
+    options: ["Male", "Female"],
+    index: "16",
+    category: "therapist-registration",
+    tag: "gender"
+  },
+  {
     question: "Finally, Enter your email address",
     type: "text",
-    index: "15",
+    index: "17",
     category: "therapist-registration",
     tag: "email"
-  },
+  }
 ];
 
 
@@ -128,9 +145,10 @@ const coupleQuestions = [
   {
     question: "What is your gender identity?",
     type: "option",
-    options: ["Woman", "Man", "Prefer not to say"],
+    options: ["Male", "Female"],
     category: "client-registration-couple",
     index: "2",
+    tag: "gender"
   },
   {
     question: "What is your partner's gender identity?",
@@ -411,16 +429,7 @@ const coupleQuestions = [
     required: true,
     index: "26",
     category: "client-registration-couple"
-  },
-  {
-    tag: "gender",
-    question: "What is your gender?",
-    type: "multiselect",
-    options: ["Male", "Female"],
-    required: true,
-    index: "27",
-    category: "client-registration-couple"
-  },
+  }
 ];
 
 
@@ -436,9 +445,10 @@ const individualQuestions = [
   {
     question: "What gender do you identify with?",
     type: "option",
-    options: ["Woman", "Man", "Prefer not to say"],
+    options: ["Male", "Female"],
     category: "client-registration-individual",
-    index: "2"
+    index: "2",
+    tag: "gender"
   },
   {
     question: "How old are you?",
@@ -485,7 +495,7 @@ const individualQuestions = [
   {
     question: "What led you to seek therapy today?",
     type: "multiselect",
-    options: ["Anxiety", "Depression", "Stress Management", "Relationship Issues", "Family Conflict", "Work/Career Issues", "Grief/Loss", "Trauma/Abuse", "Substance Abuse", "Eating Disorders", "Self-Esteem Issues", "Life Transitions", "Chronic Illness", "LGBTQIA+ Issues", "Other (Please specify)"],
+    options: ["Anxiety", "Depression", "Stress Management", "Relationship Issues", "Family Conflict", "Work/Career Issues", "Grief/Loss", "Trauma/Abuse", "Substance Abuse", "Eating Disorders", "Self-Esteem Issues", "Life Transitions", "Chronic Illness", "Other (Please specify)"],
     category: "client-registration-individual",
     index: "9",
   },
@@ -652,15 +662,6 @@ const individualQuestions = [
     type: "date",
     required: true,
     index: "32",
-    category: "client-registration-individual",
-  },
-  {
-    tag: "gender",
-    question: "What is your gender?",
-    type: "multiselect",
-    options: ["Male", "Female"],
-    required: true,
-    index: "33",
     category: "client-registration-individual",
   }
 ];

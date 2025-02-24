@@ -13,6 +13,7 @@ export default async function userSeeder() {
       password: await bcrypt.hash(process.env.ADMIN_PASSWORD as string, 10),
       email: "admin@therapylinkcenter.com",
       userType: "Administrator",
+      emailVerified: true
     },
   ];
 
